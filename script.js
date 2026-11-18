@@ -73,6 +73,36 @@ const WORD_PAIRS = [
   { a: ["timorous", "膽怯的；畏縮的"], b: ["fearful", "害怕的；膽小的"] },
   { a: ["tortuous", "曲折的；錯綜複雜的"], b: ["convoluted", "複雜難懂的；盤繞的"] },
   { a: ["undermine", "暗中削弱；逐漸損害"], b: ["erode", "侵蝕；逐漸削弱"] },
+  { a: ["abominate", "憎惡；厭惡"], b: ["loathe", "厭惡；憎恨"] },
+  { a: ["allay", "減輕；緩和"], b: ["assuage", "緩和；平息"] },
+  { a: ["banal", "陳腐的；老套的"], b: ["hackneyed", "陳腐的；老生常談的"] },
+  { a: ["baneful", "有害的；有毒的"], b: ["noxious", "有害的；有毒的"] },
+  { a: ["clandestine", "秘密進行的；隱密的"], b: ["furtive", "偷偷摸摸的；鬼祟的"] },
+  { a: ["conspicuous", "顯眼的；醒目的"], b: ["obtrusive", "惹人注意的；突兀的"] },
+  { a: ["discomfit", "使窘迫；使不安"], b: ["disconcert", "使不安；使困惑"] },
+  { a: ["egregious", "極糟糕的；過分的"], b: ["flagrant", "明目張膽的；惡劣的"] },
+  { a: ["eradicate", "根除；消滅"], b: ["extirpate", "根除；徹底消滅"] },
+  { a: ["esoteric", "深奧難懂的；只有少數人懂的"], b: ["recondite", "艱深的；晦澀難懂的"] },
+  { a: ["facetious", "開玩笑的；滑稽的"], b: ["flippant", "輕率的；不當一回事的"] },
+  { a: ["flamboyant", "華麗搶眼的；炫耀的"], b: ["ostentatious", "炫耀的；浮華的"] },
+  { a: ["guile", "狡猾；詭計"], b: ["duplicity", "欺詐；兩面手法"] },
+  { a: ["insipid", "乏味的；淡而無味的"], b: ["vapid", "枯燥的；空洞無味的"] },
+  { a: ["jovial", "快樂的；愉快友善的"], b: ["genial", "和藹親切的；友善的"] },
+  { a: ["laconic", "言簡意賅的；寡言的"], b: ["terse", "簡短精煉的；簡潔的"] },
+  { a: ["malice", "惡意；怨恨"], b: ["animosity", "敵意；憎惡"] },
+  { a: ["malign", "中傷；誹謗"], b: ["vilify", "詆毀；誹謗"] },
+  { a: ["nonchalant", "漠不關心的；若無其事的"], b: ["indifferent", "冷淡的；不在乎的"] },
+  { a: ["opulent", "豪華的；富麗堂皇的"], b: ["lavish", "奢華的；豐盛的"] },
+  { a: ["quash", "撤銷；鎮壓"], b: ["quell", "平息；鎮壓"] },
+  { a: ["recant", "撤回；放棄（先前的主張）"], b: ["retract", "撤回；收回（說過的話）"] },
+  { a: ["repugnant", "令人厭惡的；令人反感的"], b: ["repulsive", "令人厭惡的；令人作嘔的"] },
+  { a: ["scourge", "禍害；苦難的根源"], b: ["plague", "禍害；使受折磨"] },
+  { a: ["truculent", "好鬥的；挑釁的"], b: ["pugnacious", "好鬥的；愛挑釁的"] },
+  { a: ["virulent", "惡毒的；猛烈有害的"], b: ["venomous", "惡毒的；有毒的"] },
+  { a: ["vitriolic", "尖刻的；刻薄的"], b: ["caustic", "尖酸刻薄的；挖苦的"] },
+  { a: ["intrepid", "無畏的；勇敢的"], b: ["valiant", "英勇的；勇敢的"] },
+  { a: ["impetuous", "衝動的；魯莽的"], b: ["rash", "魯莽的；輕率的"] },
+  { a: ["insolent", "傲慢無禮的；侮慢的"], b: ["impudent", "厚顏無恥的；無禮的"] },
 ];
 
 const ROUND_SIZE = 8;
@@ -147,7 +177,7 @@ function makeCard(word, pairId, meaning, index) {
       </span>
       <span class="card-face card-front" aria-hidden="true">
         <span class="card-word"></span>
-        <span class="card-mini">GRE VOCABULARY</span>
+        <span class="card-mini">SAT VOCABULARY</span>
       </span>
     </span>`;
   button.querySelector(".card-word").textContent = word;
@@ -261,6 +291,7 @@ function finishGame() {
   window.clearInterval(timerInterval);
   document.querySelector("#final-time").textContent = formatTime(elapsedSeconds);
   document.querySelector("#final-moves").textContent = String(moves);
+  renderReview();
   const previousBest = readBestScore();
   if (!previousBest || moves < previousBest) {
     writeBestScore(moves);
@@ -269,6 +300,43 @@ function finishGame() {
   }
   completionOverlay.hidden = false;
   document.querySelector("#play-again-button").focus();
+}
+
+function renderReview() {
+  const reviewList = document.querySelector("#review-list");
+  const groups = roundPairs.map((pair, index) => {
+    const section = document.createElement("section");
+    section.className = "review-pair";
+
+    const heading = document.createElement("h3");
+    heading.className = "review-pair-heading";
+    heading.textContent = `${String(index + 1).padStart(2, "0")}  ${pair.a[0]}  ·  ${pair.b[0]}`;
+    section.append(heading);
+
+    const words = document.createElement("div");
+    words.className = "review-words";
+    [pair.a, pair.b].forEach(([word, meaning]) => {
+      const card = document.createElement("article");
+      card.className = "review-word";
+      const title = document.createElement("h4");
+      title.textContent = word;
+      const definition = document.createElement("p");
+      definition.className = "review-meaning";
+      definition.textContent = meaning;
+      const [sentence, translation] = window.WORD_EXAMPLES[word] || ["例句準備中。", ""];
+      const example = document.createElement("p");
+      example.className = "review-example";
+      example.textContent = sentence;
+      const translated = document.createElement("p");
+      translated.className = "review-translation";
+      translated.textContent = translation;
+      card.append(title, definition, example, translated);
+      words.append(card);
+    });
+    section.append(words);
+    return section;
+  });
+  reviewList.replaceChildren(...groups);
 }
 
 function startNewGame() {
