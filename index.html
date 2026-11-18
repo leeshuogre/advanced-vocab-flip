@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <meta name="description" content="翻牌配對 GRE 近義字，讓單字記憶更有趣。" />
+    <title>LexiFlip｜GRE 近義字配對</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="LexiFlip 首頁">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span>lexiflip<span class="brand-period">.</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="eyebrow-pill"><span class="live-dot"></span> GRE VOCABULARY</span>
+          <span class="topbar-note">每日一局，累積語感</span>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="intro" aria-labelledby="page-title">
+          <div class="intro-copy">
+            <p class="section-kicker"><span class="kicker-line"></span> WORD PAIRS · ROUND <span id="round-number">01</span></p>
+            <h1 id="page-title">翻開單字，<br /><span>找到它的夥伴。</span></h1>
+            <p class="intro-text">從記憶裡找出意思相近的 GRE 單字。每一對都配對成功，詞彙力就再往前一步。</p>
+          </div>
+          <div class="intro-stamp" aria-hidden="true">
+            <span class="stamp-top">A LITTLE</span>
+            <span class="stamp-center">WORD<br />POWER</span>
+            <span class="stamp-bottom">EVERY DAY ✳</span>
+          </div>
+        </section>
+
+        <section class="game-layout" aria-label="GRE 近義字配對遊戲">
+          <div class="board-panel">
+            <div class="board-topline">
+              <div class="board-label"><span class="board-label-icon">✳</span><span>配對棋盤</span><span class="board-subtitle">找出 8 組近義字</span></div>
+              <button class="reset-button" id="reset-button" type="button">
+                <span class="reset-icon" aria-hidden="true">↻</span> 新的一局
+              </button>
+            </div>
+
+            <div class="stats-row" aria-label="本局統計">
+              <div class="stat-card"><span class="stat-label">已配對</span><strong><span id="matched-count">0</span><small> / 8</small></strong><span class="stat-track"><span id="progress-fill"></span></span></div>
+              <div class="stat-card"><span class="stat-label">翻牌次數</span><strong id="moves-count">0</strong><span class="stat-note">每翻兩張計一次</span></div>
+              <div class="stat-card stat-time"><span class="stat-label">本局時間</span><strong id="timer">00:00</strong><span class="stat-note">從第一張牌開始</span></div>
+            </div>
+
+            <div class="board-wrap">
+              <div class="game-board" id="game-board" aria-label="單字卡牌"></div>
+              <div class="completion-overlay" id="completion-overlay" hidden>
+                <div class="completion-card">
+                  <span class="completion-sparkle" aria-hidden="true">✳</span>
+                  <p class="section-kicker">ROUND COMPLETE</p>
+                  <h2>配對完成！</h2>
+                  <p class="completion-copy">這局用了 <strong id="final-time">00:00</strong>，翻了 <strong id="final-moves">0</strong> 次。</p>
+                  <button class="primary-button" id="play-again-button" type="button">再玩一局 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="board-footer">
+              <span class="footer-tip-icon" aria-hidden="true">↗</span>
+              <p><strong>怎麼玩</strong><span>翻開兩張牌，找出意思相近的單字。配對成功會保留並顯示中文釋義。</span></p>
+              <span class="keyboard-hint">TAKE YOUR TIME</span>
+            </div>
+          </div>
+
+          <aside class="side-panel">
+            <div class="side-heading">
+              <div><p class="section-kicker">YOUR COLLECTION</p><h2>找到的詞對<span class="heading-star">✳</span></h2></div>
+              <span class="collection-count" id="collection-count">0</span>
+            </div>
+            <p class="side-description">成功配對的單字會收錄在這裡。</p>
+            <div class="collection-list" id="collection-list" aria-live="polite">
+              <div class="empty-collection" id="empty-collection">
+                <span class="empty-icon" aria-hidden="true">⌁</span>
+                <span>你的單字收藏<br />從第一組配對開始。</span>
+              </div>
+            </div>
+            <div class="side-bottom">
+              <div class="best-row"><span class="best-icon" aria-hidden="true">★</span><span>最佳翻牌紀錄</span><strong id="best-score">—</strong></div>
+              <p class="local-note"><span class="local-dot"></span>紀錄只保存在這台裝置</p>
+            </div>
+          </aside>
+        </section>
+
+        <footer class="page-footer"><span>LEXIFLIP</span><span>BUILD YOUR WORD POWER, ONE PAIR AT A TIME.</span><span>NO. <span id="footer-round">01</span></span></footer>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
+
