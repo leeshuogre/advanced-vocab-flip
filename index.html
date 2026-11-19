@@ -27,9 +27,9 @@
       <main id="top">
         <section class="intro" aria-labelledby="page-title">
           <div class="intro-copy">
-            <p class="section-kicker"><span class="kicker-line"></span> WORD PAIRS · ROUND <span id="round-number">01</span></p>
+            <p class="section-kicker"><span class="kicker-line"></span> LEVEL <span id="level-number">01</span> / <span id="total-levels">06</span> · ROUND <span id="round-in-level">1</span> / 3</p>
             <h1 id="page-title">翻開單字，<br /><span>找到它的夥伴。</span></h1>
-            <p class="intro-text">從記憶裡找出意思相近的 SAT 單字。完成一局後，還能用例句和繁中翻譯複習 16 個目標單字。</p>
+            <p class="intro-text">循序挑戰 SAT 近義字：每關三局、每局八組，難度逐局提升。翻兩張算一次配對，15 次內完成才能晉級；超過就重玩本局並重新洗牌。</p>
           </div>
           <div class="intro-stamp" aria-hidden="true">
             <span class="stamp-top">A LITTLE</span>
@@ -43,13 +43,20 @@
             <div class="board-topline">
               <div class="board-label"><span class="board-label-icon">✳</span><span>配對棋盤</span><span class="board-subtitle">找出 8 組近義字</span></div>
               <button class="reset-button" id="reset-button" type="button">
-                <span class="reset-icon" aria-hidden="true">↻</span> 新的一局
+                <span class="reset-icon" aria-hidden="true">↻</span> 重玩本局
               </button>
+            </div>
+
+            <div class="campaign-status" aria-live="polite">
+              <span id="campaign-position">第 1 關・第 1 局</span>
+              <span id="campaign-attempt">挑戰 1</span>
+              <span class="campaign-track" aria-hidden="true"><span id="campaign-progress"></span></span>
+              <span id="campaign-total">共 18 局</span>
             </div>
 
             <div class="stats-row" aria-label="本局統計">
               <div class="stat-card"><span class="stat-label">已配對</span><strong><span id="matched-count">0</span><small> / 8</small></strong><span class="stat-track"><span id="progress-fill"></span></span></div>
-              <div class="stat-card"><span class="stat-label">翻牌次數</span><strong id="moves-count">0</strong><span class="stat-note">每翻兩張計一次</span></div>
+              <div class="stat-card"><span class="stat-label">配對嘗試</span><strong id="moves-count">0</strong><span class="stat-note">翻兩張計一次・上限 15 次</span></div>
               <div class="stat-card stat-time"><span class="stat-label">本局時間</span><strong id="timer">00:00</strong><span class="stat-note">從第一張牌開始</span></div>
             </div>
 
@@ -59,14 +66,14 @@
                 <section class="completion-card">
                   <div class="completion-header">
                     <span class="completion-sparkle" aria-hidden="true">✳</span>
-                    <p class="section-kicker">ROUND COMPLETE</p>
+                    <p class="section-kicker" id="completion-kicker">ROUND COMPLETE</p>
                     <h2 id="completion-title">配對完成！</h2>
-                    <p class="completion-copy">這局用了 <strong id="final-time">00:00</strong>，翻了 <strong id="final-moves">0</strong> 次。複習本局 16 個單字：</p>
+                    <p class="completion-copy" id="completion-copy">這局用了 <strong id="final-time">00:00</strong>，翻了 <strong id="final-moves">0</strong> 次。複習本局 16 個單字：</p>
                   </div>
                   <div class="review-list" id="review-list" aria-label="本局目標單字例句"></div>
-                  <p class="review-source">新增詞對參考 New SAT Vocab 1250 難度 Level 4–5；例句為原創。</p>
+                  <p class="review-source">詞庫參考 New SAT Vocab 1250 與台政 112－114 學年研究所單字（已排除冷僻單字）；例句為原創。<br /><a href="https://tangible-papaya-a93.notion.site/2e6eb7840b9a80219e00c30fb2c108d9?v=2e6eb7840b9a80c99ef9000cd44b3444" target="_blank" rel="noreferrer">查看 Notion 詞庫來源</a></p>
                   <div class="completion-actions">
-                    <button class="primary-button" id="play-again-button" type="button">再玩一局</button>
+                    <button class="primary-button" id="play-again-button" type="button">下一局</button>
                   </div>
                 </section>
               </div>
@@ -74,8 +81,8 @@
 
             <div class="board-footer">
               <span class="footer-tip-icon" aria-hidden="true">↗</span>
-              <p><strong>怎麼玩</strong><span>翻開兩張牌，找出意思相近的單字。配對成功會保留並顯示中文釋義。</span></p>
-              <span class="keyboard-hint">TAKE YOUR TIME</span>
+              <p><strong>闖關規則</strong><span>每翻兩張卡算一次配對；一局 8 組，15 次內完成即可晉級，第 16 次配對嘗試會重新洗牌。</span></p>
+              <span class="keyboard-hint">3 ROUNDS · 1 LEVEL</span>
             </div>
           </div>
 
@@ -92,13 +99,13 @@
               </div>
             </div>
             <div class="side-bottom">
-              <div class="best-row"><span class="best-icon" aria-hidden="true">★</span><span>最佳翻牌紀錄</span><strong id="best-score">—</strong></div>
+              <div class="best-row"><span class="best-icon" aria-hidden="true">★</span><span>本局最佳紀錄</span><strong id="best-score">—</strong></div>
               <p class="local-note"><span class="local-dot"></span>紀錄只保存在這台裝置</p>
             </div>
           </aside>
         </section>
 
-        <footer class="page-footer"><span>LEXIFLIP</span><span>BUILD YOUR WORD POWER, ONE PAIR AT A TIME.</span><span>NO. <span id="footer-round">01</span></span></footer>
+        <footer class="page-footer"><span>LEXIFLIP</span><span>BUILD YOUR WORD POWER, ONE PAIR AT A TIME.</span><span>ROUND <span id="footer-round">01 / 18</span></span></footer>
       </main>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -106,4 +113,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-

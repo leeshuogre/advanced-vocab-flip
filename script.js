@@ -105,7 +105,69 @@ const WORD_PAIRS = [
   { a: ["insolent", "傲慢無禮的；侮慢的"], b: ["impudent", "厚顏無恥的；無禮的"] },
 ];
 
+const NEW_WORD_PAIRS = [
+  { a: ["compulsory", "強制的；義務的"], b: ["mandatory", "強制的；必須履行的"], difficulty: 1 },
+  { a: ["encompass", "涵蓋；包括"], b: ["comprise", "包含；包括"], difficulty: 1 },
+  { a: ["susceptible", "易受影響的"], b: ["vulnerable", "脆弱的；易受影響的"], difficulty: 1 },
+  { a: ["inherent", "內在的；固有的"], b: ["intrinsic", "內在的；本質的"], difficulty: 1 },
+  { a: ["alienate", "使疏遠；使反感"], b: ["estrange", "使疏遠；離間"], difficulty: 1 },
+  { a: ["embark", "開始；著手"], b: ["commence", "開始；著手"], difficulty: 1 },
+  { a: ["coincide", "同時發生；相符"], b: ["synchronize", "同步；同時發生"], difficulty: 1 },
+  { a: ["blunt", "直率的；直截了當的"], b: ["forthright", "直率的；坦白的"], difficulty: 1 },
+  { a: ["ambiguous", "模稜兩可的；不明確的"], b: ["equivocal", "模稜兩可的；含糊的"], difficulty: 2 },
+  { a: ["tedious", "冗長乏味的"], b: ["monotonous", "單調乏味的"], difficulty: 2 },
+  { a: ["adverse", "不利的；有害的"], b: ["inimical", "不利的；有害的"], difficulty: 2 },
+  { a: ["groundless", "毫無根據的"], b: ["unwarranted", "無根據的；不合理的"], difficulty: 2 },
+  { a: ["agile", "敏捷的；靈活的"], b: ["nimble", "敏捷的；靈巧的"], difficulty: 2 },
+  { a: ["advocate", "擁護者；提倡者"], b: ["proponent", "支持者；提倡者"], difficulty: 2 },
+  { a: ["manipulate", "操縱；控制"], b: ["maneuver", "操縱；策略性移動"], difficulty: 2 },
+  { a: ["refrain", "克制；忍住"], b: ["suppress", "抑制；忍住"], difficulty: 2 },
+  { a: ["excoriate", "嚴厲抨擊"], b: ["lambast", "痛斥；嚴厲批評"], difficulty: 3 },
+  { a: ["antipathy", "反感；厭惡"], b: ["aversion", "厭惡；反感"], difficulty: 3 },
+  { a: ["anomaly", "異常；反常現象"], b: ["aberration", "異常現象；反常行為"], difficulty: 3 },
+  { a: ["heyday", "全盛時期"], b: ["zenith", "巔峰；鼎盛時期"], difficulty: 3 },
+  { a: ["concur", "同意；一致認為"], b: ["assent", "同意；贊成"], difficulty: 3 },
+  { a: ["invert", "使倒置；使顛倒"], b: ["upend", "倒置；顛倒"], difficulty: 3 },
+  { a: ["ignite", "點燃；激起"], b: ["kindle", "點燃；燃起"], difficulty: 3 },
+  { a: ["conjecture", "推測；臆測"], b: ["surmise", "推測；猜測"], difficulty: 3 },
+  { a: ["obliterate", "徹底摧毀；抹除"], b: ["annihilate", "徹底摧毀；消滅"], difficulty: 4 },
+  { a: ["prosaic", "平淡無奇的；缺乏想像力的"], b: ["nondescript", "平淡無奇的；不起眼的"], difficulty: 4 },
+  { a: ["wholesome", "有益的；有益健康的"], b: ["salubrious", "有益健康的；健康宜人的"], difficulty: 4 },
+  { a: ["heterogeneous", "混雜的；各種各樣的"], b: ["miscellaneous", "各式各樣的；雜項的"], difficulty: 4 },
+  { a: ["disparage", "貶低；輕視"], b: ["deprecate", "貶低；輕視"], difficulty: 4 },
+  { a: ["spur", "刺激；激勵"], b: ["galvanize", "刺激；激起"], difficulty: 4 },
+  { a: ["forsake", "拋棄；放棄"], b: ["forgo", "放棄；摒絕"], difficulty: 4 },
+  { a: ["undulate", "起伏；波動"], b: ["fluctuate", "波動；起伏不定"], difficulty: 4 },
+  { a: ["ebullient", "精力充沛的；熱情洋溢的"], b: ["exuberant", "精力充沛的；熱情洋溢的"], difficulty: 5 },
+  { a: ["oscillate", "搖擺；來回擺動"], b: ["vacillate", "猶豫；搖擺不定"], difficulty: 5 },
+  { a: ["fidelity", "忠誠；忠實"], b: ["allegiance", "忠誠；忠貞"], difficulty: 5 },
+  { a: ["lament", "悲痛；痛惜"], b: ["deplore", "痛惜；譴責"], difficulty: 5 },
+  { a: ["curb", "抑制；限制"], b: ["circumscribe", "限制；抑制"], difficulty: 5 },
+  { a: ["deplorable", "可悲的；應受譴責的"], b: ["reprehensible", "應受譴責的；應受責備的"], difficulty: 5 },
+  { a: ["liberal", "慷慨大方的"], b: ["munificent", "慷慨的；大方的"], difficulty: 5 },
+  { a: ["elusive", "難以捉摸的；難以理解的"], b: ["unfathomable", "難以理解的；深不可測的"], difficulty: 5 },
+];
+
 const ROUND_SIZE = 8;
+const ROUNDS_PER_LEVEL = 3;
+const MAX_MOVES = 15;
+const CAMPAIGN_PAIRS = [
+  ...WORD_PAIRS.map((pair, index) => ({
+    ...pair,
+    difficulty: 1 + (4 * index) / Math.max(1, WORD_PAIRS.length - 1),
+    sourceOrder: index,
+  })),
+  ...NEW_WORD_PAIRS.map((pair, index) => ({
+    ...pair,
+    difficulty: pair.difficulty + (index + 1) / 1000,
+    sourceOrder: WORD_PAIRS.length + index,
+  })),
+].sort((a, b) => a.difficulty - b.difficulty || a.sourceOrder - b.sourceOrder);
+const CAMPAIGN_ROUNDS = Array.from(
+  { length: CAMPAIGN_PAIRS.length / ROUND_SIZE },
+  (_, index) => CAMPAIGN_PAIRS.slice(index * ROUND_SIZE, (index + 1) * ROUND_SIZE),
+);
+const TOTAL_LEVELS = CAMPAIGN_ROUNDS.length / ROUNDS_PER_LEVEL;
 const board = document.querySelector("#game-board");
 const matchedCount = document.querySelector("#matched-count");
 const movesCount = document.querySelector("#moves-count");
@@ -126,8 +188,10 @@ let matchedPairs = 0;
 let elapsedSeconds = 0;
 let timerInterval = null;
 let gameStarted = false;
-let roundNumber = 1;
+let currentRoundIndex = 0;
+let attemptNumber = 1;
 let toastTimeout = null;
+let mismatchTimeout = null;
 
 function shuffle(items) {
   const shuffled = [...items];
@@ -186,7 +250,7 @@ function makeCard(word, pairId, meaning, index) {
 }
 
 function createBoard() {
-  const chosenPairs = shuffle(WORD_PAIRS).slice(0, ROUND_SIZE);
+  const chosenPairs = CAMPAIGN_ROUNDS[currentRoundIndex];
   roundPairs = chosenPairs.map((pair, index) => ({ ...pair, id: index + 1 }));
   const cards = roundPairs.flatMap((pair) => [
     { word: pair.a[0], meaning: pair.a[1], pairId: pair.id },
@@ -210,6 +274,11 @@ function flipCard(card) {
   secondCard = card;
   moves += 1;
   movesCount.textContent = String(moves);
+  if (moves > MAX_MOVES) {
+    lockBoard = true;
+    finishGame("failed");
+    return;
+  }
   checkForMatch();
 }
 
@@ -227,17 +296,19 @@ function checkForMatch() {
     matchedCount.textContent = String(matchedPairs);
     collectionCount.textContent = String(matchedPairs);
     progressFill.style.width = `${(matchedPairs / ROUND_SIZE) * 100}%`;
+    updateCampaignStatus();
     resetTurn();
-    if (matchedPairs === ROUND_SIZE) finishGame();
+    if (matchedPairs === ROUND_SIZE) finishGame("success");
     return;
   }
 
   lockBoard = true;
-  window.setTimeout(() => {
+  mismatchTimeout = window.setTimeout(() => {
     [firstCard, secondCard].forEach((card) => {
       card.classList.remove("is-open");
       card.setAttribute("aria-label", "單字卡，尚未翻開");
     });
+    mismatchTimeout = null;
     resetTurn();
   }, 950);
 }
@@ -266,9 +337,9 @@ function resetTurn() {
   lockBoard = false;
 }
 
-function readBestScore() {
+function readBestScore(roundIndex = currentRoundIndex) {
   try {
-    return Number(window.localStorage.getItem("lexiflip-best-moves")) || 0;
+    return Number(window.localStorage.getItem(`lexiflip-best-moves-${roundIndex}`)) || 0;
   } catch {
     return 0;
   }
@@ -276,7 +347,7 @@ function readBestScore() {
 
 function writeBestScore(score) {
   try {
-    window.localStorage.setItem("lexiflip-best-moves", String(score));
+    window.localStorage.setItem(`lexiflip-best-moves-${currentRoundIndex}`, String(score));
   } catch {
     // The game remains playable when browser storage is unavailable.
   }
@@ -287,19 +358,43 @@ function updateBestScore() {
   document.querySelector("#best-score").textContent = best ? `${best} 次` : "—";
 }
 
-function finishGame() {
+function finishGame(result) {
+  lastResult = result;
   window.clearInterval(timerInterval);
   document.querySelector("#final-time").textContent = formatTime(elapsedSeconds);
   document.querySelector("#final-moves").textContent = String(moves);
   renderReview();
-  const previousBest = readBestScore();
-  if (!previousBest || moves < previousBest) {
-    writeBestScore(moves);
-    updateBestScore();
-    showToast("新紀錄！翻牌次數更少了。");
+  const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
+  const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
+  const completionKicker = document.querySelector("#completion-kicker");
+  const completionTitle = document.querySelector("#completion-title");
+  const completionCopy = document.querySelector("#completion-copy");
+  const playAgainButton = document.querySelector("#play-again-button");
+
+  if (result === "failed") {
+    completionKicker.textContent = `LEVEL ${levelNumber} · ROUND ${roundInLevel} · TRY ${attemptNumber}`;
+    completionTitle.textContent = "超過翻牌上限";
+    completionCopy.textContent = `這局用了 ${moves} 次配對嘗試（每次翻兩張），超過 15 次上限。先複習本局 16 個目標單字，再重新挑戰；重玩時卡牌會重新洗牌。`;
+    playAgainButton.textContent = "重新挑戰本局";
+  } else {
+    const previousBest = readBestScore();
+    if (!previousBest || moves < previousBest) {
+      writeBestScore(moves);
+      updateBestScore();
+      showToast("本局新紀錄！翻牌次數更少了。");
+    }
+    completionKicker.textContent = `LEVEL ${levelNumber} · ROUND ${roundInLevel} COMPLETE`;
+    completionTitle.textContent = currentRoundIndex === CAMPAIGN_ROUNDS.length - 1 ? "全數通關！" : "配對完成！";
+    completionCopy.textContent = `這局用了 ${formatTime(elapsedSeconds)}，翻了 ${moves} 次。複習本局 16 個目標單字：`;
+    if (currentRoundIndex === CAMPAIGN_ROUNDS.length - 1) {
+      playAgainButton.textContent = "從頭再玩";
+    } else {
+      const nextLevel = Math.floor((currentRoundIndex + 1) / ROUNDS_PER_LEVEL) + 1;
+      playAgainButton.textContent = nextLevel > levelNumber ? "前往下一關" : "下一局";
+    }
   }
   completionOverlay.hidden = false;
-  document.querySelector("#play-again-button").focus();
+  playAgainButton.focus();
 }
 
 function renderReview() {
@@ -339,8 +434,32 @@ function renderReview() {
   reviewList.replaceChildren(...groups);
 }
 
-function startNewGame() {
+function updateCampaignStatus() {
+  const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
+  const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
+  document.querySelector("#level-number").textContent = String(levelNumber).padStart(2, "0");
+  document.querySelector("#total-levels").textContent = String(TOTAL_LEVELS).padStart(2, "0");
+  document.querySelector("#round-in-level").textContent = String(roundInLevel);
+  document.querySelector("#campaign-position").textContent = `第 ${levelNumber} 關・第 ${roundInLevel} 局`;
+  document.querySelector("#campaign-attempt").textContent = `挑戰 ${attemptNumber}`;
+  document.querySelector("#campaign-total").textContent = `共 ${CAMPAIGN_ROUNDS.length} 局`;
+  document.querySelector("#campaign-progress").style.width = `${((currentRoundIndex + matchedPairs / ROUND_SIZE) / CAMPAIGN_ROUNDS.length) * 100}%`;
+  document.querySelector("#footer-round").textContent = `${String(currentRoundIndex + 1).padStart(2, "0")} / ${CAMPAIGN_ROUNDS.length}`;
+}
+
+function startNewGame({ advance = false, retry = false, restartCampaign = false } = {}) {
+  if (advance) {
+    currentRoundIndex = Math.min(currentRoundIndex + 1, CAMPAIGN_ROUNDS.length - 1);
+    attemptNumber = 1;
+  } else if (restartCampaign) {
+    currentRoundIndex = 0;
+    attemptNumber = 1;
+  } else if (retry) {
+    attemptNumber += 1;
+  }
   window.clearInterval(timerInterval);
+  window.clearTimeout(mismatchTimeout);
+  mismatchTimeout = null;
   firstCard = null;
   secondCard = null;
   lockBoard = false;
@@ -349,9 +468,7 @@ function startNewGame() {
   elapsedSeconds = 0;
   gameStarted = false;
   timerInterval = null;
-  roundNumber += 1;
-  document.querySelector("#round-number").textContent = String(roundNumber).padStart(2, "0");
-  document.querySelector("#footer-round").textContent = String(roundNumber).padStart(2, "0");
+  lastResult = null;
   matchedCount.textContent = "0";
   movesCount.textContent = "0";
   timerDisplay.textContent = "00:00";
@@ -361,19 +478,26 @@ function startNewGame() {
   emptyCollection.hidden = false;
   completionOverlay.hidden = true;
   createBoard();
+  updateCampaignStatus();
   updateBestScore();
 }
 
 document.querySelector("#reset-button").addEventListener("click", () => {
-  startNewGame();
-  showToast("新的一局開始了，祝你配對順利！");
+  startNewGame({ retry: true });
+  showToast("本局重新洗牌，再挑戰一次！");
 });
 
 document.querySelector("#play-again-button").addEventListener("click", () => {
-  startNewGame();
+  if (lastResult === "failed") {
+    startNewGame({ retry: true });
+  } else if (currentRoundIndex === CAMPAIGN_ROUNDS.length - 1) {
+    startNewGame({ restartCampaign: true });
+  } else {
+    startNewGame({ advance: true });
+  }
   document.querySelector("#reset-button").focus();
 });
 
-roundNumber = 0;
+let lastResult = null;
+document.querySelector("#total-levels").textContent = String(TOTAL_LEVELS).padStart(2, "0");
 startNewGame();
-

@@ -62,6 +62,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
 .reset-button:hover { background: var(--paper); color: var(--ink); border-color: #c2c0b7; }
 .reset-icon { font-size: 16px; line-height: 10px; }
 
+.campaign-status { display: grid; grid-template-columns: auto auto minmax(60px, 1fr) auto; align-items: center; gap: 10px; margin: -5px 0 14px; color: #777970; font-size: 10px; }
+.campaign-status > span:not(.campaign-track) { white-space: nowrap; }
+.campaign-status > span:first-child { color: var(--green-dark); font-weight: 700; }
+.campaign-track { display: block; height: 4px; overflow: hidden; border-radius: 99px; background: #e8e7df; }
+.campaign-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--green); transition: width .35s ease; }
+
 .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #e6e3db; border-radius: 8px; margin-bottom: 17px; background: #fbfaf6; }
 .stat-card { min-height: 69px; padding: 10px 15px 9px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
 .stat-card + .stat-card { border-left: 1px solid #e6e3db; }
@@ -151,6 +157,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
 .review-example { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
 .review-translation { margin: 7px 0 0; color: #666a60; font-size: 16px; line-height: 1.55; }
 .review-source { margin: 18px 0 0; color: #8a8b83; font-size: 13px; line-height: 1.5; text-align: center; }
+.review-source a { color: var(--green-dark); text-underline-offset: 3px; }
 .completion-actions { display: flex; justify-content: center; margin-top: 18px; }
 .primary-button { background: var(--green); border: 1px solid var(--green); border-radius: 6px; color: white; padding: 12px 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: .2s; }
 .primary-button:hover { background: var(--green-dark); transform: translateY(-1px); }
@@ -183,6 +190,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
   .board-label { gap: 6px; font-size: 11px; }
   .board-subtitle { font-size: 9px; padding-left: 7px; }
   .reset-button { font-size: 9px; padding: 7px 8px; }
+  .campaign-status { grid-template-columns: auto auto 1fr; gap: 7px; font-size: 9px; margin: -3px 0 11px; }
+  .campaign-status > span:last-child { display: none; }
   .stats-row { margin-bottom: 12px; }
   .stat-card { min-height: 61px; padding: 8px 8px 8px; }
   .stat-card strong { font-size: 17px; }
@@ -213,4 +222,3 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
-
