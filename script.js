@@ -487,9 +487,9 @@ function renderCampaignSummary() {
 
 function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
-  const cardHeight = 520;
-  const cardGap = 16;
-  const headerHeight = 260;
+  const cardHeight = 535;
+  const cardGap = 10;
+  const headerHeight = 250;
   const sectionHeight = cardHeight + cardGap;
   canvas.width = 1080;
   canvas.height = 1920;
@@ -522,13 +522,13 @@ function downloadCampaignSummary() {
   context.fillStyle = "#fffefa";
   context.fillRect(32, 32, canvas.width - 64, canvas.height - 64);
   context.fillStyle = "#536c52";
-  context.font = '500 20px "DM Mono", monospace';
+  context.font = '500 22px "DM Mono", monospace';
   context.fillText("LEE SHUO · ADVANCED VOCABULARY", 76, 82);
   context.fillStyle = "#22231f";
-  context.font = '800 48px "Noto Sans TC", "DM Sans", sans-serif';
+  context.font = '800 52px "Noto Sans TC", "DM Sans", sans-serif';
   context.fillText("李碩高階單字｜想加強單字", 76, 150);
   context.fillStyle = "#777970";
-  context.font = '400 24px "Noto Sans TC", sans-serif';
+  context.font = '400 26px "Noto Sans TC", sans-serif';
   context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 78, 198);
   context.fillText("每局只列出你選的單字、中文釋義與例句", 78, 236);
 
@@ -545,23 +545,23 @@ function downloadCampaignSummary() {
     context.fillStyle = "#faf9f5";
     context.fillRect(60, y, canvas.width - 120, cardHeight);
     context.fillStyle = "#3c553c";
-    context.font = '600 22px "Noto Sans TC", sans-serif';
+    context.font = '600 24px "Noto Sans TC", sans-serif';
     context.fillText(`第 ${record.round} 局`, contentX, y + 50);
     context.fillStyle = "#22231f";
-    context.font = '700 48px "Noto Sans TC", "DM Sans", sans-serif';
-    context.fillText(selectedWord.word, contentX, y + 116);
+    context.font = '700 60px "Noto Sans TC", "DM Sans", sans-serif';
+    context.fillText(selectedWord.word, contentX, y + 126);
     context.fillStyle = "#435a43";
-    context.font = '600 34px "Noto Sans TC", sans-serif';
-    drawWrappedText(selectedWord.meaning, contentX, y + 165, contentWidth, 40, 2);
+    context.font = '600 40px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.meaning, contentX, y + 183, contentWidth, 46, 2);
     context.fillStyle = "#555b51";
-    context.font = '600 20px "Noto Sans TC", sans-serif';
-    context.fillText("例句", contentX, y + 277);
+    context.font = '600 22px "Noto Sans TC", sans-serif';
+    context.fillText("例句", contentX, y + 310);
     context.fillStyle = "#22231f";
-    context.font = '400 34px "Noto Sans TC", "DM Sans", sans-serif';
-    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 314, contentWidth, 40, 3);
+    context.font = '400 40px "Noto Sans TC", "DM Sans", sans-serif';
+    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 347, contentWidth, 46, 3);
     context.fillStyle = "#434840";
-    context.font = '500 30px "Noto Sans TC", sans-serif';
-    drawWrappedText(selectedWord.translation, contentX, Math.max(y + 430, exampleEnd + 8), contentWidth, 34, 2);
+    context.font = '500 32px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.translation, contentX, Math.max(y + 410, exampleEnd + 8), contentWidth, 36, 2);
   });
 
   const link = document.createElement("a");
