@@ -250,7 +250,7 @@ function makeCard(word, pairId, meaning, index) {
       </span>
       <span class="card-face card-front" aria-hidden="true">
         <span class="card-word"></span>
-        <span class="card-mini">SAT VOCABULARY</span>
+        <span class="card-mini">ADVANCED VOCABULARY</span>
       </span>
     </span>`;
   button.querySelector(".card-word").textContent = word;
@@ -499,10 +499,52 @@ function renderCampaignSummary() {
 
 function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
-  canvas.width = 1400;
-  canvas.height = 370 + roundRecords.length * 112;
+  const pairCardHeight = 164;
+  const pairGap = 12;
+  const sectionHeaderHeight = 82;
+  const sectionGap = 28;
+  const sectionHeight = sectionHeaderHeight + ROUND_SIZE * pairCardHeight + (ROUND_SIZE - 1) * pairGap + sectionGap;
+  const headerHeight = 294;
+  canvas.width = 1800;
+  canvas.height = headerHeight + roundRecords.length * sectionHeight + 108;
   const context = canvas.getContext("2d");
   if (!context) return;
+
+  function drawWrappedText(text, x, y, maxWidth, lineHeight, maxLines = 2) {
+    if (!text) return y;
+    let line = "";
+    let lineCount = 0;
+    for (const character of text) {
+      const candidate = line + character;
+      if (line && context.measureText(candidate).width > maxWidth && lineCount < maxLines - 1) {
+        context.fillText(line.trimEnd(), x, y + lineCount * lineHeight);
+        lineCount += 1;
+        line = character.trimStart();
+      } else {
+        line = candidate;
+      }
+    }
+    if (line) {
+      context.fillText(line.trimEnd(), x, y + lineCount * lineHeight);
+      lineCount += 1;
+    }
+    return y + lineCount * lineHeight;
+  }
+
+  function drawWordEntry(entry, x, y, width) {
+    context.fillStyle = "#22231f";
+    context.font = '700 20px "Noto Sans TC", "DM Sans", sans-serif';
+    context.fillText(entry.word, x, y + 28);
+    context.fillStyle = "#536c52";
+    context.font = '500 16px "Noto Sans TC", sans-serif';
+    drawWrappedText(entry.meaning, x, y + 53, width, 21, 2);
+    context.fillStyle = "#777970";
+    context.font = '400 14px "Noto Sans TC", sans-serif';
+    const exampleEnd = drawWrappedText(entry.sentence, x, y + 91, width, 20, 2);
+    context.fillStyle = "#6f7069";
+    context.font = '400 14px "Noto Sans TC", sans-serif';
+    drawWrappedText(entry.translation, x, Math.max(y + 132, exampleEnd + 8), width, 19, 1);
+  }
 
   context.fillStyle = "#f6f3ec";
   context.fillRect(0, 0, canvas.width, canvas.height);
@@ -510,39 +552,55 @@ function downloadCampaignSummary() {
   context.fillRect(44, 44, canvas.width - 88, canvas.height - 88);
   context.fillStyle = "#536c52";
   context.font = '500 18px "DM Mono", monospace';
-  context.fillText("LI SHUO SAT · VOCABULARY CHALLENGE", 92, 112);
+  context.fillText("LI SHUO · ADVANCED VOCABULARY", 92, 112);
   context.fillStyle = "#22231f";
   context.font = '800 42px "Noto Sans TC", "DM Sans", sans-serif';
-  context.fillText("李碩 SAT｜五局闖關記錄", 92, 180);
+  context.fillText("李碩高階單字｜五局闖關記錄", 92, 180);
   context.fillStyle = "#777970";
   context.font = '400 18px "Noto Sans TC", sans-serif';
   context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 94, 222);
+  context.fillText("每局時間、配對次數、記憶單字與本局單字釋義和例句", 94, 254);
 
   roundRecords.forEach((record, index) => {
-    const y = 268 + index * 112;
+    const y = headerHeight + index * sectionHeight;
     context.fillStyle = "#faf9f5";
-    context.fillRect(84, y, canvas.width - 168, 88);
+    context.fillRect(84, y, canvas.width - 168, sectionHeaderHeight - 8);
     context.fillStyle = "#3c553c";
     context.font = '700 24px "Noto Sans TC", sans-serif';
-    context.fillText(`第 ${record.round} 局`, 112, y + 54);
+    context.fillText(`第 ${record.round} 局`, 112, y + 48);
     context.fillStyle = "#777970";
     context.font = '400 16px "Noto Sans TC", sans-serif';
-    context.fillText("用時", 340, y + 36);
-    context.fillText("配對次數", 520, y + 36);
-    context.fillText("想加強的單字", 760, y + 36);
+    context.fillText("用時", 330, y + 29);
+    context.fillText("配對次數", 530, y + 29);
+    context.fillText("想加強的單字", 780, y + 29);
     context.fillStyle = "#22231f";
-    context.font = '600 23px "Noto Sans TC", "DM Mono", sans-serif';
-    context.fillText(record.time, 340, y + 66);
-    context.fillText(`${record.moves} 次`, 520, y + 66);
-    context.fillText(record.memoryWord, 760, y + 66);
+    context.font = '600 20px "Noto Sans TC", "DM Mono", sans-serif';
+    context.fillText(record.time, 330, y + 58);
+    context.fillText(`${record.moves} 次`, 530, y + 58);
+    context.fillText(record.memoryWord, 780, y + 58);
+
+    for (let pairIndex = 0; pairIndex < ROUND_SIZE; pairIndex += 1) {
+      const cardY = y + sectionHeaderHeight + pairIndex * (pairCardHeight + pairGap);
+      const left = record.words[pairIndex * 2];
+      const right = record.words[pairIndex * 2 + 1];
+      context.fillStyle = "#fbfaf6";
+      context.fillRect(84, cardY, canvas.width - 168, pairCardHeight);
+      context.strokeStyle = "#e6e3db";
+      context.beginPath();
+      context.moveTo(canvas.width / 2, cardY + 18);
+      context.lineTo(canvas.width / 2, cardY + pairCardHeight - 18);
+      context.stroke();
+      drawWordEntry(left, 112, cardY + 8, 760);
+      drawWordEntry(right, 930, cardY + 8, 760);
+    }
   });
 
   context.fillStyle = "#536c52";
   context.font = '500 14px "DM Mono", monospace';
-  context.fillText("BUILD YOUR WORD POWER, ONE PAIR AT A TIME.", 92, canvas.height - 72);
+  context.fillText("BUILD YOUR WORD POWER, ONE PAIR AT A TIME.", 92, canvas.height - 68);
   const link = document.createElement("a");
   link.href = canvas.toDataURL("image/png");
-  link.download = "李碩SAT-五局闖關記錄.png";
+  link.download = "李碩高階單字-五局闖關記錄.png";
   document.body.append(link);
   link.click();
   link.remove();
@@ -624,6 +682,10 @@ function handleCompletionAction() {
     time: formatTime(elapsedSeconds),
     moves,
     memoryWord,
+    words: roundPairs.flatMap((pair) => [pair.a, pair.b]).map(([word, meaning]) => {
+      const [sentence, translation] = window.WORD_EXAMPLES[word] || ["例句準備中。", ""];
+      return { word, meaning, sentence, translation };
+    }),
   };
 
   if (currentRoundIndex === TOTAL_ROUNDS - 1) {
