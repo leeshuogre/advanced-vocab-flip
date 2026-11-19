@@ -149,7 +149,7 @@ const NEW_WORD_PAIRS = [
 ];
 
 const ROUND_SIZE = 8;
-const ROUNDS_PER_LEVEL = 3;
+const TOTAL_ROUNDS = 5;
 const MAX_MOVES = 20;
 const CAMPAIGN_PAIRS = [
   ...WORD_PAIRS.map((pair, index) => ({
@@ -163,25 +163,13 @@ const CAMPAIGN_PAIRS = [
     sourceOrder: WORD_PAIRS.length + index,
   })),
 ].sort((a, b) => a.difficulty - b.difficulty || a.sourceOrder - b.sourceOrder);
-const PAIRS_PER_LEVEL = ROUND_SIZE * ROUNDS_PER_LEVEL;
-const TOTAL_LEVELS = CAMPAIGN_PAIRS.length / PAIRS_PER_LEVEL;
-
 function buildCampaignRounds() {
-  const rounds = [];
-  for (let levelIndex = 0; levelIndex < TOTAL_LEVELS; levelIndex += 1) {
-    const levelPairs = CAMPAIGN_PAIRS.slice(
-      levelIndex * PAIRS_PER_LEVEL,
-      (levelIndex + 1) * PAIRS_PER_LEVEL,
-    );
-    const shuffledPairs = shuffle(levelPairs);
-    const levelRounds = Array.from({ length: ROUNDS_PER_LEVEL }, (_, roundIndex) => {
-      const pairs = shuffledPairs.slice(roundIndex * ROUND_SIZE, (roundIndex + 1) * ROUND_SIZE);
-      const averageDifficulty = pairs.reduce((total, pair) => total + pair.difficulty, 0) / pairs.length;
-      return { pairs, averageDifficulty };
-    }).sort((a, b) => a.averageDifficulty - b.averageDifficulty);
-    rounds.push(...levelRounds.map((round) => round.pairs));
-  }
-  return rounds;
+  const difficultyPools = Array.from({ length: TOTAL_ROUNDS }, () => []);
+  CAMPAIGN_PAIRS.forEach((pair, index) => {
+    const roundIndex = Math.min(TOTAL_ROUNDS - 1, Math.floor((index * TOTAL_ROUNDS) / CAMPAIGN_PAIRS.length));
+    difficultyPools[roundIndex].push(pair);
+  });
+  return difficultyPools.map((pool) => shuffle(pool).slice(0, ROUND_SIZE));
 }
 
 let CAMPAIGN_ROUNDS = buildCampaignRounds();
@@ -194,6 +182,9 @@ const collectionList = document.querySelector("#collection-list");
 const collectionCount = document.querySelector("#collection-count");
 const emptyCollection = document.querySelector("#empty-collection");
 const completionOverlay = document.querySelector("#completion-overlay");
+const campaignSummaryOverlay = document.querySelector("#campaign-summary-overlay");
+const memoryWordInput = document.querySelector("#memory-word-input");
+const playAgainButton = document.querySelector("#play-again-button");
 const toast = document.querySelector("#toast");
 
 let roundPairs = [];
@@ -207,6 +198,7 @@ let timerInterval = null;
 let gameStarted = false;
 let currentRoundIndex = 0;
 let attemptNumber = 1;
+let roundRecords = [];
 let toastTimeout = null;
 let mismatchTimeout = null;
 
@@ -378,19 +370,22 @@ function updateBestScore() {
 function finishGame(result) {
   lastResult = result;
   window.clearInterval(timerInterval);
-  const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
-  const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
+  const roundNumber = currentRoundIndex + 1;
   const completionKicker = document.querySelector("#completion-kicker");
   const completionTitle = document.querySelector("#completion-title");
   const completionCopy = document.querySelector("#completion-copy");
-  const playAgainButton = document.querySelector("#play-again-button");
+  const memoryCheckin = document.querySelector("#memory-checkin");
 
   if (result === "failed") {
     document.querySelector("#review-list").replaceChildren();
-    completionKicker.textContent = `LEVEL ${levelNumber} · ROUND ${roundInLevel} · TRY ${attemptNumber}`;
+    memoryCheckin.hidden = true;
+    playAgainButton.disabled = false;
+    completionKicker.textContent = `ROUND ${roundNumber} · TRY ${attemptNumber}`;
     completionTitle.textContent = "超過翻牌上限";
     completionCopy.textContent = `這局用了 ${moves} 次配對嘗試（每次翻兩張），超過 20 次上限。必須在 20 次內完成，才能查看單字解釋與例句。重新挑戰時卡牌會重新洗牌。`;
     playAgainButton.textContent = "重新挑戰本局";
+    completionOverlay.hidden = false;
+    playAgainButton.focus();
   } else {
     renderReview();
     const previousBest = readBestScore();
@@ -399,18 +394,18 @@ function finishGame(result) {
       updateBestScore();
       showToast("本局新紀錄！翻牌次數更少了。");
     }
-    completionKicker.textContent = `LEVEL ${levelNumber} · ROUND ${roundInLevel} COMPLETE`;
-    completionTitle.textContent = currentRoundIndex === CAMPAIGN_ROUNDS.length - 1 ? "全數通關！" : "配對完成！";
+    completionKicker.textContent = `ROUND ${roundNumber} COMPLETE`;
+    completionTitle.textContent = "配對完成！";
     completionCopy.textContent = `這局用了 ${formatTime(elapsedSeconds)}，翻了 ${moves} 次。複習本局 16 個目標單字：`;
-    if (currentRoundIndex === CAMPAIGN_ROUNDS.length - 1) {
-      playAgainButton.textContent = "從頭再玩";
-    } else {
-      const nextLevel = Math.floor((currentRoundIndex + 1) / ROUNDS_PER_LEVEL) + 1;
-      playAgainButton.textContent = nextLevel > levelNumber ? "前往下一關" : "下一局";
-    }
+    populateRoundWordOptions();
+    memoryWordInput.value = "";
+    document.querySelector("#memory-word-error").textContent = "";
+    memoryCheckin.hidden = false;
+    playAgainButton.disabled = true;
+    playAgainButton.textContent = roundNumber === TOTAL_ROUNDS ? "查看五局記錄" : "前往下一局";
+    completionOverlay.hidden = false;
+    completionTitle.focus({ preventScroll: true });
   }
-  completionOverlay.hidden = false;
-  playAgainButton.focus();
 }
 
 function renderReview() {
@@ -450,17 +445,118 @@ function renderReview() {
   reviewList.replaceChildren(...groups);
 }
 
+function populateRoundWordOptions() {
+  const options = roundPairs.flatMap((pair) => [pair.a[0], pair.b[0]]);
+  const dataList = document.querySelector("#round-word-options");
+  dataList.replaceChildren(...options.map((word) => {
+    const option = document.createElement("option");
+    option.value = word;
+    return option;
+  }));
+}
+
+function validateMemoryWord() {
+  const typedWord = memoryWordInput.value.trim().toLowerCase();
+  const matchingWord = roundPairs
+    .flatMap((pair) => [pair.a[0], pair.b[0]])
+    .find((word) => word.toLowerCase() === typedWord);
+  const isValid = Boolean(matchingWord);
+  playAgainButton.disabled = !isValid;
+  document.querySelector("#memory-word-error").textContent = typedWord && !isValid
+    ? "請輸入本局 16 個目標單字其中之一。"
+    : "";
+  return isValid ? matchingWord : null;
+}
+
+function renderCampaignSummary() {
+  const summaryList = document.querySelector("#campaign-summary-list");
+  const cards = roundRecords.map((record) => {
+    const card = document.createElement("article");
+    card.className = "summary-round-card";
+    const heading = document.createElement("h3");
+    heading.textContent = `第 ${record.round} 局`;
+    card.append(heading);
+
+    [
+      ["用時", record.time],
+      ["配對次數", `${record.moves} 次`],
+      ["想加強的單字", record.memoryWord],
+    ].forEach(([label, value]) => {
+      const metric = document.createElement("p");
+      const name = document.createElement("span");
+      name.className = "summary-metric-label";
+      name.textContent = label;
+      const result = document.createElement("strong");
+      result.className = "summary-metric-value";
+      result.textContent = value;
+      metric.append(name, result);
+      card.append(metric);
+    });
+    return card;
+  });
+  summaryList.replaceChildren(...cards);
+}
+
+function downloadCampaignSummary() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1400;
+  canvas.height = 370 + roundRecords.length * 112;
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  context.fillStyle = "#f6f3ec";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#fffefa";
+  context.fillRect(44, 44, canvas.width - 88, canvas.height - 88);
+  context.fillStyle = "#536c52";
+  context.font = '500 18px "DM Mono", monospace';
+  context.fillText("LI SHUO SAT · VOCABULARY CHALLENGE", 92, 112);
+  context.fillStyle = "#22231f";
+  context.font = '800 42px "Noto Sans TC", "DM Sans", sans-serif';
+  context.fillText("李碩 SAT｜五局闖關記錄", 92, 180);
+  context.fillStyle = "#777970";
+  context.font = '400 18px "Noto Sans TC", sans-serif';
+  context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 94, 222);
+
+  roundRecords.forEach((record, index) => {
+    const y = 268 + index * 112;
+    context.fillStyle = "#faf9f5";
+    context.fillRect(84, y, canvas.width - 168, 88);
+    context.fillStyle = "#3c553c";
+    context.font = '700 24px "Noto Sans TC", sans-serif';
+    context.fillText(`第 ${record.round} 局`, 112, y + 54);
+    context.fillStyle = "#777970";
+    context.font = '400 16px "Noto Sans TC", sans-serif';
+    context.fillText("用時", 340, y + 36);
+    context.fillText("配對次數", 520, y + 36);
+    context.fillText("想加強的單字", 760, y + 36);
+    context.fillStyle = "#22231f";
+    context.font = '600 23px "Noto Sans TC", "DM Mono", sans-serif';
+    context.fillText(record.time, 340, y + 66);
+    context.fillText(`${record.moves} 次`, 520, y + 66);
+    context.fillText(record.memoryWord, 760, y + 66);
+  });
+
+  context.fillStyle = "#536c52";
+  context.font = '500 14px "DM Mono", monospace';
+  context.fillText("BUILD YOUR WORD POWER, ONE PAIR AT A TIME.", 92, canvas.height - 72);
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "李碩SAT-五局闖關記錄.png";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  showToast("五局記錄 PNG 已下載。");
+}
+
 function updateCampaignStatus() {
-  const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
-  const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
-  document.querySelector("#level-number").textContent = String(levelNumber).padStart(2, "0");
-  document.querySelector("#total-levels").textContent = String(TOTAL_LEVELS).padStart(2, "0");
-  document.querySelector("#round-in-level").textContent = String(roundInLevel);
-  document.querySelector("#campaign-position").textContent = `第 ${levelNumber} 關・第 ${roundInLevel} 局`;
+  const roundNumber = currentRoundIndex + 1;
+  document.querySelector("#round-number").textContent = String(roundNumber).padStart(2, "0");
+  document.querySelector("#campaign-position").textContent = `第 ${roundNumber} 局 / ${TOTAL_ROUNDS}`;
   document.querySelector("#campaign-attempt").textContent = `挑戰 ${attemptNumber}`;
-  document.querySelector("#campaign-total").textContent = `共 ${CAMPAIGN_ROUNDS.length} 局`;
-  document.querySelector("#campaign-progress").style.width = `${((currentRoundIndex + matchedPairs / ROUND_SIZE) / CAMPAIGN_ROUNDS.length) * 100}%`;
-  document.querySelector("#footer-round").textContent = `${String(currentRoundIndex + 1).padStart(2, "0")} / ${CAMPAIGN_ROUNDS.length}`;
+  document.querySelector("#campaign-total").textContent = `共 ${TOTAL_ROUNDS} 局`;
+  document.querySelector("#campaign-progress").style.width = `${((currentRoundIndex + matchedPairs / ROUND_SIZE) / TOTAL_ROUNDS) * 100}%`;
+  document.querySelector("#footer-round").textContent = `${String(roundNumber).padStart(2, "0")} / ${TOTAL_ROUNDS}`;
 }
 
 function startNewGame({ advance = false, retry = false, restartCampaign = false } = {}) {
@@ -471,6 +567,7 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
     currentRoundIndex = 0;
     attemptNumber = 1;
     CAMPAIGN_ROUNDS = buildCampaignRounds();
+    roundRecords = [];
   } else if (retry) {
     attemptNumber += 1;
   }
@@ -494,6 +591,11 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
   collectionList.replaceChildren(emptyCollection);
   emptyCollection.hidden = false;
   completionOverlay.hidden = true;
+  campaignSummaryOverlay.hidden = true;
+  document.querySelector("#memory-checkin").hidden = true;
+  memoryWordInput.value = "";
+  playAgainButton.disabled = false;
+  document.querySelector("#memory-word-error").textContent = "";
   document.querySelector("#review-list").replaceChildren();
   createBoard();
   updateCampaignStatus();
@@ -505,17 +607,50 @@ document.querySelector("#reset-button").addEventListener("click", () => {
   showToast("本局重新洗牌，再挑戰一次！");
 });
 
-document.querySelector("#play-again-button").addEventListener("click", () => {
+function handleCompletionAction() {
   if (lastResult === "failed") {
     startNewGame({ retry: true });
-  } else if (currentRoundIndex === CAMPAIGN_ROUNDS.length - 1) {
-    startNewGame({ restartCampaign: true });
+    document.querySelector("#reset-button").focus();
+    return;
+  }
+
+  const memoryWord = validateMemoryWord();
+  if (!memoryWord) {
+    memoryWordInput.focus();
+    return;
+  }
+  roundRecords[currentRoundIndex] = {
+    round: currentRoundIndex + 1,
+    time: formatTime(elapsedSeconds),
+    moves,
+    memoryWord,
+  };
+
+  if (currentRoundIndex === TOTAL_ROUNDS - 1) {
+    completionOverlay.hidden = true;
+    renderCampaignSummary();
+    campaignSummaryOverlay.hidden = false;
+    document.querySelector("#campaign-summary-title").focus({ preventScroll: true });
   } else {
     startNewGame({ advance: true });
+    document.querySelector("#reset-button").focus();
   }
+}
+
+playAgainButton.addEventListener("click", handleCompletionAction);
+memoryWordInput.addEventListener("input", validateMemoryWord);
+memoryWordInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !playAgainButton.disabled) {
+    event.preventDefault();
+    handleCompletionAction();
+  }
+});
+document.querySelector("#download-summary-button").addEventListener("click", downloadCampaignSummary);
+document.querySelector("#restart-campaign-button").addEventListener("click", () => {
+  startNewGame({ restartCampaign: true });
   document.querySelector("#reset-button").focus();
 });
 
 let lastResult = null;
-document.querySelector("#total-levels").textContent = String(TOTAL_LEVELS).padStart(2, "0");
 startNewGame();
+
