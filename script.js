@@ -500,12 +500,17 @@ function downloadCampaignSummary() {
     if (!text) return y;
     let line = "";
     let lineCount = 0;
-    for (const character of text) {
-      const candidate = line + character;
-      if (line && context.measureText(candidate).width > maxWidth && lineCount < maxLines - 1) {
+    const words = text.match(/\S+|\s+/gu) || [];
+    for (const word of words) {
+      if (/^\s+$/u.test(word)) {
+        if (line) line += word;
+        continue;
+      }
+      const candidate = line ? line + word : word;
+      if (line && context.measureText(candidate.trimEnd()).width > maxWidth && lineCount < maxLines - 1) {
         context.fillText(line.trimEnd(), x, y + lineCount * lineHeight);
         lineCount += 1;
-        line = character.trimStart();
+        line = word.trimStart();
       } else {
         line = candidate;
       }
@@ -553,12 +558,9 @@ function downloadCampaignSummary() {
     context.fillStyle = "#435a43";
     context.font = '600 40px "Noto Sans TC", sans-serif';
     drawWrappedText(selectedWord.meaning, contentX, y + 183, contentWidth, 46, 2);
-    context.fillStyle = "#555b51";
-    context.font = '600 22px "Noto Sans TC", sans-serif';
-    context.fillText("例句", contentX, y + 310);
     context.fillStyle = "#22231f";
     context.font = '400 40px "Noto Sans TC", "DM Sans", sans-serif';
-    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 347, contentWidth, 46, 3);
+    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 310, contentWidth, 46, 3);
     context.fillStyle = "#434840";
     context.font = '500 32px "Noto Sans TC", sans-serif';
     drawWrappedText(selectedWord.translation, contentX, Math.max(y + 410, exampleEnd + 8), contentWidth, 36, 2);
