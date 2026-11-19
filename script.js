@@ -150,7 +150,7 @@ const NEW_WORD_PAIRS = [
 
 const ROUND_SIZE = 8;
 const ROUNDS_PER_LEVEL = 3;
-const MAX_MOVES = 15;
+const MAX_MOVES = 20;
 const CAMPAIGN_PAIRS = [
   ...WORD_PAIRS.map((pair, index) => ({
     ...pair,
@@ -361,7 +361,6 @@ function updateBestScore() {
 function finishGame(result) {
   lastResult = result;
   window.clearInterval(timerInterval);
-  renderReview();
   const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
   const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
   const completionKicker = document.querySelector("#completion-kicker");
@@ -370,11 +369,13 @@ function finishGame(result) {
   const playAgainButton = document.querySelector("#play-again-button");
 
   if (result === "failed") {
+    document.querySelector("#review-list").replaceChildren();
     completionKicker.textContent = `LEVEL ${levelNumber} · ROUND ${roundInLevel} · TRY ${attemptNumber}`;
     completionTitle.textContent = "超過翻牌上限";
-    completionCopy.textContent = `這局用了 ${moves} 次配對嘗試（每次翻兩張），超過 15 次上限。先複習本局 16 個目標單字，再重新挑戰；重玩時卡牌會重新洗牌。`;
+    completionCopy.textContent = `這局用了 ${moves} 次配對嘗試（每次翻兩張），超過 20 次上限。必須在 20 次內完成，才能查看單字解釋與例句。重新挑戰時卡牌會重新洗牌。`;
     playAgainButton.textContent = "重新挑戰本局";
   } else {
+    renderReview();
     const previousBest = readBestScore();
     if (!previousBest || moves < previousBest) {
       writeBestScore(moves);
@@ -475,6 +476,7 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
   collectionList.replaceChildren(emptyCollection);
   emptyCollection.hidden = false;
   completionOverlay.hidden = true;
+  document.querySelector("#review-list").replaceChildren();
   createBoard();
   updateCampaignStatus();
   updateBestScore();
