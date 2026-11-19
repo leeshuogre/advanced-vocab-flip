@@ -566,9 +566,44 @@ function downloadCampaignSummary() {
     drawWrappedText(selectedWord.translation, contentX, Math.max(y + 410, exampleEnd + 8), contentWidth, 36, 2);
   });
 
+  const imageUrl = canvas.toDataURL("image/png");
+  const fileName = "李碩高階單字-三局闖關記錄.png";
+  const isAppleTouchDevice = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  if (isAppleTouchDevice) {
+    try {
+      const [, encodedImage] = imageUrl.split(",");
+      const binaryImage = atob(encodedImage);
+      const imageBytes = new Uint8Array(binaryImage.length);
+      for (let index = 0; index < binaryImage.length; index += 1) {
+        imageBytes[index] = binaryImage.charCodeAt(index);
+      }
+      const imageFile = new File([imageBytes], fileName, { type: "image/png" });
+      if (navigator.canShare?.({ files: [imageFile] }) && navigator.share) {
+        navigator.share({ files: [imageFile], title: "李碩高階單字｜想加強單字" }).catch((error) => {
+          if (error.name !== "AbortError") showToast("分享圖卡時發生問題，請再試一次。");
+        });
+        showToast("請在分享選單中選擇「儲存影像」。");
+        return;
+      }
+    } catch (error) {
+      // Older iOS versions can still save the image from the preview page below.
+    }
+
+    const preview = window.open("", "_blank");
+    if (preview) {
+      preview.document.write(`<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>想加強單字圖卡</title><style>body{margin:0;padding:20px;background:#f6f3ec;color:#22231f;font:16px system-ui,sans-serif;text-align:center}.hint{margin:0 auto 16px;max-width:32em;line-height:1.6}img{display:block;width:min(100%,540px);height:auto;margin:0 auto}</style></head><body><p class="hint">長按下方圖卡，選擇「儲存影像」即可保存到照片。</p><img src="${imageUrl}" alt="李碩高階單字想加強單字圖卡"></body></html>`);
+      preview.document.close();
+    } else {
+      showToast("Safari 阻擋了新分頁，請允許彈出式視窗後重試。");
+    }
+    return;
+  }
+
   const link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = "李碩高階單字-三局闖關記錄.png";
+  link.href = imageUrl;
+  link.download = fileName;
   document.body.append(link);
   link.click();
   link.remove();
