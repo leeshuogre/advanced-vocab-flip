@@ -487,12 +487,12 @@ function renderCampaignSummary() {
 
 function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
-  const cardHeight = 260;
-  const cardGap = 16;
-  const headerHeight = 280;
+  const cardHeight = 468;
+  const cardGap = 20;
+  const headerHeight = 270;
   const sectionHeight = cardHeight + cardGap;
-  canvas.width = 1400;
-  canvas.height = headerHeight + roundRecords.length * sectionHeight + 88;
+  canvas.width = 1080;
+  canvas.height = 1920;
   const context = canvas.getContext("2d");
   if (!context) return;
 
@@ -520,17 +520,17 @@ function downloadCampaignSummary() {
   context.fillStyle = "#f6f3ec";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#fffefa";
-  context.fillRect(44, 44, canvas.width - 88, canvas.height - 88);
+  context.fillRect(32, 32, canvas.width - 64, canvas.height - 64);
   context.fillStyle = "#536c52";
-  context.font = '500 18px "DM Mono", monospace';
-  context.fillText("LEE SHUO · ADVANCED VOCABULARY", 92, 112);
+  context.font = '500 16px "DM Mono", monospace';
+  context.fillText("LEE SHUO · ADVANCED VOCABULARY", 76, 90);
   context.fillStyle = "#22231f";
-  context.font = '800 42px "Noto Sans TC", "DM Sans", sans-serif';
-  context.fillText("李碩高階單字｜想加強單字", 92, 180);
+  context.font = '800 36px "Noto Sans TC", "DM Sans", sans-serif';
+  context.fillText("李碩高階單字｜想加強單字", 76, 150);
   context.fillStyle = "#777970";
-  context.font = '400 18px "Noto Sans TC", sans-serif';
-  context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 94, 222);
-  context.fillText("每局只列出你選的單字、中文釋義與例句", 94, 254);
+  context.font = '400 16px "Noto Sans TC", sans-serif';
+  context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 78, 192);
+  context.fillText("每局只列出你選的單字、中文釋義與例句", 78, 226);
 
   roundRecords.forEach((record, index) => {
     const y = headerHeight + index * sectionHeight;
@@ -540,28 +540,28 @@ function downloadCampaignSummary() {
       sentence: record.memorySentence,
       translation: record.memoryTranslation,
     };
-    const contentX = 116;
-    const contentWidth = canvas.width - 232;
+    const contentX = 92;
+    const contentWidth = canvas.width - 184;
     context.fillStyle = "#faf9f5";
-    context.fillRect(84, y, canvas.width - 168, cardHeight);
+    context.fillRect(60, y, canvas.width - 120, cardHeight);
     context.fillStyle = "#3c553c";
-    context.font = '500 15px "DM Mono", "Noto Sans TC", sans-serif';
-    context.fillText(`ROUND ${String(record.round).padStart(2, "0")}`, contentX, y + 34);
+    context.font = '500 14px "DM Mono", "Noto Sans TC", sans-serif';
+    context.fillText(`ROUND ${String(record.round).padStart(2, "0")}`, contentX, y + 46);
     context.fillStyle = "#22231f";
     context.font = '700 28px "Noto Sans TC", "DM Sans", sans-serif';
-    context.fillText(selectedWord.word, contentX, y + 74);
+    context.fillText(selectedWord.word, contentX, y + 98);
     context.fillStyle = "#536c52";
-    context.font = '500 17px "Noto Sans TC", sans-serif';
-    drawWrappedText(selectedWord.meaning, contentX, y + 104, contentWidth, 21, 2);
+    context.font = '500 19px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.meaning, contentX, y + 138, contentWidth, 26, 3);
     context.fillStyle = "#777970";
     context.font = '500 13px "DM Mono", monospace';
-    context.fillText("EXAMPLE", contentX, y + 151);
+    context.fillText("EXAMPLE", contentX, y + 222);
     context.fillStyle = "#22231f";
-    context.font = '400 16px "Noto Sans TC", "DM Sans", sans-serif';
-    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 178, contentWidth, 21, 2);
+    context.font = '400 19px "Noto Sans TC", "DM Sans", sans-serif';
+    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 254, contentWidth, 26, 4);
     context.fillStyle = "#6f7069";
-    context.font = '400 15px "Noto Sans TC", sans-serif';
-    drawWrappedText(selectedWord.translation, contentX, Math.max(y + 218, exampleEnd + 8), contentWidth, 19, 2);
+    context.font = '400 17px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.translation, contentX, Math.max(y + 360, exampleEnd + 12), contentWidth, 23, 3);
   });
 
   context.fillStyle = "#536c52";
@@ -569,11 +569,11 @@ function downloadCampaignSummary() {
   context.fillText("BUILD YOUR WORD POWER, ONE PAIR AT A TIME.", 92, canvas.height - 68);
   const link = document.createElement("a");
   link.href = canvas.toDataURL("image/png");
-  link.download = "李碩高階單字-三局闖關記錄.png";
+  link.download = "李碩高階單字-三局闖關記錄-9x16.png";
   document.body.append(link);
   link.click();
   link.remove();
-  showToast("三局記錄 PNG 已下載。");
+  showToast("9:16 直式三局記錄 PNG 已下載。");
 }
 
 function updateCampaignStatus() {
