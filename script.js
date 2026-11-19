@@ -552,7 +552,7 @@ function downloadCampaignSummary() {
   context.fillRect(44, 44, canvas.width - 88, canvas.height - 88);
   context.fillStyle = "#536c52";
   context.font = '500 18px "DM Mono", monospace';
-  context.fillText("LI SHUO · ADVANCED VOCABULARY", 92, 112);
+  context.fillText("LEE SHUO · ADVANCED VOCABULARY", 92, 112);
   context.fillStyle = "#22231f";
   context.font = '800 42px "Noto Sans TC", "DM Sans", sans-serif';
   context.fillText("李碩高階單字｜五局闖關記錄", 92, 180);
