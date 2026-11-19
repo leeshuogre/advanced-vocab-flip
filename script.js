@@ -488,14 +488,12 @@ function renderCampaignSummary() {
 
 function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
-  const pairCardHeight = 164;
-  const pairGap = 12;
-  const sectionHeaderHeight = 82;
-  const sectionGap = 28;
-  const sectionHeight = sectionHeaderHeight + ROUND_SIZE * pairCardHeight + (ROUND_SIZE - 1) * pairGap + sectionGap;
-  const headerHeight = 294;
-  canvas.width = 1800;
-  canvas.height = headerHeight + roundRecords.length * sectionHeight + 108;
+  const cardHeight = 260;
+  const cardGap = 16;
+  const headerHeight = 280;
+  const sectionHeight = cardHeight + cardGap;
+  canvas.width = 1400;
+  canvas.height = headerHeight + roundRecords.length * sectionHeight + 88;
   const context = canvas.getContext("2d");
   if (!context) return;
 
@@ -520,21 +518,6 @@ function downloadCampaignSummary() {
     return y + lineCount * lineHeight;
   }
 
-  function drawWordEntry(entry, x, y, width) {
-    context.fillStyle = "#22231f";
-    context.font = '700 20px "Noto Sans TC", "DM Sans", sans-serif';
-    context.fillText(entry.word, x, y + 28);
-    context.fillStyle = "#536c52";
-    context.font = '500 16px "Noto Sans TC", sans-serif';
-    drawWrappedText(entry.meaning, x, y + 53, width, 21, 2);
-    context.fillStyle = "#777970";
-    context.font = '400 14px "Noto Sans TC", sans-serif';
-    const exampleEnd = drawWrappedText(entry.sentence, x, y + 91, width, 20, 2);
-    context.fillStyle = "#6f7069";
-    context.font = '400 14px "Noto Sans TC", sans-serif';
-    drawWrappedText(entry.translation, x, Math.max(y + 132, exampleEnd + 8), width, 19, 2);
-  }
-
   context.fillStyle = "#f6f3ec";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#fffefa";
@@ -544,44 +527,42 @@ function downloadCampaignSummary() {
   context.fillText("LEE SHUO · ADVANCED VOCABULARY", 92, 112);
   context.fillStyle = "#22231f";
   context.font = '800 42px "Noto Sans TC", "DM Sans", sans-serif';
-  context.fillText("李碩高階單字｜五局闖關記錄", 92, 180);
+  context.fillText("李碩高階單字｜想加強單字", 92, 180);
   context.fillStyle = "#777970";
   context.font = '400 18px "Noto Sans TC", sans-serif';
   context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 94, 222);
-  context.fillText("每局時間、配對次數、記憶單字與本局單字釋義和例句", 94, 254);
+  context.fillText("每局只列出你選的單字、中文釋義與例句", 94, 254);
 
   roundRecords.forEach((record, index) => {
     const y = headerHeight + index * sectionHeight;
+    const selectedWord = {
+      word: record.memoryWord,
+      meaning: record.memoryMeaning,
+      sentence: record.memorySentence,
+      translation: record.memoryTranslation,
+    };
+    const contentX = 116;
+    const contentWidth = canvas.width - 232;
     context.fillStyle = "#faf9f5";
-    context.fillRect(84, y, canvas.width - 168, sectionHeaderHeight - 8);
+    context.fillRect(84, y, canvas.width - 168, cardHeight);
     context.fillStyle = "#3c553c";
-    context.font = '700 24px "Noto Sans TC", sans-serif';
-    context.fillText(`第 ${record.round} 局`, 112, y + 48);
-    context.fillStyle = "#777970";
-    context.font = '400 16px "Noto Sans TC", sans-serif';
-    context.fillText("用時", 330, y + 29);
-    context.fillText("配對次數", 530, y + 29);
-    context.fillText("想加強的單字", 780, y + 29);
+    context.font = '500 15px "DM Mono", "Noto Sans TC", sans-serif';
+    context.fillText(`ROUND ${String(record.round).padStart(2, "0")}`, contentX, y + 34);
     context.fillStyle = "#22231f";
-    context.font = '600 20px "Noto Sans TC", "DM Mono", sans-serif';
-    context.fillText(record.time, 330, y + 58);
-    context.fillText(`${record.moves} 次`, 530, y + 58);
-    context.fillText(record.memoryWord, 780, y + 58);
-
-    for (let pairIndex = 0; pairIndex < ROUND_SIZE; pairIndex += 1) {
-      const cardY = y + sectionHeaderHeight + pairIndex * (pairCardHeight + pairGap);
-      const left = record.words[pairIndex * 2];
-      const right = record.words[pairIndex * 2 + 1];
-      context.fillStyle = "#fbfaf6";
-      context.fillRect(84, cardY, canvas.width - 168, pairCardHeight);
-      context.strokeStyle = "#e6e3db";
-      context.beginPath();
-      context.moveTo(canvas.width / 2, cardY + 18);
-      context.lineTo(canvas.width / 2, cardY + pairCardHeight - 18);
-      context.stroke();
-      drawWordEntry(left, 112, cardY + 8, 760);
-      drawWordEntry(right, 930, cardY + 8, 760);
-    }
+    context.font = '700 28px "Noto Sans TC", "DM Sans", sans-serif';
+    context.fillText(selectedWord.word, contentX, y + 74);
+    context.fillStyle = "#536c52";
+    context.font = '500 17px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.meaning, contentX, y + 104, contentWidth, 21, 2);
+    context.fillStyle = "#777970";
+    context.font = '500 13px "DM Mono", monospace';
+    context.fillText("EXAMPLE", contentX, y + 151);
+    context.fillStyle = "#22231f";
+    context.font = '400 16px "Noto Sans TC", "DM Sans", sans-serif';
+    const exampleEnd = drawWrappedText(selectedWord.sentence, contentX, y + 178, contentWidth, 21, 2);
+    context.fillStyle = "#6f7069";
+    context.font = '400 15px "Noto Sans TC", sans-serif';
+    drawWrappedText(selectedWord.translation, contentX, Math.max(y + 218, exampleEnd + 8), contentWidth, 19, 2);
   });
 
   context.fillStyle = "#536c52";
@@ -666,15 +647,18 @@ function handleCompletionAction() {
     memoryWordInput.focus();
     return;
   }
+  const memoryPair = roundPairs
+    .flatMap((pair) => [pair.a, pair.b])
+    .find(([word]) => word.toLowerCase() === memoryWord.toLowerCase());
+  const [memorySentence, memoryTranslation] = window.WORD_EXAMPLES[memoryWord] || ["例句準備中。", ""];
   roundRecords[currentRoundIndex] = {
     round: currentRoundIndex + 1,
     time: formatTime(elapsedSeconds),
     moves,
     memoryWord,
-    words: roundPairs.flatMap((pair) => [pair.a, pair.b]).map(([word, meaning]) => {
-      const [sentence, translation] = window.WORD_EXAMPLES[word] || ["例句準備中。", ""];
-      return { word, meaning, sentence, translation };
-    }),
+    memoryMeaning: memoryPair?.[1] || "",
+    memorySentence,
+    memoryTranslation,
   };
 
   if (currentRoundIndex === TOTAL_ROUNDS - 1) {
