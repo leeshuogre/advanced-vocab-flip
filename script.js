@@ -361,8 +361,6 @@ function updateBestScore() {
 function finishGame(result) {
   lastResult = result;
   window.clearInterval(timerInterval);
-  document.querySelector("#final-time").textContent = formatTime(elapsedSeconds);
-  document.querySelector("#final-moves").textContent = String(moves);
   renderReview();
   const levelNumber = Math.floor(currentRoundIndex / ROUNDS_PER_LEVEL) + 1;
   const roundInLevel = (currentRoundIndex % ROUNDS_PER_LEVEL) + 1;
