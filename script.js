@@ -163,11 +163,28 @@ const CAMPAIGN_PAIRS = [
     sourceOrder: WORD_PAIRS.length + index,
   })),
 ].sort((a, b) => a.difficulty - b.difficulty || a.sourceOrder - b.sourceOrder);
-const CAMPAIGN_ROUNDS = Array.from(
-  { length: CAMPAIGN_PAIRS.length / ROUND_SIZE },
-  (_, index) => CAMPAIGN_PAIRS.slice(index * ROUND_SIZE, (index + 1) * ROUND_SIZE),
-);
-const TOTAL_LEVELS = CAMPAIGN_ROUNDS.length / ROUNDS_PER_LEVEL;
+const PAIRS_PER_LEVEL = ROUND_SIZE * ROUNDS_PER_LEVEL;
+const TOTAL_LEVELS = CAMPAIGN_PAIRS.length / PAIRS_PER_LEVEL;
+
+function buildCampaignRounds() {
+  const rounds = [];
+  for (let levelIndex = 0; levelIndex < TOTAL_LEVELS; levelIndex += 1) {
+    const levelPairs = CAMPAIGN_PAIRS.slice(
+      levelIndex * PAIRS_PER_LEVEL,
+      (levelIndex + 1) * PAIRS_PER_LEVEL,
+    );
+    const shuffledPairs = shuffle(levelPairs);
+    const levelRounds = Array.from({ length: ROUNDS_PER_LEVEL }, (_, roundIndex) => {
+      const pairs = shuffledPairs.slice(roundIndex * ROUND_SIZE, (roundIndex + 1) * ROUND_SIZE);
+      const averageDifficulty = pairs.reduce((total, pair) => total + pair.difficulty, 0) / pairs.length;
+      return { pairs, averageDifficulty };
+    }).sort((a, b) => a.averageDifficulty - b.averageDifficulty);
+    rounds.push(...levelRounds.map((round) => round.pairs));
+  }
+  return rounds;
+}
+
+let CAMPAIGN_ROUNDS = buildCampaignRounds();
 const board = document.querySelector("#game-board");
 const matchedCount = document.querySelector("#matched-count");
 const movesCount = document.querySelector("#moves-count");
@@ -453,6 +470,7 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
   } else if (restartCampaign) {
     currentRoundIndex = 0;
     attemptNumber = 1;
+    CAMPAIGN_ROUNDS = buildCampaignRounds();
   } else if (retry) {
     attemptNumber += 1;
   }
