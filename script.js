@@ -397,7 +397,6 @@ function finishGame(result) {
     completionKicker.textContent = `ROUND ${roundNumber} COMPLETE`;
     completionTitle.textContent = "配對完成！";
     completionCopy.textContent = `這局用了 ${formatTime(elapsedSeconds)}，翻了 ${moves} 次。複習本局 16 個目標單字：`;
-    populateRoundWordOptions();
     memoryWordInput.value = "";
     document.querySelector("#memory-word-error").textContent = "";
     memoryCheckin.hidden = false;
@@ -443,16 +442,6 @@ function renderReview() {
     return section;
   });
   reviewList.replaceChildren(...groups);
-}
-
-function populateRoundWordOptions() {
-  const options = roundPairs.flatMap((pair) => [pair.a[0], pair.b[0]]);
-  const dataList = document.querySelector("#round-word-options");
-  dataList.replaceChildren(...options.map((word) => {
-    const option = document.createElement("option");
-    option.value = word;
-    return option;
-  }));
 }
 
 function validateMemoryWord() {
