@@ -543,7 +543,7 @@ function downloadCampaignSummary() {
     const exampleEnd = drawWrappedText(entry.sentence, x, y + 91, width, 20, 2);
     context.fillStyle = "#6f7069";
     context.font = '400 14px "Noto Sans TC", sans-serif';
-    drawWrappedText(entry.translation, x, Math.max(y + 132, exampleEnd + 8), width, 19, 1);
+    drawWrappedText(entry.translation, x, Math.max(y + 132, exampleEnd + 8), width, 19, 2);
   }
 
   context.fillStyle = "#f6f3ec";
