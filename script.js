@@ -450,44 +450,53 @@ function getPairCefrLevel(pair) {
   return CEFR_LEVEL_ORDER[firstLevel] >= CEFR_LEVEL_ORDER[secondLevel] ? firstLevel : secondLevel;
 }
 
-function getDifficultyBandFromCefr(level) {
-  if (CEFR_LEVEL_ORDER[level] <= CEFR_LEVEL_ORDER.A2) return 1;
-  if (CEFR_LEVEL_ORDER[level] <= CEFR_LEVEL_ORDER.B2) return 2;
-  return 3;
+function getLegacyDifficultyRank(pair, index, isNewPair) {
+  if (Number.isFinite(pair.difficulty)) return pair.difficulty;
+  if (isNewPair) return 5;
+  const existingBand = index < 40 ? 1 : index < 72 ? 2 : 3;
+  return existingBand === 1 ? 1 : existingBand === 2 ? 3 : 5;
 }
 
 const CAMPAIGN_PAIRS = [
   ...WORD_PAIRS.map((pair, index) => {
     const cefrLevel = getPairCefrLevel(pair);
+    const legacyDifficultyRank = getLegacyDifficultyRank(pair, index, false);
     return {
       ...pair,
       cefrLevel,
       difficultyBasis: cefrLevel ? "ESL-Lounge CEFR" : "existing difficulty",
-      difficultyBand: cefrLevel
-        ? getDifficultyBandFromCefr(cefrLevel)
-        : index < 40 ? 1 : index < 72 ? 2 : 3,
+      orderingLevel: cefrLevel ? CEFR_LEVEL_ORDER[cefrLevel] : legacyDifficultyRank,
+      legacyDifficultyRank,
       sourceOrder: index,
     };
   }),
   ...NEW_WORD_PAIRS.map((pair, index) => {
     const cefrLevel = getPairCefrLevel(pair);
+    const legacyDifficultyRank = getLegacyDifficultyRank(pair, index, true);
     return {
       ...pair,
       cefrLevel,
       difficultyBasis: cefrLevel ? "ESL-Lounge CEFR" : "existing difficulty",
-      difficultyBand: cefrLevel
-        ? getDifficultyBandFromCefr(cefrLevel)
-        : pair.difficulty === 1 ? 1 : pair.difficulty <= 3 ? 2 : 3,
+      orderingLevel: cefrLevel ? CEFR_LEVEL_ORDER[cefrLevel] : legacyDifficultyRank,
+      legacyDifficultyRank,
       sourceOrder: WORD_PAIRS.length + index,
     };
   }),
-].sort((a, b) => a.difficultyBand - b.difficultyBand || a.sourceOrder - b.sourceOrder);
+].sort((a, b) =>
+  a.orderingLevel - b.orderingLevel
+  || a.legacyDifficultyRank - b.legacyDifficultyRank
+  || a.sourceOrder - b.sourceOrder,
+);
 function buildCampaignRounds() {
-  const difficultyPools = Array.from({ length: TOTAL_ROUNDS }, () => []);
-  CAMPAIGN_PAIRS.forEach((pair) => {
-    difficultyPools[pair.difficultyBand - 1].push(pair);
+  let poolStart = 0;
+  const basePoolSize = Math.floor(CAMPAIGN_PAIRS.length / TOTAL_ROUNDS);
+  const extraPairs = CAMPAIGN_PAIRS.length % TOTAL_ROUNDS;
+  return Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
+    const poolSize = basePoolSize + (roundIndex < extraPairs ? 1 : 0);
+    const pool = CAMPAIGN_PAIRS.slice(poolStart, poolStart + poolSize);
+    poolStart += poolSize;
+    return shuffle(pool).slice(0, ROUND_SIZE);
   });
-  return difficultyPools.map((pool) => shuffle(pool).slice(0, ROUND_SIZE));
 }
 
 let CAMPAIGN_ROUNDS = buildCampaignRounds();
