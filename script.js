@@ -149,25 +149,24 @@ const NEW_WORD_PAIRS = [
 ];
 
 const ROUND_SIZE = 8;
-const TOTAL_ROUNDS = 5;
+const TOTAL_ROUNDS = 3;
 const MAX_MOVES = 20;
 const CAMPAIGN_PAIRS = [
   ...WORD_PAIRS.map((pair, index) => ({
     ...pair,
-    difficulty: 1 + (4 * index) / Math.max(1, WORD_PAIRS.length - 1),
+    difficultyBand: index < 40 ? 1 : index < 72 ? 2 : 3,
     sourceOrder: index,
   })),
   ...NEW_WORD_PAIRS.map((pair, index) => ({
     ...pair,
-    difficulty: pair.difficulty + (index + 1) / 1000,
+    difficultyBand: pair.difficulty === 1 ? 1 : pair.difficulty <= 3 ? 2 : 3,
     sourceOrder: WORD_PAIRS.length + index,
   })),
-].sort((a, b) => a.difficulty - b.difficulty || a.sourceOrder - b.sourceOrder);
+].sort((a, b) => a.difficultyBand - b.difficultyBand || a.sourceOrder - b.sourceOrder);
 function buildCampaignRounds() {
   const difficultyPools = Array.from({ length: TOTAL_ROUNDS }, () => []);
-  CAMPAIGN_PAIRS.forEach((pair, index) => {
-    const roundIndex = Math.min(TOTAL_ROUNDS - 1, Math.floor((index * TOTAL_ROUNDS) / CAMPAIGN_PAIRS.length));
-    difficultyPools[roundIndex].push(pair);
+  CAMPAIGN_PAIRS.forEach((pair) => {
+    difficultyPools[pair.difficultyBand - 1].push(pair);
   });
   return difficultyPools.map((pool) => shuffle(pool).slice(0, ROUND_SIZE));
 }
@@ -401,7 +400,7 @@ function finishGame(result) {
     document.querySelector("#memory-word-error").textContent = "";
     memoryCheckin.hidden = false;
     playAgainButton.disabled = true;
-    playAgainButton.textContent = roundNumber === TOTAL_ROUNDS ? "查看五局記錄" : "前往下一局";
+    playAgainButton.textContent = roundNumber === TOTAL_ROUNDS ? "查看三局記錄" : "前往下一局";
     completionOverlay.hidden = false;
     completionTitle.focus({ preventScroll: true });
   }
@@ -570,11 +569,11 @@ function downloadCampaignSummary() {
   context.fillText("BUILD YOUR WORD POWER, ONE PAIR AT A TIME.", 92, canvas.height - 68);
   const link = document.createElement("a");
   link.href = canvas.toDataURL("image/png");
-  link.download = "李碩高階單字-五局闖關記錄.png";
+  link.download = "李碩高階單字-三局闖關記錄.png";
   document.body.append(link);
   link.click();
   link.remove();
-  showToast("五局記錄 PNG 已下載。");
+  showToast("三局記錄 PNG 已下載。");
 }
 
 function updateCampaignStatus() {
