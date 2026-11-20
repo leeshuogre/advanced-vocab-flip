@@ -723,6 +723,7 @@ window.WORD_EXAMPLES = {
   "erratic": ["An erratic heartbeat alarm prompted the nurse to call the doctor.", "心跳忽快忽慢的警報促使護理師打電話通知醫師。"],
   "eschew": ["To reduce waste, the café eschews disposable cups.", "為了減少浪費，這家咖啡館避免使用一次性杯子。"],
   "espouse": ["The organization espouses a policy of open scientific data.", "這個組織主張公開科學資料。"],
+  "evade": ["The witness tried to evade the question by changing the subject.", "證人試圖轉移話題，避開這個問題。"],
   "evasive": ["During interviews, he grew evasive whenever the topic shifted to his finances.", "訪談話題一轉到他的財務，他就開始閃爍其詞。"],
   "evenhanded": ["The newspaper's evenhanded coverage presented arguments from both sides.", "這家報紙公正的報導呈現了雙方的論點。"],
   "exacting": ["The tailor's exacting measurements left no room for error.", "裁縫精確嚴謹的量測不容許任何誤差。"],
