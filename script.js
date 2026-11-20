@@ -2312,6 +2312,66 @@ const REPLACEMENT_WORD_PAIRS = [
       "樂觀的"
     ],
     "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "groundless",
+      "毫無根據的；缺乏事實支撐的"
+    ],
+    "b": [
+      "unwarranted",
+      "不合理的；沒有正當理由的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "difficulty": 2
+  },
+  {
+    "a": [
+      "stymie",
+      "阻撓；使陷入僵局"
+    ],
+    "b": [
+      "hinder",
+      "妨礙進展；使更困難"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "difficulty": 3
+  },
+  {
+    "a": [
+      "negligible",
+      "小到可以忽略的；微不足道的"
+    ],
+    "b": [
+      "insignificant",
+      "不重要的；影響微小的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "difficulty": 3
+  },
+  {
+    "a": [
+      "obliterate",
+      "徹底摧毀或抹除"
+    ],
+    "b": [
+      "annihilate",
+      "完全消滅；使不復存在"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "difficulty": 4
+  },
+  {
+    "a": [
+      "obdurate",
+      "頑固不化的；拒不改變立場"
+    ],
+    "b": [
+      "intransigent",
+      "不願妥協的；立場強硬的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "difficulty": 4
   }
 ];
 
@@ -2401,7 +2461,24 @@ const PAIR_MERGE_GROUPS = [
     "deride|ridicule"
   ]
 ];
-const REMOVED_PAIR_KEYS = new Set(PAIR_MERGE_GROUPS.flatMap((group) => group.slice(1)));
+const REMOVED_PRIMARY_PAIR_KEYS = new Set([
+  "accession|acquiescence",
+  "advantageous|expedient",
+  "condone|excuse",
+  "conspicuous|obtrusive",
+  "languish|stagnate",
+]);
+const PROMOTED_BASE_PAIR_KEYS = new Set([
+  "groundless|unwarranted",
+  "hinder|stymie",
+  "insignificant|negligible",
+  "annihilate|obliterate",
+  "intransigent|obdurate",
+]);
+const REMOVED_PAIR_KEYS = new Set([
+  ...PAIR_MERGE_GROUPS.flatMap((group) => group.slice(1)),
+  ...REMOVED_PRIMARY_PAIR_KEYS,
+]);
 
 const CEFR_WORD_LEVELS = {
   "arduous": "C2",
@@ -6498,7 +6575,7 @@ const WORD_GLOSS_OVERRIDES = {
   "limit": "設定上限；限制數量或程度",
   "intuitive": "憑直覺判斷的；直觀的"
 };
-const REMOVED_SYNONYM_OPTION_KEYS = new Set(["diffident|reserved","intuitive|spontaneous","displace|obviate"]);
+const REMOVED_SYNONYM_OPTION_KEYS = new Set(["diffident|reserved","intuitive|spontaneous","displace|obviate","accession|acquiescence","advantageous|expedient","condone|excuse","conspicuous|obtrusive","languish|stagnate","exalt|revere","deprecate|detract","uphold|vindicate","evasive|equivocal","avert|obviate"]);
 
 function getWordExample(word) {
   const directExample = window.WORD_EXAMPLES[word] || window.WORD_EXAMPLES[word.toLowerCase()];
@@ -6524,7 +6601,7 @@ function applyPairVariants(rounds) {
     const seenOptions = new Set();
     const options = allOptions.filter(({ a, b }) => {
       const key = [a[0].toLowerCase(), b[0].toLowerCase()].sort().join("|");
-      if (REMOVED_SYNONYM_OPTION_KEYS.has(key) || seenOptions.has(key)) return false;
+      if (REMOVED_SYNONYM_OPTION_KEYS.has(key) || (PROMOTED_BASE_PAIR_KEYS.has(key) && key !== pairKey) || seenOptions.has(key)) return false;
       seenOptions.add(key);
       return true;
     });
