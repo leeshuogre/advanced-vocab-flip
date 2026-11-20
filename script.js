@@ -510,6 +510,9 @@ const collectionCount = document.querySelector("#collection-count");
 const emptyCollection = document.querySelector("#empty-collection");
 const completionOverlay = document.querySelector("#completion-overlay");
 const campaignSummaryOverlay = document.querySelector("#campaign-summary-overlay");
+const roundFinishPrompt = document.querySelector("#round-finish-prompt");
+const roundFinishStats = document.querySelector("#round-finish-stats");
+const showReviewButton = document.querySelector("#show-review-button");
 const memoryWordInput = document.querySelector("#memory-word-input");
 const playAgainButton = document.querySelector("#play-again-button");
 const toast = document.querySelector("#toast");
@@ -704,6 +707,7 @@ function finishGame(result) {
   const memoryCheckin = document.querySelector("#memory-checkin");
 
   if (result === "failed") {
+    roundFinishPrompt.hidden = true;
     document.querySelector("#review-list").replaceChildren();
     memoryCheckin.hidden = true;
     playAgainButton.disabled = false;
@@ -714,23 +718,15 @@ function finishGame(result) {
     completionOverlay.hidden = false;
     playAgainButton.focus();
   } else {
-    renderReview();
     const previousBest = readBestScore();
     if (!previousBest || moves < previousBest) {
       writeBestScore(moves);
       updateBestScore();
       showToast("本局新紀錄！翻牌次數更少了。");
     }
-    completionKicker.textContent = `ROUND ${roundNumber} COMPLETE`;
-    completionTitle.textContent = "配對完成！";
-    completionCopy.textContent = `這局用了 ${formatTime(elapsedSeconds)}，翻了 ${moves} 次。複習本局 16 個目標單字：`;
-    memoryWordInput.value = "";
-    document.querySelector("#memory-word-error").textContent = "";
-    memoryCheckin.hidden = false;
-    playAgainButton.disabled = true;
-    playAgainButton.textContent = roundNumber === TOTAL_ROUNDS ? "查看三局記錄" : "前往下一局";
-    completionOverlay.hidden = false;
-    completionTitle.focus({ preventScroll: true });
+    roundFinishStats.textContent = `這局用了 ${formatTime(elapsedSeconds)}，翻了 ${moves} 次。牌面會保留，準備好後按下「看單字解說」。`;
+    roundFinishPrompt.hidden = false;
+    completionOverlay.hidden = true;
   }
 }
 
@@ -769,6 +765,27 @@ function renderReview() {
     return section;
   });
   reviewList.replaceChildren(...groups);
+}
+
+function openRoundReview() {
+  if (lastResult !== "success") return;
+  const roundNumber = currentRoundIndex + 1;
+  const completionKicker = document.querySelector("#completion-kicker");
+  const completionTitle = document.querySelector("#completion-title");
+  const completionCopy = document.querySelector("#completion-copy");
+
+  renderReview();
+  completionKicker.textContent = `ROUND ${roundNumber} REVIEW`;
+  completionTitle.textContent = "本局單字解說";
+  completionCopy.textContent = "複習本局 16 個目標單字的中文釋義與例句，再輸入一個想記得更熟的單字即可繼續。";
+  memoryWordInput.value = "";
+  document.querySelector("#memory-word-error").textContent = "";
+  document.querySelector("#memory-checkin").hidden = false;
+  playAgainButton.disabled = true;
+  playAgainButton.textContent = roundNumber === TOTAL_ROUNDS ? "查看三局記錄" : "前往下一局";
+  roundFinishPrompt.hidden = true;
+  completionOverlay.hidden = false;
+  completionTitle.focus({ preventScroll: true });
 }
 
 function validateMemoryWord() {
@@ -815,7 +832,7 @@ function renderCampaignSummary() {
 
 function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
-  const cardHeight = 535;
+  const cardHeight = 515;
   const cardGap = 10;
   const sectionHeight = cardHeight + cardGap;
   canvas.width = 1080;
@@ -853,7 +870,7 @@ function downloadCampaignSummary() {
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#fffefa";
   context.fillRect(32, 32, canvas.width - 64, canvas.height - 64);
-  const headerGap = 24;
+  const headerGap = 48;
   let headerCursorY = 64;
   function drawHeaderLine(text, font, fontSize, color) {
     context.font = font;
@@ -991,6 +1008,7 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
   playAgainButton.disabled = false;
   document.querySelector("#memory-word-error").textContent = "";
   document.querySelector("#review-list").replaceChildren();
+  roundFinishPrompt.hidden = true;
   createBoard();
   updateCampaignStatus();
   updateBestScore();
@@ -1039,6 +1057,7 @@ function handleCompletionAction() {
 }
 
 playAgainButton.addEventListener("click", handleCompletionAction);
+showReviewButton.addEventListener("click", openRoundReview);
 memoryWordInput.addEventListener("input", validateMemoryWord);
 memoryWordInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !playAgainButton.disabled) {
