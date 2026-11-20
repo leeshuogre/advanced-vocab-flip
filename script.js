@@ -203,145 +203,2045 @@ const NEW_WORD_PAIRS = [
 const ROUND_SIZE = 8;
 const TOTAL_ROUNDS = 3;
 const MAX_MOVES = 20;
+const SUBTLEX_LG10CD = {
+  "abundant": 1.4314,
+  "plentiful": 1.1761,
+  "arduous": 1.5315,
+  "strenuous": 1.4771,
+  "benevolent": 1.5185,
+  "charitable": 1.9638,
+  "candid": 1.9294,
+  "frank": 3.1153,
+  "diligent": 1.415,
+  "assiduous": 0.4771,
+  "elated": 1.1461,
+  "jubilant": 0.9542,
+  "frugal": 1,
+  "thrifty": 1.2304,
+  "hostile": 2.5051,
+  "antagonistic": 1.301,
+  "impartial": 1.6532,
+  "unbiased": 1.2041,
+  "lucid": 1.7404,
+  "intelligible": 0.6021,
+  "mitigate": 1.301,
+  "alleviate": 1.3802,
+  "novice": 1.5798,
+  "neophyte": 0.9542,
+  "obscure": 2.0934,
+  "opaque": 0.8451,
+  "prudent": 1.8692,
+  "circumspect": 1.0414,
+  "sagacious": 0.4771,
+  "shrewd": 1.7993,
+  "tranquil": 1.5911,
+  "serene": 1.716,
+  "venerate": 0.301,
+  "revere": 1.6232,
+  "wary": 1.5185,
+  "vigilant": 1.5911,
+  "ephemeral": 0.9542,
+  "transient": 1.6232,
+  "gregarious": 0.4771,
+  "sociable": 1.6628,
+  "haughty": 1.3222,
+  "arrogant": 2.3711,
+  "meticulous": 1.6902,
+  "scrupulous": 0.9542,
+  "placate": 1.2304,
+  "appease": 1.3802,
+  "reticent": 1.1139,
+  "taciturn": 0.9542,
+  "skeptical": 1.8388,
+  "dubious": 1.8325,
+  "subtle": 2.4814,
+  "nuanced": 0.9031,
+  "yielding": 1.2788,
+  "compliant": 0.9542,
+  "zealous": 1.1761,
+  "fervent": 1.2304,
+  "concise": 1.301,
+  "succinct": 1.1139,
+  "censure": 0.9031,
+  "condemn": 2,
+  "diminish": 1.6335,
+  "abate": 0.6021,
+  "eloquent": 1.6902,
+  "articulate": 1.8692,
+  "fortuitous": 1.301,
+  "serendipitous": 0.9542,
+  "garrulous": 0.6021,
+  "loquacious": 0.9542,
+  "lethargic": 1.2304,
+  "languid": 1.0414,
+  "prolific": 1.2788,
+  "fecund": 0.4771,
+  "tenacious": 1.415,
+  "steadfast": 1.3222,
+  "vindicate": 0.8451,
+  "exonerate": 1.5051,
+  "wane": 1.1461,
+  "dwindle": 0.7782,
+  "zeal": 1.4771,
+  "ardor": 0.9031,
+  "amiable": 1.3979,
+  "affable": 0.7782,
+  "bolster": 1.2041,
+  "buttress": 0.4771,
+  "capricious": 1.2788,
+  "fickle": 1.7482,
+  "dearth": 0.699,
+  "scarcity": 0.9542,
+  "emulate": 1.4472,
+  "imitate": 1.8976,
+  "exacerbate": 0.8451,
+  "aggravate": 1.5563,
+  "imminent": 2.0086,
+  "impending": 1.699,
+  "inane": 1.3424,
+  "vacuous": 1.1761,
+  "incessant": 1.3802,
+  "perpetual": 1.7993,
+  "inept": 1.5563,
+  "incompetent": 2.1931,
+  "ostensible": 0.6021,
+  "apparent": 2.3032,
+  "relinquish": 1.6335,
+  "cede": 0.8451,
+  "reproach": 1.3617,
+  "rebuke": 1.1761,
+  "resolute": 1.2041,
+  "adamant": 1.6232,
+  "sporadic": 1.1461,
+  "intermittent": 1.3979,
+  "succumb": 1.2788,
+  "yield": 2.1139,
+  "verbose": 0.7782,
+  "volatile": 1.7482,
+  "mercurial": 0.9031,
+  "clamor": 0.7782,
+  "din": 1.415,
+  "deride": 0.699,
+  "ridicule": 1.9294,
+  "efficacious": 1.0414,
+  "effective": 2.6776,
+  "impede": 1.3979,
+  "hamper": 1.7853,
+  "incisive": 0.9031,
+  "trenchant": 0.4771,
+  "laud": 0.699,
+  "extol": 0.4771,
+  "mundane": 1.5911,
+  "ordinary": 2.8506,
+  "pervasive": 1.2041,
+  "ubiquitous": 1.3424,
+  "plausible": 1.8451,
+  "credible": 1.8195,
+  "prodigal": 1.716,
+  "wasteful": 1.4624,
+  "recalcitrant": 0.8451,
+  "obstinate": 1.5911,
+  "spurious": 0.7782,
+  "counterfeit": 1.8751,
+  "stagnant": 1.1761,
+  "inert": 1.2553,
+  "fearful": 1.9731,
+  "tortuous": 0.8451,
+  "convoluted": 1.1461,
+  "undermine": 1.8451,
+  "erode": 0.7782,
+  "abominate": 0.4771,
+  "loathe": 1.9823,
+  "allay": 1.2304,
+  "assuage": 0.7782,
+  "banal": 1.0792,
+  "hackneyed": 0.7782,
+  "baneful": 0.301,
+  "noxious": 1.0792,
+  "clandestine": 1.6232,
+  "furtive": 1.1461,
+  "conspicuous": 1.8451,
+  "obtrusive": 0.4771,
+  "egregious": 1.2304,
+  "flagrant": 1.4314,
+  "eradicate": 1.3222,
+  "esoteric": 1.2041,
+  "facetious": 0.8451,
+  "flippant": 1.2304,
+  "flamboyant": 1.3424,
+  "ostentatious": 1.3617,
+  "guile": 1.4472,
+  "duplicity": 1,
+  "insipid": 1.4472,
+  "vapid": 1.0792,
+  "jovial": 1,
+  "genial": 0.9542,
+  "laconic": 0.4771,
+  "terse": 0.8451,
+  "malice": 1.6902,
+  "animosity": 1.4914,
+  "malign": 1,
+  "vilify": 0.9542,
+  "nonchalant": 1.2041,
+  "indifferent": 1.7404,
+  "opulent": 0.9031,
+  "lavish": 1.5563,
+  "quash": 1,
+  "quell": 1.2553,
+  "recant": 1.3424,
+  "retract": 1.7924,
+  "repugnant": 1.5315,
+  "repulsive": 1.9494,
+  "scourge": 1.7076,
+  "plague": 2.4065,
+  "truculent": 0.699,
+  "pugnacious": 0.4771,
+  "virulent": 1.0792,
+  "venomous": 1.3424,
+  "vitriolic": 0.699,
+  "caustic": 0.9031,
+  "intrepid": 1.4624,
+  "valiant": 1.8388,
+  "impetuous": 1.6902,
+  "rash": 2.4654,
+  "insolent": 1.7324,
+  "impudent": 1.5185,
+  "compulsory": 1.4472,
+  "mandatory": 2.0492,
+  "encompass": 1.0414,
+  "comprise": 1,
+  "susceptible": 1.7709,
+  "vulnerable": 2.5888,
+  "inherent": 1.4771,
+  "intrinsic": 1.0414,
+  "alienate": 1.4624,
+  "estrange": 0.301,
+  "embark": 1.7993,
+  "commence": 2.2175,
+  "coincide": 1.6128,
+  "synchronize": 1.5185,
+  "blunt": 2.3075,
+  "forthright": 1.4771,
+  "ambiguous": 1.5563,
+  "equivocal": 0.8451,
+  "tedious": 1.8195,
+  "monotonous": 1.5682,
+  "adverse": 1.5441,
+  "inimical": 0.4771,
+  "groundless": 1.0414,
+  "unwarranted": 1.2304,
+  "agile": 1.3222,
+  "nimble": 1.4472,
+  "advocate": 1.9868,
+  "proponent": 1.0414,
+  "manipulate": 2.1987,
+  "maneuver": 2.0569,
+  "refrain": 1.9912,
+  "suppress": 1.8388,
+  "antipathy": 0.699,
+  "aversion": 1.7404,
+  "anomaly": 1.7559,
+  "aberration": 1.4314,
+  "heyday": 0.9542,
+  "zenith": 1.1461,
+  "concur": 1.6435,
+  "assent": 0.699,
+  "invert": 0.8451,
+  "upend": 0.301,
+  "ignite": 1.6902,
+  "kindle": 0.9031,
+  "conjecture": 1.6128,
+  "surmise": 1.2304,
+  "obliterate": 1.2553,
+  "annihilate": 1.5563,
+  "prosaic": 1.1139,
+  "nondescript": 1.0414,
+  "wholesome": 1.8573,
+  "salubrious": 0.9031,
+  "heterogeneous": 0.301,
+  "miscellaneous": 1.301,
+  "disparage": 1.6532,
+  "deprecate": 0.4771,
+  "spur": 1.7634,
+  "galvanize": 0.699,
+  "forsake": 1.5315,
+  "forgo": 1.2041,
+  "undulate": 0.301,
+  "fluctuate": 1.0414,
+  "ebullient": 0.4771,
+  "exuberant": 1.0792,
+  "oscillate": 0.6021,
+  "vacillate": 0.301,
+  "fidelity": 1.9243,
+  "allegiance": 2.1106,
+  "lament": 1.3979,
+  "deplore": 1.1139,
+  "curb": 2.2405,
+  "deplorable": 1.6335,
+  "reprehensible": 1.4472,
+  "liberal": 2.1903,
+  "elusive": 1.8325,
+  "unfathomable": 1.2041,
+  "precursor": 0.9031,
+  "forerunner": 0.699,
+  "perilous": 1.5682,
+  "dangerous": 3.3779,
+  "knotty": 0.8451,
+  "complicated": 3.0237,
+  "cunning": 2.2041,
+  "crafty": 1.6721,
+  "heartless": 2.1173,
+  "callous": 1.699,
+  "timid": 1.7993,
+  "diffident": 0.699,
+  "fitting": 2.4031,
+  "mockery": 1.8865,
+  "derision": 0.9542,
+  "denounce": 1.5441,
+  "expedite": 1.5185,
+  "facilitate": 1.7076,
+  "diversity": 1.6128,
+  "stymie": 0.6021,
+  "hinder": 1.5051,
+  "indigent": 1.2304,
+  "impecunious": 0.4771,
+  "unseemly": 1.3617,
+  "indecorous": 0.6021,
+  "immaterial": 1.6021,
+  "inconsequential": 1.3617,
+  "negligible": 1.301,
+  "insignificant": 2.0719,
+  "novel": 2.4742,
+  "haphazard": 1,
+  "propitious": 0.699,
+  "auspicious": 1.3979,
+  "spartan": 1.301,
+  "austere": 1.0414,
+  "innocuous": 1.3222,
+  "harmless": 2.5694,
+  "obdurate": 0.4771,
+  "intransigent": 0.699,
+  "provincial": 1.5682,
+  "insular": 0.6021,
+  "peripatetic": 0.301,
+  "itinerant": 0.301,
+  "limpid": 0.699,
+  "remunerative": 0.301,
+  "lucrative": 1.7993,
+  "sycophantic": 0.4771,
+  "obsequious": 1,
+  "apogee": 0.699,
+  "pinnacle": 1.3222,
+  "plethora": 1.0414,
+  "surfeit": 0.699,
+  "tendentious": 0.6021,
+  "slanted": 1.2304,
+  "irrefutable": 1.1461,
+  "undeniable": 1.5798,
+  "unremitting": 0.6021,
+  "unceasing": 0.9542,
+  "unorthodox": 1.8451,
+  "unconventional": 1.6335,
+  "composed": 1.959,
+  "unperturbed": 0.301,
+  "untrammeled": 0.6021,
+  "unrestrained": 0.9031,
+  "indolence": 0.301,
+  "sloth": 1.3979,
+  "abeyance": 0.4771,
+  "proclivity": 1.0414,
+  "predilection": 1.0414,
+  "vestige": 1.1461,
+  "relic": 1.7853,
+  "tenacity": 1.1761,
+  "resolve": 2.3243,
+  "stifle": 1.2041,
+  "shackle": 0.9031,
+  "supplant": 0.6021,
+  "supersede": 0.9031,
+  "ancillary": 1.0792,
+  "supplementary": 1.0414,
+  "tepid": 1.0414,
+  "unfounded": 1.4771,
+  "unjustified": 0.9031,
+  "unprofitable": 0.699,
+  "reverence": 1.7482,
+  "veneration": 0.4771,
+  "fiasco": 1.8513,
+  "debacle": 1.5441,
+  "conundrum": 1.3617,
+  "enigma": 1.6435,
+  "parallel": 2.2175,
+  "match": 3.1926,
+  "defy": 2.1553,
+  "disregard": 2.1875,
+  "concede": 1.6628,
+  "acknowledge": 2.3997,
+  "robust": 1.5563,
+  "strong": 3.4289,
+  "ingenious": 1.9956,
+  "clever": 2.9814,
+  "condone": 1.7634,
+  "excuse": 3.7813,
+  "conjure": 1.6812,
+  "imagine": 3.4358,
+  "elicit": 1.415,
+  "draw": 3.1319,
+  "skirt": 2.5866,
+  "circumvent": 1.3979,
+  "boon": 1.3979,
+  "benefit": 2.749,
+  "disdain": 1.3979,
+  "contempt": 2.281,
+  "devious": 1.8921,
+  "indirect": 1.3424,
+  "discord": 1.2553,
+  "contention": 1.6021,
+  "daunting": 1.2304,
+  "formidable": 1.9345,
+  "extraneous": 1.2041,
+  "irrelevant": 2.3502,
+  "augment": 1.1761,
+  "enhance": 1.9777,
+  "accentuate": 1.1139,
+  "highlight": 1.8633,
+  "hubris": 1.0792,
+  "arrogance": 2.1106,
+  "enigmatic": 1.0792,
+  "mysterious": 2.7875,
+  "harbinger": 1.0414,
+  "herald": 1.9031,
+  "construe": 1.0414,
+  "interpret": 2.0294,
+  "instigate": 1.0414,
+  "provoke": 2.0492,
+  "economy": 2.3385,
+  "brevity": 0.9542,
+  "commensurate": 0.9542,
+  "equivalent": 2.0899,
+  "engender": 0.8451,
+  "induce": 1.8751,
+  "belie": 0.7782,
+  "mask": 2.6821,
+  "effusive": 0.7782,
+  "emotional": 2.8854,
+  "analogous": 0.699,
+  "comparable": 1.3802,
+  "acquiescence": 0.7782,
+  "accession": 0.6021,
+  "homogeneous": 0.6021,
+  "uniform": 2.9079,
+  "glean": 0.4771,
+  "obtain": 2.1818,
+  "castigate": 0.301,
+  "chastise": 0.8451,
+  "discrepancy": 1.6232,
+  "incongruity": 0.301,
+  "cupidity": 0.301,
+  "avarice": 1.301,
+  "permeable": 0.6021,
+  "porous": 1.1461,
+  "staid": 0.4771,
+  "sober": 2.5763,
+  "obviate": 0.4771,
+  "preclude": 1.1761,
+  "sluggish": 1.5563,
+  "dilatory": 0.4771,
+  "shun": 1.3979,
+  "eschew": 0.301,
+  "contradict": 1.7709,
+  "gainsay": 0.301,
+  "baffle": 0.8451,
+  "flummox": 0.301,
+  "doctrinaire": 0.301,
+  "dogmatic": 1,
+  "fungible": 0.6021,
+  "interchangeable": 1.2041,
+  "oust": 0.6021,
+  "expel": 1.7482,
+  "edify": 0.6021,
+  "enlighten": 2.0212,
+  "attenuate": 0.6021,
+  "shrink": 2.5809,
+  "panacea": 0.6021,
+  "remedy": 2.0334,
+  "hypocrisy": 1.8195,
+  "insincerity": 0.4771,
+  "mendacious": 0.7782,
+  "disingenuous": 0.9031,
+  "plastic": 2.8338,
+  "malleable": 0.7782,
+  "stringent": 0.7782,
+  "draconian": 0.8451,
+  "vex": 0.9542,
+  "irk": 0.7782,
+  "formulaic": 0.699,
+  "canned": 2.2355,
+  "contemptuous": 1,
+  "scornful": 0.699,
+  "languish": 0.9542,
+  "stagnate": 0.699,
+  "noisome": 0.699,
+  "obnoxious": 2.1818,
+  "prophetic": 1.2788,
+  "prescient": 0.699,
+  "rapacious": 0.7782,
+  "avaricious": 0.699,
+  "promulgate": 0.6021,
+  "disseminate": 0.699,
+  "gawky": 1.1761,
+  "ungainly": 0.6021,
+  "lugubrious": 0.6021,
+  "gloomy": 2,
+  "mercenary": 1.8808,
+  "exploitative": 0.7782,
+  "petulant": 1.1761,
+  "prickly": 1.4472,
+  "anomalous": 1.1139,
+  "aberrant": 1.1461,
+  "pompous": 1.9868,
+  "bombastic": 1,
+  "avert": 1.4472,
+  "forestall": 0.9542,
+  "cursory": 1.1461,
+  "perfunctory": 0.9542,
+  "outmoded": 0.9031,
+  "obsolete": 1.9138,
+  "unyielding": 0.9542,
+  "implacable": 0.9031,
+  "acrimony": 0.8451,
+  "rancor": 0.9031,
+  "paragon": 1.1761,
+  "model": 2.9926,
+  "caricature": 1.1461,
+  "burlesque": 1.4771,
+  "thwart": 1.2304,
+  "frustrate": 1.1461,
+  "opportune": 1.1461,
+  "timely": 1.6902,
+  "expedient": 1.1461,
+  "advantageous": 1.3222,
+  "temperate": 1.1139,
+  "restrained": 1.716,
+  "marginal": 1.4624,
+  "peripheral": 1.6435,
+  "exhaustive": 1.3979,
+  "comprehensive": 1.7404,
+  "brazen": 1.7076,
+  "audacious": 1.3979,
+  "impenetrable": 1.6628,
+  "inscrutable": 1.3802,
+  "lull": 1.6721,
+  "respite": 1.3617,
+  "meager": 1.4771,
+  "paltry": 1.3617,
+  "eclectic": 1.2553,
+  "catholic": 2.5276,
+  "predicament": 1.9823,
+  "quandary": 1.2553,
+  "solitude": 1.9638,
+  "seclusion": 1.4771,
+  "discerning": 1.4472,
+  "insightful": 1.6721,
+  "offset": 1.4472,
+  "compensate": 2.0531,
+  "allure": 1.4472,
+  "charm": 2.7767,
+  "leeway": 1.4314,
+  "latitude": 1.8325,
+  "antiquated": 1.4314,
+  "outdated": 1.6021,
+  "calculated": 2.0453,
+  "deliberate": 2.1106,
+  "condescending": 1.7709,
+  "patronizing": 1.7404,
+  "spontaneous": 2.2148,
+  "impromptu": 1.5911,
+  "rudimentary": 1.5441,
+  "sketchy": 1.7559,
+  "beholden": 1.4771,
+  "indebted": 1.7482,
+  "check": 3.7238,
+  "brake": 2.2945,
+  "absurd": 2.5999,
+  "preposterous": 2.1584,
+  "sordid": 2.0531,
+  "sleazy": 1.9956,
+  "chic": 1.9638,
+  "elegant": 2.382,
+  "cerebral": 1.9494,
+  "intellectual": 2.2765,
+  "relentless": 1.8751,
+  "persistent": 2.1004,
+  "futile": 1.8573,
+  "pointless": 2.238,
+  "commend": 1.9445,
+  "endorse": 1.8513,
+  "brook": 1.8513,
+  "tolerate": 2.4955
+};
+
+const SOURCE_WORD_PAIRS = [
+  {
+    "a": [
+      "parallel",
+      "與…同時發生；相似；比得上"
+    ],
+    "b": [
+      "match",
+      "相配；相當；符合"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "defy",
+      "反抗， 違抗"
+    ],
+    "b": [
+      "disregard",
+      "反抗， 違抗"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "concede",
+      "（不情願地）承認"
+    ],
+    "b": [
+      "acknowledge",
+      "（不情願地）承認"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "robust",
+      "強健的；有力的"
+    ],
+    "b": [
+      "strong",
+      "強壯的；堅強的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "ingenious",
+      "機敏的，巧妙的"
+    ],
+    "b": [
+      "clever",
+      "機敏的，巧妙的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "condone",
+      "縱容，寬恕"
+    ],
+    "b": [
+      "excuse",
+      "縱容，寬恕"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "conjure",
+      "使人聯想到，想像出"
+    ],
+    "b": [
+      "imagine",
+      "使人聯想到，想像出"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "elicit",
+      "引出（資訊或反應）"
+    ],
+    "b": [
+      "draw",
+      "引出（資訊或反應）"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "skirt",
+      "避開（某話題或問題）"
+    ],
+    "b": [
+      "circumvent",
+      "（巧妙或非法地）逃避，規避"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "boon",
+      "提高生活素質的東西，有用之物"
+    ],
+    "b": [
+      "benefit",
+      "提高生活素質的東西，有用之物"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "disdain",
+      "蔑視，鄙視"
+    ],
+    "b": [
+      "contempt",
+      "蔑視，鄙視"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "devious",
+      "迂迴的；不光明磊落的"
+    ],
+    "b": [
+      "indirect",
+      "間接的；迂迴的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "discord",
+      "看法不一致，不和諧"
+    ],
+    "b": [
+      "contention",
+      "看法不一致，不和諧"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "daunting",
+      "令人望而生畏的"
+    ],
+    "b": [
+      "formidable",
+      "令人生畏的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "extraneous",
+      "非必要的，無關的"
+    ],
+    "b": [
+      "irrelevant",
+      "非必要的 ， 無關的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "augment",
+      "增大，加強"
+    ],
+    "b": [
+      "enhance",
+      "增大，加強"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "accentuate",
+      "強調，使明顯"
+    ],
+    "b": [
+      "highlight",
+      "強調，使明顯"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "hubris",
+      "驕傲自大"
+    ],
+    "b": [
+      "arrogance",
+      "驕傲自大"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "enigmatic",
+      "神秘的，費解的"
+    ],
+    "b": [
+      "mysterious",
+      "神秘的，費解的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "harbinger",
+      "先兆，預兆"
+    ],
+    "b": [
+      "herald",
+      "先兆，預兆"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "construe",
+      "理解，詮釋"
+    ],
+    "b": [
+      "interpret",
+      "理解，詮釋"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "instigate",
+      "促使發生，挑起"
+    ],
+    "b": [
+      "provoke",
+      "促使發生，挑起"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "economy",
+      "簡潔；節省用詞"
+    ],
+    "b": [
+      "brevity",
+      "簡潔；簡短"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "commensurate",
+      "相當的，相稱的"
+    ],
+    "b": [
+      "equivalent",
+      "相當的，相稱的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "engender",
+      "導致，產生"
+    ],
+    "b": [
+      "induce",
+      "誘使，導致"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "belie",
+      "掩飾；掩蓋"
+    ],
+    "b": [
+      "mask",
+      "掩飾；遮掩"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "effusive",
+      "情感豐富的，熱情洋溢的"
+    ],
+    "b": [
+      "emotional",
+      "情感豐富的，熱情洋溢的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "analogous",
+      "可比擬的，類似的"
+    ],
+    "b": [
+      "comparable",
+      "可比擬的，類似的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "acquiescence",
+      "默許；同意"
+    ],
+    "b": [
+      "accession",
+      "同意；贊成"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "homogeneous",
+      "同類的；均質的"
+    ],
+    "b": [
+      "uniform",
+      "一致的；統一的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "glean",
+      "逐步收集；蒐集資訊"
+    ],
+    "b": [
+      "obtain",
+      "取得；獲得"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "castigate",
+      "嚴厲指責"
+    ],
+    "b": [
+      "chastise",
+      "嚴厲批評，譴責"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "discrepancy",
+      "差異，不一致"
+    ],
+    "b": [
+      "incongruity",
+      "差異，不一致"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "cupidity",
+      "（對金錢或財產的）貪心，貪婪"
+    ],
+    "b": [
+      "avarice",
+      "（對金錢或財產的）貪心，貪婪"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "permeable",
+      "可滲透的，可滲入的"
+    ],
+    "b": [
+      "porous",
+      "多孔的，能滲透的 ，多漏洞的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "staid",
+      "沉穩嚴肅的；一本正經的"
+    ],
+    "b": [
+      "sober",
+      "嚴肅的；冷靜的"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "obviate",
+      "排除，使無必要"
+    ],
+    "b": [
+      "preclude",
+      "杜絕，防止"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "sluggish",
+      "行動緩慢的，遲緩的"
+    ],
+    "b": [
+      "dilatory",
+      "拖延的，緩慢的"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "shun",
+      "迴避，避開"
+    ],
+    "b": [
+      "eschew",
+      "迴避"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "contradict",
+      "反駁"
+    ],
+    "b": [
+      "gainsay",
+      "否認，反對"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "baffle",
+      "使困惑"
+    ],
+    "b": [
+      "flummox",
+      "使困惑，使不知所措"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "doctrinaire",
+      "教條主義的，脫離實際的"
+    ],
+    "b": [
+      "dogmatic",
+      "武斷的，自以為是的，教條的"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "fungible",
+      "易於交換（或交易）的"
+    ],
+    "b": [
+      "interchangeable",
+      "易於交換（或交易）的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "oust",
+      "驅逐，趕走"
+    ],
+    "b": [
+      "expel",
+      "驅逐，趕走"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "edify",
+      "教化，啟迪"
+    ],
+    "b": [
+      "enlighten",
+      "教化，啟迪"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "attenuate",
+      "使減弱；使降低"
+    ],
+    "b": [
+      "shrink",
+      "（使）縮小；減少"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "panacea",
+      "萬能之計，靈丹妙藥"
+    ],
+    "b": [
+      "remedy",
+      "萬能之計，靈丹妙藥"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "hypocrisy",
+      "虛偽，偽善"
+    ],
+    "b": [
+      "insincerity",
+      "虛偽，偽善"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "mendacious",
+      "說謊的；不誠實的"
+    ],
+    "b": [
+      "disingenuous",
+      "不坦率的；不誠實的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "plastic",
+      "可塑的，有適應性的"
+    ],
+    "b": [
+      "malleable",
+      "可塑的，易適應的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "stringent",
+      "嚴格的，苛刻的"
+    ],
+    "b": [
+      "draconian",
+      "苛刻的，嚴厲的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "vex",
+      "使煩惱，使惱火"
+    ],
+    "b": [
+      "irk",
+      "使厭煩，使惱火"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "formulaic",
+      "套用公式的，老套的"
+    ],
+    "b": [
+      "canned",
+      "了無新意的，千篇一律的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "contemptuous",
+      "輕蔑的"
+    ],
+    "b": [
+      "scornful",
+      "輕視的，鄙視的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "languish",
+      "失去活力，被忽視"
+    ],
+    "b": [
+      "stagnate",
+      "停滯，不發展"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "noisome",
+      "令人厭惡的；有臭味的"
+    ],
+    "b": [
+      "obnoxious",
+      "令人討厭的；可憎的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "prophetic",
+      "預言的；預示的"
+    ],
+    "b": [
+      "prescient",
+      "有先見之明的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "rapacious",
+      "貪婪的；掠奪成性的"
+    ],
+    "b": [
+      "avaricious",
+      "貪婪的；貪財的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "promulgate",
+      "傳播，宣揚（思想或信仰）"
+    ],
+    "b": [
+      "disseminate",
+      "散佈，宣傳"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "gawky",
+      "笨拙的"
+    ],
+    "b": [
+      "ungainly",
+      "笨手笨腳的，舉止不優雅的"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "lugubrious",
+      "憂鬱的，悲傷的"
+    ],
+    "b": [
+      "gloomy",
+      "憂鬱 的 ，愁悶 的，悲觀的"
+    ],
+    "difficulty": 5,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "mercenary",
+      "唯利是圖的"
+    ],
+    "b": [
+      "exploitative",
+      "剝削的；利用他人的"
+    ],
+    "difficulty": 4,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "petulant",
+      "孩子氣的，任性的，脾氣暴躁的"
+    ],
+    "b": [
+      "prickly",
+      "易動怒的，易生氣的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "anomalous",
+      "反常的"
+    ],
+    "b": [
+      "aberrant",
+      "違反常規的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "pompous",
+      "自大的；浮誇的"
+    ],
+    "b": [
+      "bombastic",
+      "誇大的；言辭浮華的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "avert",
+      "防止，避免"
+    ],
+    "b": [
+      "forestall",
+      "預先阻止，先發制人"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "cursory",
+      "倉促草率的；粗略的"
+    ],
+    "b": [
+      "perfunctory",
+      "敷衍的；草率的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "outmoded",
+      "過時的；不再實用的"
+    ],
+    "b": [
+      "obsolete",
+      "過時的；淘汰的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "unyielding",
+      "不屈服的，堅定的"
+    ],
+    "b": [
+      "implacable",
+      "無法平息的，堅定的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "acrimony",
+      "激烈，尖刻，火藥味"
+    ],
+    "b": [
+      "rancor",
+      "積怨，怨恨"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "paragon",
+      "典範；完美模範"
+    ],
+    "b": [
+      "model",
+      "典範；模範"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "caricature",
+      "諷刺畫；誇張的諷刺描述"
+    ],
+    "b": [
+      "burlesque",
+      "滑稽模仿；諷刺作品"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "thwart",
+      "反對，阻撓"
+    ],
+    "b": [
+      "frustrate",
+      "反對，阻撓"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "opportune",
+      "（時間）合適的，恰當的"
+    ],
+    "b": [
+      "timely",
+      "（時間）合適的，恰當的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "expedient",
+      "權宜且適宜的；方便的"
+    ],
+    "b": [
+      "advantageous",
+      "有利的；有益的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "temperate",
+      "（行為）溫和的，有節制的"
+    ],
+    "b": [
+      "restrained",
+      "（行為）溫和的，有節制的"
+    ],
+    "difficulty": 3,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "marginal",
+      "邊緣的，不重要的"
+    ],
+    "b": [
+      "peripheral",
+      "邊緣的，無關緊要的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "exhaustive",
+      "詳盡的，全面的"
+    ],
+    "b": [
+      "comprehensive",
+      "全面的，詳盡的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "brazen",
+      "毫不隱瞞的，明目張膽的"
+    ],
+    "b": [
+      "audacious",
+      "大膽的，敢於冒險的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "impenetrable",
+      "費解的，無法理解的"
+    ],
+    "b": [
+      "inscrutable",
+      "高深莫測的，難以捉摸的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "lull",
+      "平靜時期，間歇"
+    ],
+    "b": [
+      "respite",
+      "暫緩，喘息"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "meager",
+      "很少的，不足的"
+    ],
+    "b": [
+      "paltry",
+      "少量的， 微不足道的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "eclectic",
+      "博採眾長的，多元的"
+    ],
+    "b": [
+      "catholic",
+      "廣泛的，包羅萬象的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "predicament",
+      "窘境，困境"
+    ],
+    "b": [
+      "quandary",
+      "困境，猶豫不決"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "solitude",
+      "獨處，獨居"
+    ],
+    "b": [
+      "seclusion",
+      "獨處，獨居"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "discerning",
+      "有眼光的，好眼力的"
+    ],
+    "b": [
+      "insightful",
+      "有眼光的，好眼力的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "offset",
+      "抵消，彌補"
+    ],
+    "b": [
+      "compensate",
+      "抵消，彌補"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "allure",
+      "魅力，吸引力"
+    ],
+    "b": [
+      "charm",
+      "魅力，吸引力"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "leeway",
+      "自由空間，餘地"
+    ],
+    "b": [
+      "latitude",
+      "自由空間，餘地"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "antiquated",
+      "陳舊的，過時的"
+    ],
+    "b": [
+      "outdated",
+      "陳舊的，過時的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "calculated",
+      "算計好的，蓄意的"
+    ],
+    "b": [
+      "deliberate",
+      "（常指壞事）蓄意的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "condescending",
+      "居高臨下的，睥睨的"
+    ],
+    "b": [
+      "patronizing",
+      "自以為高人一等的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "spontaneous",
+      "非籌劃安排的，即興的 ，為人率直的"
+    ],
+    "b": [
+      "impromptu",
+      "無準備的，即興的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "rudimentary",
+      "基本的，粗略的"
+    ],
+    "b": [
+      "sketchy",
+      "粗略的 ，不完全的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "beholden",
+      "欠人情的，受惠的，感激的"
+    ],
+    "b": [
+      "indebted",
+      "感激的"
+    ],
+    "difficulty": 2,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "check",
+      "制止，抑制"
+    ],
+    "b": [
+      "brake",
+      "制止，抑制"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "absurd",
+      "荒 唐 的， 愚蠢可笑 的"
+    ],
+    "b": [
+      "preposterous",
+      "荒 唐 的， 愚蠢可笑 的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "sordid",
+      "不道德的，卑鄙的"
+    ],
+    "b": [
+      "sleazy",
+      "不道德的，卑鄙的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "chic",
+      "時髦的，高雅的"
+    ],
+    "b": [
+      "elegant",
+      "時髦的，高雅的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "cerebral",
+      "理智的，理性的"
+    ],
+    "b": [
+      "intellectual",
+      "理智的，理性的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "relentless",
+      "持續強烈的"
+    ],
+    "b": [
+      "persistent",
+      "持續強烈的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "futile",
+      "無作用的"
+    ],
+    "b": [
+      "pointless",
+      "無作用的"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "commend",
+      "推薦，讚揚"
+    ],
+    "b": [
+      "endorse",
+      "推薦，讚揚"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "brook",
+      "容忍，接納（主要用於否定句）"
+    ],
+    "b": [
+      "tolerate",
+      "容忍，接納（主要用於否定句）"
+    ],
+    "difficulty": 1,
+    "fallbackBasis": "SUBTLEX-US frequency"
+  }
+];
+
 const CEFR_WORD_LEVELS = {
-  "abate": "C2",
-  "aberration": "C2",
-  "abeyance": "C2",
-  "adamant": "C2",
-  "adverse": "C1",
-  "advocate": "C1",
-  "affable": "C2",
-  "allegiance": "C2",
-  "alleviate": "C2",
-  "animosity": "C2",
-  "anomaly": "C2",
-  "antipathy": "C2",
-  "apparent": "B2",
-  "appease": "C2",
   "arduous": "C2",
-  "articulate": "C1",
-  "assiduous": "C2",
-  "assuage": "C2",
-  "auspicious": "C2",
-  "austere": "C2",
-  "aversion": "C2",
-  "banal": "C2",
   "benevolent": "C2",
-  "buttress": "C2",
-  "callous": "C2",
-  "capricious": "C2",
-  "caustic": "C2",
-  "censure": "C2",
-  "circumspect": "C2",
-  "clandestine": "C2",
-  "coincide": "C1",
-  "commence": "C1",
-  "complicated": "B2",
-  "comprise": "C1",
-  "compulsory": "B2",
-  "condemn": "C1",
-  "conjecture": "C2",
-  "conundrum": "C2",
-  "convoluted": "C2",
-  "credible": "C1",
-  "cunning": "C2",
-  "dangerous": "A1",
-  "dearth": "C2",
-  "debacle": "C2",
-  "denounce": "C1",
-  "deplorable": "C2",
-  "deplore": "C2",
-  "deride": "C2",
-  "diffident": "C2",
-  "diminish": "C1",
-  "disparage": "C2",
-  "diversity": "B2",
-  "dubious": "C2",
-  "duplicity": "C2",
-  "dwindle": "C2",
-  "ebullient": "C2",
-  "effective": "B1",
-  "efficacious": "C2",
-  "egregious": "C2",
+  "assiduous": "C2",
   "elated": "C2",
-  "eloquent": "C2",
-  "elusive": "C2",
-  "embark": "C1",
-  "emulate": "C2",
-  "encompass": "C1",
-  "enigma": "C2",
-  "ephemeral": "C2",
-  "equivocal": "C2",
-  "eradicate": "C2",
-  "esoteric": "C2",
-  "exacerbate": "C2",
-  "excoriate": "C2",
-  "exonerate": "C2",
-  "expedite": "C2",
-  "extol": "C2",
-  "exuberant": "C2",
-  "facetious": "C2",
-  "facilitate": "C1",
-  "fervent": "C2",
-  "fiasco": "C2",
-  "fickle": "C2",
-  "fidelity": "C2",
-  "flagrant": "C2",
-  "forerunner": "C2",
-  "forgo": "C2",
-  "forsake": "C2",
-  "fortuitous": "C2",
   "frugal": "C2",
-  "furtive": "C2",
-  "garrulous": "C2",
-  "genial": "C2",
-  "gregarious": "C2",
-  "guile": "C2",
-  "hackneyed": "C2",
-  "hamper": "C2",
-  "haphazard": "C2",
-  "haughty": "C2",
   "hostile": "C1",
-  "imminent": "C1",
   "impartial": "C2",
-  "impede": "C2",
-  "impetuous": "C2",
+  "alleviate": "C2",
+  "circumspect": "C2",
+  "ephemeral": "C2",
+  "gregarious": "C2",
+  "haughty": "C2",
+  "appease": "C2",
+  "dubious": "C2",
+  "fervent": "C2",
+  "censure": "C2",
+  "condemn": "C1",
+  "diminish": "C1",
+  "abate": "C2",
+  "eloquent": "C2",
+  "articulate": "C1",
+  "fortuitous": "C2",
+  "garrulous": "C2",
+  "languid": "C2",
+  "exonerate": "C2",
+  "dwindle": "C2",
+  "affable": "C2",
+  "buttress": "C2",
+  "capricious": "C2",
+  "fickle": "C2",
+  "dearth": "C2",
+  "emulate": "C2",
+  "exacerbate": "C2",
+  "imminent": "C1",
   "inane": "C2",
   "incessant": "C2",
-  "incisive": "C2",
-  "indifferent": "C2",
   "inept": "C2",
-  "inherent": "C1",
-  "inimical": "C2",
-  "innocuous": "C2",
-  "insipid": "C2",
-  "insolent": "C2",
-  "intransigent": "C2",
-  "intrepid": "C2",
-  "intrinsic": "C2",
-  "itinerant": "C2",
-  "kindle": "C2",
-  "laconic": "C2",
-  "lambaste": "C2",
-  "lament": "C2",
-  "languid": "C2",
+  "apparent": "B2",
+  "adamant": "C2",
+  "deride": "C2",
+  "efficacious": "C2",
+  "effective": "B1",
+  "impede": "C2",
+  "hamper": "C2",
+  "incisive": "C2",
   "laud": "C2",
-  "lethargic": "C2",
+  "extol": "C2",
+  "ordinary": "A2",
+  "plausible": "C1",
+  "credible": "C1",
+  "convoluted": "C2",
+  "assuage": "C2",
+  "banal": "C2",
+  "hackneyed": "C2",
+  "clandestine": "C2",
+  "furtive": "C2",
+  "egregious": "C2",
+  "flagrant": "C2",
+  "eradicate": "C2",
+  "esoteric": "C2",
+  "facetious": "C2",
+  "guile": "C2",
+  "duplicity": "C2",
+  "insipid": "C2",
+  "genial": "C2",
+  "laconic": "C2",
+  "animosity": "C2",
+  "indifferent": "C2",
+  "caustic": "C2",
+  "intrepid": "C2",
+  "impetuous": "C2",
+  "insolent": "C2",
+  "compulsory": "B2",
+  "mandatory": "C1",
+  "encompass": "C1",
+  "comprise": "C1",
+  "inherent": "C1",
+  "intrinsic": "C2",
+  "embark": "C1",
+  "commence": "C1",
+  "coincide": "C1",
+  "equivocal": "C2",
+  "adverse": "C1",
+  "inimical": "C2",
+  "advocate": "C1",
+  "manipulate": "C1",
+  "excoriate": "C2",
+  "antipathy": "C2",
+  "aversion": "C2",
+  "anomaly": "C2",
+  "aberration": "C2",
+  "kindle": "C2",
+  "conjecture": "C2",
+  "disparage": "C2",
+  "forsake": "C2",
+  "forgo": "C2",
+  "ebullient": "C2",
+  "exuberant": "C2",
+  "fidelity": "C2",
+  "allegiance": "C2",
+  "lament": "C2",
+  "deplore": "C2",
+  "deplorable": "C2",
   "liberal": "C1",
+  "elusive": "C2",
+  "forerunner": "C2",
+  "dangerous": "A1",
+  "complicated": "B2",
+  "cunning": "C2",
+  "callous": "C2",
+  "diffident": "C2",
+  "lambaste": "C2",
+  "denounce": "C1",
+  "expedite": "C2",
+  "facilitate": "C1",
+  "diversity": "B2",
+  "novel": "A2",
+  "haphazard": "C2",
+  "auspicious": "C2",
+  "austere": "C2",
+  "innocuous": "C2",
+  "intransigent": "C2",
+  "provincial": "C1",
+  "itinerant": "C2",
+  "abeyance": "C2",
+  "fiasco": "C2",
+  "debacle": "C2",
+  "conundrum": "C2",
+  "enigma": "C2",
+  "parallel": "B2",
+  "match": "A1",
+  "defy": "C1",
+  "disregard": "C1",
+  "concede": "C1",
+  "acknowledge": "B2",
+  "robust": "C1",
+  "strong": "A1",
+  "ingenious": "C2",
+  "clever": "A2",
+  "condone": "C2",
+  "excuse": "B2",
+  "conjure": "C2",
+  "imagine": "A2",
+  "elicit": "C2",
+  "draw": "A1",
+  "skirt": "A1",
+  "circumvent": "C2",
+  "boon": "C2",
+  "benefit": "B1",
+  "disdain": "C2",
+  "contempt": "C1",
+  "devious": "C2",
+  "indirect": "B1",
+  "discord": "C2",
+  "contention": "C1",
+  "daunting": "C2",
+  "formidable": "C2",
+  "extraneous": "C2",
+  "irrelevant": "C1",
+  "augment": "C2",
+  "enhance": "B2",
+  "accentuate": "C2",
+  "highlight": "B1",
+  "hubris": "C2",
+  "arrogance": "C2",
+  "enigmatic": "C2",
+  "mysterious": "B2",
+  "harbinger": "C2",
+  "herald": "C2",
+  "construe": "C2",
+  "interpret": "B2",
+  "instigate": "C2",
+  "provoke": "C1",
+  "economy": "B1",
+  "brevity": "C2",
+  "commensurate": "C2",
+  "equivalent": "B2",
+  "engender": "C2",
+  "induce": "C1",
+  "belie": "C2",
+  "mask": "A2",
+  "effusive": "C2",
+  "emotional": "B2",
+  "analogous": "C2",
+  "comparable": "C1",
+  "acquiescence": "C2",
+  "accession": "C2",
+  "homogeneous": "C2",
+  "uniform": "A2",
+  "glean": "C2",
+  "obtain": "B2",
+  "castigate": "C2",
+  "chastise": "C2",
+  "discrepancy": "C2",
+  "incongruity": "C2",
+  "cupidity": "C2",
+  "avarice": "C2",
+  "dilatory": "C2",
+  "eschew": "C2",
+  "dogmatic": "C2",
+  "remedy": "C1",
+  "hypocrisy": "C2",
+  "disingenuous": "C2",
+  "plastic": "A2",
+  "irk": "C2",
+  "languish": "C2",
+  "disseminate": "C2",
+  "bombastic": "C2",
+  "forestall": "C2",
+  "cursory": "C2",
+  "implacable": "C2",
+  "acrimony": "C2",
+  "model": "B1",
+  "expedient": "C2",
+  "marginal": "C1",
+  "comprehensive": "B2",
+  "inscrutable": "C2",
+  "eclectic": "C2",
+  "compensate": "C1",
+  "charm": "C1",
+  "latitude": "C2",
+  "antiquated": "C2",
+  "deliberate": "B2",
+  "impromptu": "C2",
+  "check": "A1",
+  "absurd": "C1",
+  "elegant": "B2",
+  "intellectual": "B2",
+  "persistent": "C1",
+  "futile": "C2",
+  "endorse": "C1",
+  "lethargic": "C2",
   "loathe": "C2",
   "loquacious": "C2",
   "lucid": "C2",
   "malice": "C2",
   "malign": "C2",
-  "mandatory": "C1",
-  "manipulate": "C1",
   "meticulous": "C2",
   "mitigate": "C2",
   "mundane": "C2",
   "munificent": "C2",
   "neophyte": "C2",
   "nonchalant": "C2",
-  "novel": "A2",
   "novice": "C2",
   "noxious": "C2",
   "obdurate": "C2",
@@ -351,7 +2251,6 @@ const CEFR_WORD_LEVELS = {
   "obstinate": "C2",
   "opaque": "C2",
   "opulent": "C2",
-  "ordinary": "A2",
   "ostensible": "C2",
   "ostentatious": "C2",
   "perilous": "C2",
@@ -359,7 +2258,6 @@ const CEFR_WORD_LEVELS = {
   "pervasive": "C2",
   "pinnacle": "C2",
   "placate": "C2",
-  "plausible": "C1",
   "plethora": "C2",
   "precursor": "C2",
   "predilection": "C2",
@@ -369,7 +2267,6 @@ const CEFR_WORD_LEVELS = {
   "propitious": "C2",
   "proponent": "C2",
   "prosaic": "C2",
-  "provincial": "C1",
   "prudent": "C2",
   "pugnacious": "C2",
   "puzzle": "B2",
@@ -443,7 +2340,7 @@ const CEFR_WORD_LEVELS = {
   "yield": "C1",
   "zeal": "C2",
   "zealous": "C2",
-  "zenith": "C2",
+  "zenith": "C2"
 };
 const CEFR_LEVEL_ORDER = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
 
@@ -454,6 +2351,13 @@ function getPairCefrLevel(pair) {
   return CEFR_LEVEL_ORDER[firstLevel] >= CEFR_LEVEL_ORDER[secondLevel] ? firstLevel : secondLevel;
 }
 
+function getPairFrequencyScore(pair) {
+  const firstScore = SUBTLEX_LG10CD[pair.a[0].toLowerCase()];
+  const secondScore = SUBTLEX_LG10CD[pair.b[0].toLowerCase()];
+  if (!Number.isFinite(firstScore) || !Number.isFinite(secondScore)) return -1;
+  return Math.min(firstScore, secondScore);
+}
+
 function getLegacyDifficultyRank(pair, index, isNewPair) {
   if (Number.isFinite(pair.difficulty)) return pair.difficulty;
   if (isNewPair) return 5;
@@ -461,34 +2365,33 @@ function getLegacyDifficultyRank(pair, index, isNewPair) {
   return existingBand === 1 ? 1 : existingBand === 2 ? 3 : 5;
 }
 
+function decorateCampaignPair(pair, sourceOrder, isNewPair) {
+  const cefrLevel = getPairCefrLevel(pair);
+  const legacyDifficultyRank = getLegacyDifficultyRank(pair, sourceOrder, isNewPair);
+  return {
+    ...pair,
+    cefrLevel,
+    difficultyBasis: cefrLevel ? "ESL-Lounge CEFR" : pair.fallbackBasis || "existing difficulty",
+    orderingLevel: cefrLevel ? CEFR_LEVEL_ORDER[cefrLevel] : legacyDifficultyRank,
+    legacyDifficultyRank,
+    frequencyScore: getPairFrequencyScore(pair),
+    sourceOrder,
+  };
+}
+
 const CAMPAIGN_PAIRS = [
-  ...WORD_PAIRS.map((pair, index) => {
-    const cefrLevel = getPairCefrLevel(pair);
-    const legacyDifficultyRank = getLegacyDifficultyRank(pair, index, false);
-    return {
-      ...pair,
-      cefrLevel,
-      difficultyBasis: cefrLevel ? "ESL-Lounge CEFR" : "existing difficulty",
-      orderingLevel: cefrLevel ? CEFR_LEVEL_ORDER[cefrLevel] : legacyDifficultyRank,
-      legacyDifficultyRank,
-      sourceOrder: index,
-    };
-  }),
-  ...NEW_WORD_PAIRS.map((pair, index) => {
-    const cefrLevel = getPairCefrLevel(pair);
-    const legacyDifficultyRank = getLegacyDifficultyRank(pair, index, true);
-    return {
-      ...pair,
-      cefrLevel,
-      difficultyBasis: cefrLevel ? "ESL-Lounge CEFR" : "existing difficulty",
-      orderingLevel: cefrLevel ? CEFR_LEVEL_ORDER[cefrLevel] : legacyDifficultyRank,
-      legacyDifficultyRank,
-      sourceOrder: WORD_PAIRS.length + index,
-    };
-  }),
+  ...WORD_PAIRS.map((pair, index) => decorateCampaignPair(pair, index, false)),
+  ...NEW_WORD_PAIRS.map((pair, index) => decorateCampaignPair(pair, WORD_PAIRS.length + index, true)),
+  ...SOURCE_WORD_PAIRS.map((pair, index) => decorateCampaignPair(
+    pair,
+    WORD_PAIRS.length + NEW_WORD_PAIRS.length + index,
+    true,
+  )),
 ].sort((a, b) =>
   a.orderingLevel - b.orderingLevel
-  || a.legacyDifficultyRank - b.legacyDifficultyRank
+  || Number(Boolean(b.cefrLevel)) - Number(Boolean(a.cefrLevel))
+  || (a.cefrLevel && b.cefrLevel ? 0 : a.legacyDifficultyRank - b.legacyDifficultyRank)
+  || b.frequencyScore - a.frequencyScore
   || a.sourceOrder - b.sourceOrder,
 );
 
@@ -568,15 +2471,6 @@ const PAIR_SYNONYM_VARIANTS = {
   ],
   "convoluted|tortuous": [
     [["tortuous", "曲折的；錯綜複雜的"], ["labyrinthine", "錯綜複雜的；迷宮般的"]],
-  ],
-  "rebuke|reproach": [
-    [["rebuke", "指責；斥責"], ["berate", "嚴厲責罵"]],
-  ],
-  "dangerous|perilous": [
-    [["perilous", "危險的；險峻的"], ["precarious", "岌岌可危的；不穩定的"]],
-  ],
-  "convoluted|tortuous": [
-    [["tortuous", "曲折的；錯綜複雜的"], ["labyrinthine", "錯綜複雜的；迷宮般的"]],
     [["intricate", "錯綜複雜的；精細的"], ["convoluted", "複雜難懂的；盤繞的"]],
   ],
   "emulate|imitate": [
@@ -587,10 +2481,3374 @@ const PAIR_SYNONYM_VARIANTS = {
     [["riddle", "謎語；謎題"], ["enigma", "謎團；難以解釋的人或事"]],
     [["riddle", "謎語；謎題"], ["puzzle", "謎題；令人困惑的事"]],
   ],
+  "rebuke|reproach": [
+    [["rebuke", "指責；斥責"], ["berate", "嚴厲責罵"]],
+  ],
+  "dangerous|perilous": [
+    [["perilous", "危險的；險峻的"], ["precarious", "岌岌可危的；不穩定的"]],
+  ],
+};
+
+// Synonym rotations extracted from the provided GRE lists and reviewed for part of speech.
+// Synonym rotations extracted from the provided GRE lists and reviewed for part of speech.
+const SOURCE_SYNONYM_VARIANTS = {
+  "abate|diminish": [
+    [
+      [
+        "abate",
+        "減弱；減退"
+      ],
+      [
+        "dissipate",
+        "（使）逐漸消失"
+      ]
+    ],
+    [
+      [
+        "abate",
+        "減弱；減退"
+      ],
+      [
+        "mitigate",
+        "減輕；緩和"
+      ]
+    ],
+    [
+      [
+        "downplay",
+        "對…輕描淡寫"
+      ],
+      [
+        "diminish",
+        "減少；削弱"
+      ]
+    ]
+  ],
+  "abominate|loathe": [
+    [
+      [
+        "detest",
+        "厭惡，討厭"
+      ],
+      [
+        "loathe",
+        "厭惡；憎恨"
+      ]
+    ]
+  ],
+  "abundant|plentiful": [
+    [
+      [
+        "copious",
+        "大量的"
+      ],
+      [
+        "abundant",
+        "豐富的；充足的"
+      ]
+    ]
+  ],
+  "adverse|inimical": [
+    [
+      [
+        "adverse",
+        "不利的；有害的"
+      ],
+      [
+        "unfavorable",
+        "不利的，有害的"
+      ]
+    ],
+    [
+      [
+        "inimical",
+        "不利的；有害的"
+      ],
+      [
+        "deleterious",
+        "造成危害的"
+      ]
+    ]
+  ],
+  "advocate|proponent": [
+    [
+      [
+        "espouse",
+        "支持，擁護"
+      ],
+      [
+        "advocate",
+        "擁護者；提倡者"
+      ]
+    ],
+    [
+      [
+        "champion",
+        "擁護者；捍衛者"
+      ],
+      [
+        "advocate",
+        "擁護者；提倡者"
+      ]
+    ],
+    [
+      [
+        "champion",
+        "擁護者；捍衛者"
+      ],
+      [
+        "proponent",
+        "支持者；提倡者"
+      ]
+    ]
+  ],
+  "affable|amiable": [
+    [
+      [
+        "affable",
+        "親切友善的"
+      ],
+      [
+        "cordial",
+        "友好的，誠摯的"
+      ]
+    ],
+    [
+      [
+        "affable",
+        "親切友善的"
+      ],
+      [
+        "easygoing",
+        "容易交談的，友善的"
+      ]
+    ]
+  ],
+  "aggravate|exacerbate": [
+    [
+      [
+        "compound",
+        "使加劇，使惡化"
+      ],
+      [
+        "aggravate",
+        "加重；使更嚴重"
+      ]
+    ],
+    [
+      [
+        "compound",
+        "使加劇，使惡化"
+      ],
+      [
+        "exacerbate",
+        "使惡化；加劇"
+      ]
+    ],
+    [
+      [
+        "exacerbate",
+        "使惡化；加劇"
+      ],
+      [
+        "magnify",
+        "使惡化，使加劇"
+      ]
+    ]
+  ],
+  "agile|nimble": [
+    [
+      [
+        "deft",
+        "熟練的，靈巧的"
+      ],
+      [
+        "nimble",
+        "敏捷的；靈巧的"
+      ]
+    ],
+    [
+      [
+        "nimble",
+        "敏捷的；靈巧的"
+      ],
+      [
+        "adroit",
+        "靈巧的，機敏的，幹練的"
+      ]
+    ],
+    [
+      [
+        "nimble",
+        "敏捷的；靈巧的"
+      ],
+      [
+        "dexterous",
+        "靈活的，敏捷的，機敏的"
+      ]
+    ],
+    [
+      [
+        "nimble",
+        "敏捷的；靈巧的"
+      ],
+      [
+        "skillful",
+        "靈活的，敏捷的，機敏的"
+      ]
+    ]
+  ],
+  "alienate|estrange": [
+    [
+      [
+        "estrange",
+        "使疏遠；離間"
+      ],
+      [
+        "disaffect",
+        "使疏遠，離間"
+      ]
+    ]
+  ],
+  "allay|assuage": [
+    [
+      [
+        "assuage",
+        "緩和；平息"
+      ],
+      [
+        "palliate",
+        "緩和，平息"
+      ]
+    ],
+    [
+      [
+        "allay",
+        "減輕；緩和"
+      ],
+      [
+        "palliate",
+        "減輕，緩解"
+      ]
+    ]
+  ],
+  "alleviate|mitigate": [
+    [
+      [
+        "mitigate",
+        "減輕；緩和"
+      ],
+      [
+        "ameliorate",
+        "改善"
+      ]
+    ],
+    [
+      [
+        "mitigate",
+        "減輕；緩和"
+      ],
+      [
+        "mollify",
+        "使平靜，撫慰"
+      ]
+    ],
+    [
+      [
+        "mitigate",
+        "減輕；緩和"
+      ],
+      [
+        "temper",
+        "使變溫和，緩和"
+      ]
+    ]
+  ],
+  "ambiguous|equivocal": [
+    [
+      [
+        "equivocal",
+        "模稜兩可的；含糊的"
+      ],
+      [
+        "elusive",
+        "難以捉摸的；難以理解的"
+      ]
+    ],
+    [
+      [
+        "equivocal",
+        "模稜兩可的；含糊的"
+      ],
+      [
+        "evasive",
+        "模棱兩可的，含糊的"
+      ]
+    ],
+    [
+      [
+        "ambiguous",
+        "模稜兩可的；不明確的"
+      ],
+      [
+        "perplexing",
+        "模棱兩可的，不明確的"
+      ]
+    ]
+  ],
+  "annihilate|obliterate": [
+    [
+      [
+        "exterminate",
+        "根除，滅絕"
+      ],
+      [
+        "annihilate",
+        "徹底摧毀；消滅"
+      ]
+    ],
+    [
+      [
+        "exterminate",
+        "根除，滅絕"
+      ],
+      [
+        "obliterate",
+        "徹底摧毀；抹除"
+      ]
+    ],
+    [
+      [
+        "annihilate",
+        "徹底摧毀；消滅"
+      ],
+      [
+        "destroy",
+        "徹底摧毀"
+      ]
+    ]
+  ],
+  "antagonistic|hostile": [
+    [
+      [
+        "adversarial",
+        "敵對的，對立的"
+      ],
+      [
+        "antagonistic",
+        "對立的；懷有敵意的"
+      ]
+    ],
+    [
+      [
+        "antagonistic",
+        "對立的；懷有敵意的"
+      ],
+      [
+        "inimical",
+        "不利的；有害的"
+      ]
+    ],
+    [
+      [
+        "antagonistic",
+        "對立的；懷有敵意的"
+      ],
+      [
+        "opposed",
+        "敵對的，對立的"
+      ]
+    ]
+  ],
+  "appease|placate": [
+    [
+      [
+        "mollify",
+        "使平靜，撫慰"
+      ],
+      [
+        "placate",
+        "安撫；平息"
+      ]
+    ],
+    [
+      [
+        "appease",
+        "安撫；使息怒"
+      ],
+      [
+        "allay",
+        "減輕；緩和"
+      ]
+    ],
+    [
+      [
+        "appease",
+        "安撫；使息怒"
+      ],
+      [
+        "calm",
+        "平息，撫慰，緩解"
+      ]
+    ],
+    [
+      [
+        "appease",
+        "安撫；使息怒"
+      ],
+      [
+        "conciliate",
+        "平息，撫慰，緩解"
+      ]
+    ],
+    [
+      [
+        "appease",
+        "安撫；使息怒"
+      ],
+      [
+        "pacify",
+        "平息，撫慰，緩解"
+      ]
+    ]
+  ],
+  "apposite|fitting": [
+    [
+      [
+        "apposite",
+        "貼切的；恰當的"
+      ],
+      [
+        "germane",
+        "有密切關係的，適切的"
+      ]
+    ],
+    [
+      [
+        "apposite",
+        "貼切的；恰當的"
+      ],
+      [
+        "relevant",
+        "適當的，貼切的"
+      ]
+    ],
+    [
+      [
+        "germane",
+        "有密切關係的，適切的"
+      ],
+      [
+        "fitting",
+        "合適的；恰當的"
+      ]
+    ]
+  ],
+  "arduous|strenuous": [
+    [
+      [
+        "arduous",
+        "艱鉅的；費力的"
+      ],
+      [
+        "onerous",
+        "繁重艱鉅的，麻煩的"
+      ]
+    ],
+    [
+      [
+        "arduous",
+        "艱鉅的；費力的"
+      ],
+      [
+        "taxing",
+        "負擔重的，費勁的"
+      ]
+    ]
+  ],
+  "assiduous|diligent": [
+    [
+      [
+        "assiduous",
+        "勤勉的；刻苦的"
+      ],
+      [
+        "industrious",
+        "勤勞的，勤奮的"
+      ]
+    ],
+    [
+      [
+        "assiduous",
+        "勤勉的；刻苦的"
+      ],
+      [
+        "sedulous",
+        "專心致志的，勤勉的"
+      ]
+    ],
+    [
+      [
+        "industrious",
+        "勤勞的，勤奮的"
+      ],
+      [
+        "diligent",
+        "勤奮的；用功的"
+      ]
+    ]
+  ],
+  "auspicious|propitious": [
+    [
+      [
+        "auspicious",
+        "吉利的；有利的"
+      ],
+      [
+        "favorable",
+        "吉利的，吉祥的"
+      ]
+    ]
+  ],
+  "austere|spartan": [
+    [
+      [
+        "austere",
+        "簡樸的；嚴峻的"
+      ],
+      [
+        "abstemious",
+        "有節制的，戒絕的"
+      ]
+    ]
+  ],
+  "banal|hackneyed": [
+    [
+      [
+        "banal",
+        "陳腐的；老套的"
+      ],
+      [
+        "stale",
+        "老掉牙的"
+      ]
+    ],
+    [
+      [
+        "hackneyed",
+        "陳腐的；老生常談的"
+      ],
+      [
+        "unoriginal",
+        "（語詞或觀點）陳腐的，老套的"
+      ]
+    ]
+  ],
+  "baneful|noxious": [
+    [
+      [
+        "noxious",
+        "有害的；有毒的"
+      ],
+      [
+        "deleterious",
+        "造成危害的"
+      ]
+    ]
+  ],
+  "benevolent|charitable": [
+    [
+      [
+        "altruistic",
+        "利他的，無私心的"
+      ],
+      [
+        "benevolent",
+        "仁慈的；樂善好施的"
+      ]
+    ],
+    [
+      [
+        "magnanimous",
+        "寬宏大量的"
+      ],
+      [
+        "benevolent",
+        "仁慈的；樂善好施的"
+      ]
+    ]
+  ],
+  "capricious|fickle": [
+    [
+      [
+        "erratic",
+        "不規則的，不確定的"
+      ],
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ]
+    ],
+    [
+      [
+        "erratic",
+        "不規則的，不確定的"
+      ],
+      [
+        "fickle",
+        "善變的；不穩定的"
+      ]
+    ],
+    [
+      [
+        "arbitrary",
+        "任意的"
+      ],
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ]
+    ],
+    [
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ],
+      [
+        "flighty",
+        "善變的，反覆無常的，任性的"
+      ]
+    ],
+    [
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ],
+      [
+        "impulsive",
+        "善變的，反覆無常的，任性的"
+      ]
+    ],
+    [
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ],
+      [
+        "inconstant",
+        "善變的，反覆無常的，任性的"
+      ]
+    ],
+    [
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ],
+      [
+        "unpredictable",
+        "善變的，反覆無常的，任性的"
+      ]
+    ],
+    [
+      [
+        "fickle",
+        "善變的；不穩定的"
+      ],
+      [
+        "flighty",
+        "反覆無常的，易變的"
+      ]
+    ],
+    [
+      [
+        "whimsical",
+        "古怪的，突發奇想的"
+      ],
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ]
+    ]
+  ],
+  "caustic|vitriolic": [
+    [
+      [
+        "vitriolic",
+        "尖刻的；刻薄的"
+      ],
+      [
+        "acerbic",
+        "尖酸刻薄的"
+      ]
+    ],
+    [
+      [
+        "vitriolic",
+        "尖刻的；刻薄的"
+      ],
+      [
+        "acrimonious",
+        "尖酸刻薄的"
+      ]
+    ],
+    [
+      [
+        "vitriolic",
+        "尖刻的；刻薄的"
+      ],
+      [
+        "cutting",
+        "尖酸刻薄的"
+      ]
+    ],
+    [
+      [
+        "vitriolic",
+        "尖刻的；刻薄的"
+      ],
+      [
+        "mordant",
+        "尖刻而又風趣的"
+      ]
+    ],
+    [
+      [
+        "vitriolic",
+        "尖刻的；刻薄的"
+      ],
+      [
+        "scathing",
+        "苛刻的，尖刻斥責的"
+      ]
+    ],
+    [
+      [
+        "scathing",
+        "苛刻的，尖刻斥責的"
+      ],
+      [
+        "caustic",
+        "尖酸刻薄的；挖苦的"
+      ]
+    ],
+    [
+      [
+        "acerbic",
+        "尖酸刻薄的"
+      ],
+      [
+        "caustic",
+        "尖酸刻薄的；挖苦的"
+      ]
+    ]
+  ],
+  "cede|relinquish": [
+    [
+      [
+        "relinquish",
+        "放棄；交出"
+      ],
+      [
+        "abandon",
+        "放棄"
+      ]
+    ],
+    [
+      [
+        "relinquish",
+        "放棄；交出"
+      ],
+      [
+        "desert",
+        "放棄"
+      ]
+    ]
+  ],
+  "censure|condemn": [
+    [
+      [
+        "condemn",
+        "譴責；指責"
+      ],
+      [
+        "decry",
+        "譴責，抨擊"
+      ]
+    ]
+  ],
+  "circumscribe|curb": [
+    [
+      [
+        "circumscribe",
+        "限制；抑制"
+      ],
+      [
+        "confine",
+        "限制，抑制"
+      ]
+    ],
+    [
+      [
+        "circumscribe",
+        "限制；抑制"
+      ],
+      [
+        "limit",
+        "限制，抑制"
+      ]
+    ]
+  ],
+  "circumspect|prudent": [
+    [
+      [
+        "circumspect",
+        "審慎的；小心的"
+      ],
+      [
+        "chary",
+        "審慎的"
+      ]
+    ],
+    [
+      [
+        "circumspect",
+        "審慎的；小心的"
+      ],
+      [
+        "cautious",
+        "審慎的"
+      ]
+    ],
+    [
+      [
+        "circumspect",
+        "審慎的；小心的"
+      ],
+      [
+        "provident",
+        "審慎的"
+      ]
+    ],
+    [
+      [
+        "prudent",
+        "謹慎的；明智的"
+      ],
+      [
+        "cautious",
+        "慎重的，精明的"
+      ]
+    ],
+    [
+      [
+        "prudent",
+        "謹慎的；明智的"
+      ],
+      [
+        "chary",
+        "慎重的，精明的"
+      ]
+    ],
+    [
+      [
+        "prudent",
+        "謹慎的；明智的"
+      ],
+      [
+        "provident",
+        "慎重的，精明的"
+      ]
+    ]
+  ],
+  "clandestine|furtive": [
+    [
+      [
+        "furtive",
+        "偷偷摸摸的；鬼祟的"
+      ],
+      [
+        "conspiratorial",
+        "鬼祟的，秘密的"
+      ]
+    ],
+    [
+      [
+        "furtive",
+        "偷偷摸摸的；鬼祟的"
+      ],
+      [
+        "secretive",
+        "鬼祟的，秘密的"
+      ]
+    ],
+    [
+      [
+        "surreptitious",
+        "偷偷的，鬼鬼祟祟的"
+      ],
+      [
+        "clandestine",
+        "秘密進行的；隱密的"
+      ]
+    ],
+    [
+      [
+        "covert",
+        "隱秘的，秘密的"
+      ],
+      [
+        "clandestine",
+        "秘密進行的；隱密的"
+      ]
+    ]
+  ],
+  "compliant|yielding": [
+    [
+      [
+        "compliant",
+        "服從的；順從的"
+      ],
+      [
+        "tractable",
+        "易控制的，易處理的"
+      ]
+    ]
+  ],
+  "composed|unperturbed": [
+    [
+      [
+        "imperturbable",
+        "沉著冷靜的"
+      ],
+      [
+        "composed",
+        "鎮定的；沉著的"
+      ]
+    ]
+  ],
+  "concise|succinct": [
+    [
+      [
+        "succinct",
+        "簡明扼要的"
+      ],
+      [
+        "curt",
+        "簡明扼要的"
+      ]
+    ],
+    [
+      [
+        "succinct",
+        "簡明扼要的"
+      ],
+      [
+        "laconic",
+        "言簡意賅的；寡言的"
+      ]
+    ]
+  ],
+  "conspicuous|obtrusive": [
+    [
+      [
+        "salient",
+        "顯著的，突出的"
+      ],
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ]
+    ],
+    [
+      [
+        "salient",
+        "顯著的，突出的"
+      ],
+      [
+        "obtrusive",
+        "惹人注意的；突兀的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "marked",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "noteworthy",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "noticeable",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "prominent",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "remarkable",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ],
+      [
+        "visible",
+        "顯眼的，顯著的"
+      ]
+    ],
+    [
+      [
+        "blatant",
+        "明目張膽的，公然的"
+      ],
+      [
+        "conspicuous",
+        "顯眼的；醒目的"
+      ]
+    ]
+  ],
+  "conundrum|enigma": [
+    [
+      [
+        "conundrum",
+        "難題；棘手問題"
+      ],
+      [
+        "puzzle",
+        "謎題；令人困惑的事"
+      ]
+    ]
+  ],
+  "convoluted|tortuous": [
+    [
+      [
+        "tortuous",
+        "曲折的；錯綜複雜的"
+      ],
+      [
+        "circuitous",
+        "迂迴的，拐彎抹角的"
+      ]
+    ],
+    [
+      [
+        "tortuous",
+        "曲折的；錯綜複雜的"
+      ],
+      [
+        "intricate",
+        "錯綜複雜的；精細的"
+      ]
+    ],
+    [
+      [
+        "tortuous",
+        "曲折的；錯綜複雜的"
+      ],
+      [
+        "involved",
+        "曲折的，複雜難懂的"
+      ]
+    ]
+  ],
+  "counterfeit|spurious": [
+    [
+      [
+        "spurious",
+        "假的；不真實的"
+      ],
+      [
+        "artificial",
+        "虛假的，欺騙的"
+      ]
+    ],
+    [
+      [
+        "spurious",
+        "假的；不真實的"
+      ],
+      [
+        "implausible",
+        "難以置信的，不可能的"
+      ]
+    ],
+    [
+      [
+        "spurious",
+        "假的；不真實的"
+      ],
+      [
+        "specious",
+        "似是而非的，虛假的"
+      ]
+    ]
+  ],
+  "crafty|cunning": [
+    [
+      [
+        "craft",
+        "靈巧技藝"
+      ],
+      [
+        "cunning",
+        "狡猾的；巧妙的"
+      ]
+    ]
+  ],
+  "dangerous|perilous": [
+    [
+      [
+        "precarious",
+        "岌岌可危的；不穩定的"
+      ],
+      [
+        "dangerous",
+        "危險的"
+      ]
+    ]
+  ],
+  "dearth|scarcity": [
+    [
+      [
+        "paucity",
+        "缺乏"
+      ],
+      [
+        "dearth",
+        "缺乏；不足"
+      ]
+    ]
+  ],
+  "denounce|lambaste": [
+    [
+      [
+        "denounce",
+        "公開譴責；痛斥"
+      ],
+      [
+        "condemn",
+        "譴責；指責"
+      ]
+    ]
+  ],
+  "deplorable|reprehensible": [
+    [
+      [
+        "reprehensible",
+        "應受譴責的；應受責備的"
+      ],
+      [
+        "contemptible",
+        "應受斥責的，不道德的"
+      ]
+    ],
+    [
+      [
+        "reprehensible",
+        "應受譴責的；應受責備的"
+      ],
+      [
+        "ignoble",
+        "應受斥責的，不道德的"
+      ]
+    ],
+    [
+      [
+        "reprehensible",
+        "應受譴責的；應受責備的"
+      ],
+      [
+        "unconscionable",
+        "應受斥責的，不道德的"
+      ]
+    ]
+  ],
+  "deprecate|disparage": [
+    [
+      [
+        "deprecate",
+        "貶低；輕視"
+      ],
+      [
+        "detract",
+        "貶低，有損…，對…產生不利影響"
+      ]
+    ],
+    [
+      [
+        "disparage",
+        "貶低；輕視"
+      ],
+      [
+        "slight",
+        "輕視，冷落"
+      ]
+    ]
+  ],
+  "deride|ridicule": [
+    [
+      [
+        "deride",
+        "嘲笑；奚落"
+      ],
+      [
+        "belittle",
+        "貶低；小看"
+      ]
+    ]
+  ],
+  "diffident|timid": [
+    [
+      [
+        "diffident",
+        "缺乏自信的；羞怯的"
+      ],
+      [
+        "reserved",
+        "缺乏自信的，羞怯的"
+      ]
+    ],
+    [
+      [
+        "diffident",
+        "缺乏自信的；羞怯的"
+      ],
+      [
+        "unassertive",
+        "缺乏自信的，羞怯的"
+      ]
+    ]
+  ],
+  "dubious|skeptical": [
+    [
+      [
+        "dubious",
+        "懷疑的；不確定的"
+      ],
+      [
+        "suspect",
+        "不可信的，懷疑的"
+      ]
+    ]
+  ],
+  "duplicity|guile": [
+    [
+      [
+        "duplicity",
+        "欺詐；兩面手法"
+      ],
+      [
+        "deceit",
+        "欺騙"
+      ]
+    ],
+    [
+      [
+        "duplicity",
+        "欺詐；兩面手法"
+      ],
+      [
+        "dissemblance",
+        "欺騙"
+      ]
+    ]
+  ],
+  "dwindle|wane": [
+    [
+      [
+        "ebb",
+        "逐漸減少，衰退"
+      ],
+      [
+        "wane",
+        "減弱；衰退"
+      ]
+    ],
+    [
+      [
+        "dwindle",
+        "逐漸減少；縮小"
+      ],
+      [
+        "contract",
+        "減小，降低"
+      ]
+    ]
+  ],
+  "egregious|flagrant": [
+    [
+      [
+        "flagrant",
+        "明目張膽的；惡劣的"
+      ],
+      [
+        "blatant",
+        "明目張膽的，公然的"
+      ]
+    ]
+  ],
+  "elusive|unfathomable": [
+    [
+      [
+        "elusive",
+        "難以捉摸的；難以理解的"
+      ],
+      [
+        "cryptic",
+        "難以捉摸、理解的"
+      ]
+    ],
+    [
+      [
+        "elusive",
+        "難以捉摸的；難以理解的"
+      ],
+      [
+        "evasive",
+        "難以捉摸、理解的"
+      ]
+    ],
+    [
+      [
+        "elusive",
+        "難以捉摸的；難以理解的"
+      ],
+      [
+        "slippery",
+        "意義不明確的"
+      ]
+    ]
+  ],
+  "emulate|imitate": [
+    [
+      [
+        "replicate",
+        "使複現，複製"
+      ],
+      [
+        "mimic",
+        "模仿；摹仿"
+      ]
+    ]
+  ],
+  "ephemeral|transient": [
+    [
+      [
+        "transitory",
+        "轉瞬即逝的"
+      ],
+      [
+        "ephemeral",
+        "短暫的；轉瞬即逝的"
+      ]
+    ],
+    [
+      [
+        "transitory",
+        "轉瞬即逝的"
+      ],
+      [
+        "transient",
+        "暫時的；短暫的"
+      ]
+    ],
+    [
+      [
+        "evanescent",
+        "短暫的，轉瞬即逝的"
+      ],
+      [
+        "ephemeral",
+        "短暫的；轉瞬即逝的"
+      ]
+    ],
+    [
+      [
+        "evanescent",
+        "短暫的，轉瞬即逝的"
+      ],
+      [
+        "transient",
+        "暫時的；短暫的"
+      ]
+    ],
+    [
+      [
+        "evanescent",
+        "短暫的，轉瞬即逝的"
+      ],
+      [
+        "fleeting",
+        "短暫的，迅速的"
+      ]
+    ]
+  ],
+  "eradicate|extirpate": [
+    [
+      [
+        "exterminate",
+        "根除，滅絕"
+      ],
+      [
+        "eradicate",
+        "根除；消滅"
+      ]
+    ],
+    [
+      [
+        "exterminate",
+        "根除，滅絕"
+      ],
+      [
+        "extirpate",
+        "根除；徹底消滅"
+      ]
+    ],
+    [
+      [
+        "extirpate",
+        "根除；徹底消滅"
+      ],
+      [
+        "eliminate",
+        "根除，消滅"
+      ]
+    ]
+  ],
+  "erode|undermine": [
+    [
+      [
+        "undermine",
+        "暗中削弱；逐漸損害"
+      ],
+      [
+        "impair",
+        "削弱信心、權威"
+      ]
+    ],
+    [
+      [
+        "undermine",
+        "暗中削弱；逐漸損害"
+      ],
+      [
+        "sap",
+        "削弱信心、權威"
+      ]
+    ],
+    [
+      [
+        "undermine",
+        "暗中削弱；逐漸損害"
+      ],
+      [
+        "undercut",
+        "削弱信心、權威"
+      ]
+    ],
+    [
+      [
+        "undermine",
+        "暗中削弱；逐漸損害"
+      ],
+      [
+        "weaken",
+        "削弱信心、權威"
+      ]
+    ],
+    [
+      [
+        "vitiate",
+        "損害；削弱"
+      ],
+      [
+        "compromise",
+        "損害，危及"
+      ]
+    ],
+    [
+      [
+        "vitiate",
+        "損害；削弱"
+      ],
+      [
+        "hamstring",
+        "破壞，削弱"
+      ]
+    ],
+    [
+      [
+        "vitiate",
+        "損害；削弱"
+      ],
+      [
+        "impair",
+        "破壞，削弱"
+      ]
+    ],
+    [
+      [
+        "vitiate",
+        "損害；削弱"
+      ],
+      [
+        "undercut",
+        "破壞，削弱"
+      ]
+    ],
+    [
+      [
+        "compromise",
+        "損害，危及"
+      ],
+      [
+        "undermine",
+        "暗中削弱；逐漸損害"
+      ]
+    ]
+  ],
+  "esoteric|recondite": [
+    [
+      [
+        "abstruse",
+        "難解的，深奧的"
+      ],
+      [
+        "esoteric",
+        "深奧難懂的；只有少數人懂的"
+      ]
+    ],
+    [
+      [
+        "abstruse",
+        "難解的，深奧的"
+      ],
+      [
+        "recondite",
+        "艱深的；晦澀難懂的"
+      ]
+    ],
+    [
+      [
+        "arcane",
+        "晦澀難懂的，鮮為人知的"
+      ],
+      [
+        "esoteric",
+        "深奧難懂的；只有少數人懂的"
+      ]
+    ],
+    [
+      [
+        "arcane",
+        "晦澀難懂的，鮮為人知的"
+      ],
+      [
+        "recondite",
+        "艱深的；晦澀難懂的"
+      ]
+    ],
+    [
+      [
+        "arcane",
+        "晦澀難懂的，鮮為人知的"
+      ],
+      [
+        "occult",
+        "奧秘的，難以理解的"
+      ]
+    ]
+  ],
+  "excoriate|lambast": [],
+  "exonerate|vindicate": [
+    [
+      [
+        "vindicate",
+        "證明正當；洗清罪名"
+      ],
+      [
+        "uphold",
+        "證明…正確"
+      ]
+    ],
+    [
+      [
+        "vindicate",
+        "證明正當；洗清罪名"
+      ],
+      [
+        "absolve",
+        "證明（某人）無辜"
+      ]
+    ],
+    [
+      [
+        "vindicate",
+        "證明正當；洗清罪名"
+      ],
+      [
+        "acquit",
+        "證明（某人）無辜"
+      ]
+    ],
+    [
+      [
+        "vindicate",
+        "證明正當；洗清罪名"
+      ],
+      [
+        "exculpate",
+        "證明（某人）無辜"
+      ]
+    ],
+    [
+      [
+        "exonerate",
+        "證明無罪；免除責任"
+      ],
+      [
+        "absolve",
+        "證明…無罪，使免受責備"
+      ]
+    ],
+    [
+      [
+        "exonerate",
+        "證明無罪；免除責任"
+      ],
+      [
+        "exculpate",
+        "證明…無罪，使免受責備"
+      ]
+    ]
+  ],
+  "extol|laud": [
+    [
+      [
+        "eulogize",
+        "讚美，稱頌"
+      ],
+      [
+        "extol",
+        "頌揚；高度讚美"
+      ]
+    ],
+    [
+      [
+        "applaud",
+        "贊成，稱讚"
+      ],
+      [
+        "extol",
+        "頌揚；高度讚美"
+      ]
+    ]
+  ],
+  "facetious|flippant": [
+    [
+      [
+        "facetious",
+        "開玩笑的；滑稽的"
+      ],
+      [
+        "waggish",
+        "（尤指不問場合）好開玩笑的"
+      ]
+    ]
+  ],
+  "fecund|prolific": [
+    [
+      [
+        "fruitful",
+        "富有成果的"
+      ],
+      [
+        "prolific",
+        "多產的；豐富的"
+      ]
+    ]
+  ],
+  "fervent|zealous": [
+    [
+      [
+        "zealous",
+        "熱忱的；積極的"
+      ],
+      [
+        "fiery",
+        "熱情的，狂熱的"
+      ]
+    ],
+    [
+      [
+        "zealous",
+        "熱忱的；積極的"
+      ],
+      [
+        "impassioned",
+        "充滿激情的"
+      ]
+    ],
+    [
+      [
+        "zealous",
+        "熱忱的；積極的"
+      ],
+      [
+        "passionate",
+        "熱情的，狂熱的"
+      ]
+    ],
+    [
+      [
+        "impassioned",
+        "充滿激情的"
+      ],
+      [
+        "fervent",
+        "熱情的；熱烈的"
+      ]
+    ],
+    [
+      [
+        "fervent",
+        "熱情的；熱烈的"
+      ],
+      [
+        "fiery",
+        "熱烈的，熱切的"
+      ]
+    ],
+    [
+      [
+        "fervent",
+        "熱情的；熱烈的"
+      ],
+      [
+        "passionate",
+        "熱烈的，熱切的"
+      ]
+    ]
+  ],
+  "flamboyant|ostentatious": [
+    [
+      [
+        "flamboyant",
+        "華麗搶眼的；炫耀的"
+      ],
+      [
+        "showy",
+        "豔麗的，酷炫的"
+      ]
+    ]
+  ],
+  "forerunner|precursor": [
+    [
+      [
+        "precursor",
+        "先驅；前兆"
+      ],
+      [
+        "antecedent",
+        "先驅，前兆"
+      ]
+    ]
+  ],
+  "forgo|forsake": [
+    [
+      [
+        "forsake",
+        "拋棄；放棄"
+      ],
+      [
+        "neglect",
+        "放棄，摒棄"
+      ]
+    ]
+  ],
+  "fortuitous|serendipitous": [
+    [
+      [
+        "fortuitous",
+        "偶然的；意外的"
+      ],
+      [
+        "accidental",
+        "幸運湊巧的，偶然的"
+      ]
+    ]
+  ],
+  "galvanize|spur": [
+    [
+      [
+        "galvanize",
+        "刺激；激起"
+      ],
+      [
+        "animate",
+        "刺激，激起"
+      ]
+    ],
+    [
+      [
+        "galvanize",
+        "刺激；激起"
+      ],
+      [
+        "inspire",
+        "刺激，激起"
+      ]
+    ],
+    [
+      [
+        "galvanize",
+        "刺激；激起"
+      ],
+      [
+        "rouse",
+        "刺激，激起"
+      ]
+    ]
+  ],
+  "genial|jovial": [
+    [
+      [
+        "jovial",
+        "快樂的；愉快友善的"
+      ],
+      [
+        "mirthful",
+        "友好的，快樂的"
+      ]
+    ]
+  ],
+  "groundless|unwarranted": [
+    [
+      [
+        "groundless",
+        "毫無根據的"
+      ],
+      [
+        "unfounded",
+        "無根據的；不成立的"
+      ]
+    ],
+    [
+      [
+        "unwarranted",
+        "無根據的；不合理的"
+      ],
+      [
+        "baseless",
+        "不合理的，無根據的"
+      ]
+    ],
+    [
+      [
+        "unwarranted",
+        "無根據的；不合理的"
+      ],
+      [
+        "unfounded",
+        "無根據的；不成立的"
+      ]
+    ],
+    [
+      [
+        "unwarranted",
+        "無根據的；不合理的"
+      ],
+      [
+        "unjustified",
+        "不合理的；無正當理由的"
+      ]
+    ],
+    [
+      [
+        "unwarranted",
+        "無根據的；不合理的"
+      ],
+      [
+        "untenable",
+        "不合理的，無根據的"
+      ]
+    ]
+  ],
+  "halfhearted|tepid": [
+    [
+      [
+        "tepid",
+        "不熱烈的；冷淡的"
+      ],
+      [
+        "lukewarm",
+        "冷淡的，不熱情的"
+      ]
+    ],
+    [
+      [
+        "lukewarm",
+        "冷淡的，不熱情的"
+      ],
+      [
+        "halfhearted",
+        "敷衍的；缺乏熱情的"
+      ]
+    ]
+  ],
+  "hamper|impede": [
+    [
+      [
+        "hamper",
+        "妨礙；牽制"
+      ],
+      [
+        "encumber",
+        "阻礙，拖累"
+      ]
+    ]
+  ],
+  "haphazard|helter-skelter": [
+    [
+      [
+        "haphazard",
+        "雜亂無計畫的；隨意的"
+      ],
+      [
+        "random",
+        "無計劃的，無秩序的，隨意的"
+      ]
+    ]
+  ],
+  "harmless|innocuous": [
+    [
+      [
+        "innocuous",
+        "無害的；不冒犯人的"
+      ],
+      [
+        "benign",
+        "無害的，良性的"
+      ]
+    ],
+    [
+      [
+        "innocuous",
+        "無害的；不冒犯人的"
+      ],
+      [
+        "inoffensive",
+        "無害的，不觸犯人的"
+      ]
+    ],
+    [
+      [
+        "benign",
+        "無害的，良性的"
+      ],
+      [
+        "harmless",
+        "無害的"
+      ]
+    ]
+  ],
+  "heterogeneous|miscellaneous": [
+    [
+      [
+        "heterogeneous",
+        "混雜的；各種各樣的"
+      ],
+      [
+        "disparate",
+        "截然不同的，迥然相異的"
+      ]
+    ],
+    [
+      [
+        "heterogeneous",
+        "混雜的；各種各樣的"
+      ],
+      [
+        "dissimilar",
+        "混雜的，各種各樣的"
+      ]
+    ],
+    [
+      [
+        "heterogeneous",
+        "混雜的；各種各樣的"
+      ],
+      [
+        "mixed",
+        "混雜的，各種各樣的"
+      ]
+    ]
+  ],
+  "heyday|zenith": [
+    [
+      [
+        "zenith",
+        "巔峰；鼎盛時期"
+      ],
+      [
+        "apex",
+        "巔峰，鼎盛時期"
+      ]
+    ],
+    [
+      [
+        "zenith",
+        "巔峰；鼎盛時期"
+      ],
+      [
+        "apogee",
+        "頂點；最高點"
+      ]
+    ],
+    [
+      [
+        "zenith",
+        "巔峰；鼎盛時期"
+      ],
+      [
+        "pinnacle",
+        "巔峰；頂點"
+      ]
+    ]
+  ],
+  "hinder|stymie": [
+    [
+      [
+        "inhibit",
+        "抑制，約束，禁止"
+      ],
+      [
+        "hinder",
+        "妨礙；阻礙"
+      ]
+    ],
+    [
+      [
+        "inhibit",
+        "抑制，約束，禁止"
+      ],
+      [
+        "stymie",
+        "阻礙；使受挫"
+      ]
+    ],
+    [
+      [
+        "stymie",
+        "阻礙；使受挫"
+      ],
+      [
+        "block",
+        "妨礙，阻撓"
+      ]
+    ],
+    [
+      [
+        "stymie",
+        "阻礙；使受挫"
+      ],
+      [
+        "neutralize",
+        "妨礙，阻撓"
+      ]
+    ]
+  ],
+  "immaterial|inconsequential": [
+    [
+      [
+        "inconsequential",
+        "不重要的；無足輕重的"
+      ],
+      [
+        "insignificant",
+        "不重要的；微小的"
+      ]
+    ],
+    [
+      [
+        "inconsequential",
+        "不重要的；無足輕重的"
+      ],
+      [
+        "negligible",
+        "微不足道的；可忽略的"
+      ]
+    ],
+    [
+      [
+        "inconsequential",
+        "不重要的；無足輕重的"
+      ],
+      [
+        "trifling",
+        "微不足道的，不重要的"
+      ]
+    ],
+    [
+      [
+        "inconsequential",
+        "不重要的；無足輕重的"
+      ],
+      [
+        "trivial",
+        "微不足道的，瑣碎的"
+      ]
+    ],
+    [
+      [
+        "trivial",
+        "微不足道的，瑣碎的"
+      ],
+      [
+        "immaterial",
+        "無關緊要的"
+      ]
+    ]
+  ],
+  "impartial|unbiased": [
+    [
+      [
+        "disinterested",
+        "無私的，公正客觀的"
+      ],
+      [
+        "impartial",
+        "公正的；不偏袒的"
+      ]
+    ],
+    [
+      [
+        "impartial",
+        "公正的；不偏袒的"
+      ],
+      [
+        "evenhanded",
+        "公正的，公平的"
+      ]
+    ],
+    [
+      [
+        "impartial",
+        "公正的；不偏袒的"
+      ],
+      [
+        "fair",
+        "無偏見的，公正客觀的"
+      ]
+    ],
+    [
+      [
+        "impartial",
+        "公正的；不偏袒的"
+      ],
+      [
+        "objective",
+        "無偏見的，公正客觀的"
+      ]
+    ],
+    [
+      [
+        "detached",
+        "認為與己無關的，旁觀的，公正客觀的"
+      ],
+      [
+        "impartial",
+        "公正的；不偏袒的"
+      ]
+    ]
+  ],
+  "impetuous|rash": [
+    [
+      [
+        "impetuous",
+        "衝動的；魯莽的"
+      ],
+      [
+        "precipitate",
+        "衝動的，魯莽的"
+      ]
+    ]
+  ],
+  "incessant|perpetual": [
+    [
+      [
+        "incessant",
+        "不停的；持續不斷的"
+      ],
+      [
+        "ceaseless",
+        "連續不斷的"
+      ]
+    ],
+    [
+      [
+        "incessant",
+        "不停的；持續不斷的"
+      ],
+      [
+        "unceasing",
+        "持續不斷的"
+      ]
+    ],
+    [
+      [
+        "perennial",
+        "長期存在的，不斷發生的"
+      ],
+      [
+        "perpetual",
+        "持續不斷的；永久的"
+      ]
+    ]
+  ],
+  "incisive|trenchant": [
+    [
+      [
+        "incisive",
+        "尖銳透徹的；敏銳的"
+      ],
+      [
+        "acute",
+        "切中要害的，一針見血的，頭腦敏銳的"
+      ]
+    ],
+    [
+      [
+        "trenchant",
+        "犀利的；一針見血的"
+      ],
+      [
+        "profound",
+        "犀利的，尖刻的"
+      ]
+    ]
+  ],
+  "indifferent|nonchalant": [
+    [
+      [
+        "apathetic",
+        "漠不關心的，無動於衷的"
+      ],
+      [
+        "indifferent",
+        "冷淡的；不在乎的"
+      ]
+    ],
+    [
+      [
+        "nonchalant",
+        "漠不關心的；若無其事的"
+      ],
+      [
+        "insouciant",
+        "漫不經心的，漠不關心的"
+      ]
+    ]
+  ],
+  "inert|stagnant": [
+    [
+      [
+        "inert",
+        "呆滯的；無活動力的"
+      ],
+      [
+        "inactive",
+        "呆滯的，無生氣的"
+      ]
+    ]
+  ],
+  "insignificant|negligible": [
+    [
+      [
+        "trifling",
+        "微不足道的，不重要的"
+      ],
+      [
+        "insignificant",
+        "不重要的；微小的"
+      ]
+    ],
+    [
+      [
+        "trifling",
+        "微不足道的，不重要的"
+      ],
+      [
+        "negligible",
+        "微不足道的；可忽略的"
+      ]
+    ]
+  ],
+  "insipid|vapid": [
+    [
+      [
+        "jejune",
+        "沉悶乏味的"
+      ],
+      [
+        "vapid",
+        "枯燥的；空洞無味的"
+      ]
+    ],
+    [
+      [
+        "insipid",
+        "乏味的；淡而無味的"
+      ],
+      [
+        "banal",
+        "陳腐的；老套的"
+      ]
+    ],
+    [
+      [
+        "insipid",
+        "乏味的；淡而無味的"
+      ],
+      [
+        "bland",
+        "枯燥乏味的"
+      ]
+    ],
+    [
+      [
+        "vapid",
+        "枯燥的；空洞無味的"
+      ],
+      [
+        "banal",
+        "陳腐的；老套的"
+      ]
+    ]
+  ],
+  "insular|provincial": [
+    [
+      [
+        "provincial",
+        "狹隘的；地方性的"
+      ],
+      [
+        "parochial",
+        "偏狹的"
+      ]
+    ],
+    [
+      [
+        "insular",
+        "孤立狹隘的；島嶼的"
+      ],
+      [
+        "parochial",
+        "偏狹的"
+      ]
+    ]
+  ],
+  "intelligible|lucid": [
+    [
+      [
+        "intelligible",
+        "易理解的；明白的"
+      ],
+      [
+        "readable",
+        "明白易懂的"
+      ]
+    ],
+    [
+      [
+        "lucid",
+        "清楚易懂的；明晰的"
+      ],
+      [
+        "transparent",
+        "清晰明瞭的"
+      ]
+    ]
+  ],
+  "intermittent|sporadic": [
+    [
+      [
+        "sporadic",
+        "零星發生的；偶發的"
+      ],
+      [
+        "occasional",
+        "偶爾發生的，斷斷續續的"
+      ]
+    ],
+    [
+      [
+        "sporadic",
+        "零星發生的；偶發的"
+      ],
+      [
+        "fitful",
+        "斷斷續續的，一陣陣的"
+      ]
+    ],
+    [
+      [
+        "fitful",
+        "斷斷續續的，一陣陣的"
+      ],
+      [
+        "intermittent",
+        "間歇的；斷斷續續的"
+      ]
+    ]
+  ],
+  "intransigent|obdurate": [
+    [
+      [
+        "obdurate",
+        "頑固的；不易改變的"
+      ],
+      [
+        "resolute",
+        "堅決的；果斷的"
+      ]
+    ],
+    [
+      [
+        "intransigent",
+        "不妥協的；固執的"
+      ],
+      [
+        "resolute",
+        "堅決的；果斷的"
+      ]
+    ],
+    [
+      [
+        "intransigent",
+        "不妥協的；固執的"
+      ],
+      [
+        "uncompromising",
+        "固執的，不妥協的，不讓步的"
+      ]
+    ]
+  ],
+  "itinerant|peripatetic": [
+    [
+      [
+        "peripatetic",
+        "巡迴的；四處走動的"
+      ],
+      [
+        "mobile",
+        "巡迴的，流動的"
+      ]
+    ]
+  ],
+  "laconic|terse": [
+    [
+      [
+        "terse",
+        "簡短精煉的；簡潔的"
+      ],
+      [
+        "curt",
+        "簡要的"
+      ]
+    ],
+    [
+      [
+        "terse",
+        "簡短精煉的；簡潔的"
+      ],
+      [
+        "succinct",
+        "簡明扼要的"
+      ]
+    ],
+    [
+      [
+        "terse",
+        "簡短精煉的；簡潔的"
+      ],
+      [
+        "taciturn",
+        "沉默寡言的"
+      ]
+    ],
+    [
+      [
+        "laconic",
+        "言簡意賅的；寡言的"
+      ],
+      [
+        "curt",
+        "寡言的，談吐簡潔的"
+      ]
+    ]
+  ],
+  "languid|lethargic": [
+    [
+      [
+        "lethargic",
+        "無精打采的；倦怠的"
+      ],
+      [
+        "indolent",
+        "懶散的，懶惰的"
+      ]
+    ],
+    [
+      [
+        "lethargic",
+        "無精打采的；倦怠的"
+      ],
+      [
+        "somnolent",
+        "令人昏昏欲睡的，想睡的"
+      ]
+    ],
+    [
+      [
+        "lethargic",
+        "無精打采的；倦怠的"
+      ],
+      [
+        "slumberous",
+        "萎靡不振的，無精打采的"
+      ]
+    ]
+  ],
+  "lavish|opulent": [
+    [
+      [
+        "sumptuous",
+        "奢侈的，奢華的"
+      ],
+      [
+        "lavish",
+        "奢華的；豐盛的"
+      ]
+    ],
+    [
+      [
+        "affluent",
+        "富裕的，富足的"
+      ],
+      [
+        "opulent",
+        "豪華的；富麗堂皇的"
+      ]
+    ]
+  ],
+  "malign|vilify": [
+    [
+      [
+        "vilify",
+        "詆毀；誹謗"
+      ],
+      [
+        "defame",
+        "詆毀，醜化"
+      ]
+    ]
+  ],
+  "mercurial|volatile": [
+    [
+      [
+        "erratic",
+        "不規則的，不確定的"
+      ],
+      [
+        "volatile",
+        "不穩定的；易變的"
+      ]
+    ],
+    [
+      [
+        "volatile",
+        "不穩定的；易變的"
+      ],
+      [
+        "capricious",
+        "反覆無常的；任性的"
+      ]
+    ],
+    [
+      [
+        "volatile",
+        "不穩定的；易變的"
+      ],
+      [
+        "flighty",
+        "易變的，不穩定的"
+      ]
+    ],
+    [
+      [
+        "volatile",
+        "不穩定的；易變的"
+      ],
+      [
+        "inconstant",
+        "易變的，不穩定的"
+      ]
+    ]
+  ],
+  "meticulous|scrupulous": [
+    [
+      [
+        "painstaking",
+        "費盡心思的，認真仔細的"
+      ],
+      [
+        "meticulous",
+        "一絲不苟的；極仔細的"
+      ]
+    ],
+    [
+      [
+        "exacting",
+        "要求嚴格的"
+      ],
+      [
+        "meticulous",
+        "一絲不苟的；極仔細的"
+      ]
+    ],
+    [
+      [
+        "meticulous",
+        "一絲不苟的；極仔細的"
+      ],
+      [
+        "thorough",
+        "嚴謹的，一絲不苟的"
+      ]
+    ]
+  ],
+  "monotonous|tedious": [
+    [
+      [
+        "tedious",
+        "冗長乏味的"
+      ],
+      [
+        "boring",
+        "單調乏味的"
+      ]
+    ],
+    [
+      [
+        "tedious",
+        "冗長乏味的"
+      ],
+      [
+        "dreary",
+        "單調乏味的"
+      ]
+    ]
+  ],
+  "mundane|ordinary": [
+    [
+      [
+        "pedestrian",
+        "平淡的，缺乏想像力的"
+      ],
+      [
+        "mundane",
+        "平凡的；世俗的"
+      ]
+    ],
+    [
+      [
+        "pedestrian",
+        "平淡的，缺乏想像力的"
+      ],
+      [
+        "ordinary",
+        "普通的；平常的"
+      ]
+    ],
+    [
+      [
+        "mundane",
+        "平凡的；世俗的"
+      ],
+      [
+        "prosaic",
+        "平淡無奇的；缺乏想像力的"
+      ]
+    ]
+  ],
+  "neophyte|novice": [
+    [
+      [
+        "neophyte",
+        "新手；新入門者"
+      ],
+      [
+        "tyro",
+        "新手；初學者"
+      ]
+    ]
+  ],
+  "nondescript|prosaic": [
+    [
+      [
+        "pedestrian",
+        "平淡的，缺乏想像力的"
+      ],
+      [
+        "prosaic",
+        "平淡無奇的；缺乏想像力的"
+      ]
+    ],
+    [
+      [
+        "unexceptional",
+        "平常的，普通的"
+      ],
+      [
+        "nondescript",
+        "平淡無奇的；不起眼的"
+      ]
+    ]
+  ],
+  "novel|unexampled": [
+    [
+      [
+        "unexampled",
+        "前所未有的；空前的"
+      ],
+      [
+        "original",
+        "無先例的，空前的"
+      ]
+    ],
+    [
+      [
+        "unexampled",
+        "前所未有的；空前的"
+      ],
+      [
+        "unprecedented",
+        "史無前例的，空前的"
+      ]
+    ],
+    [
+      [
+        "unprecedented",
+        "史無前例的，空前的"
+      ],
+      [
+        "novel",
+        "新穎的；新奇的"
+      ]
+    ]
+  ],
+  "obscure|opaque": [
+    [
+      [
+        "opaque",
+        "難以理解的；不透明的"
+      ],
+      [
+        "inaccessible",
+        "難懂的"
+      ]
+    ],
+    [
+      [
+        "opaque",
+        "難以理解的；不透明的"
+      ],
+      [
+        "incomprehensible",
+        "難理解的，晦澀的"
+      ]
+    ],
+    [
+      [
+        "inaccessible",
+        "難懂的"
+      ],
+      [
+        "obscure",
+        "晦澀難懂的；不明確的"
+      ]
+    ]
+  ],
+  "obsequious|sycophantic": [
+    [
+      [
+        "obsequious",
+        "諂媚的；卑躬屈膝的"
+      ],
+      [
+        "adulating",
+        "卑躬屈膝的，諂媚的"
+      ]
+    ],
+    [
+      [
+        "obsequious",
+        "諂媚的；卑躬屈膝的"
+      ],
+      [
+        "ingratiating",
+        "迎合的，奉承的"
+      ]
+    ],
+    [
+      [
+        "sycophantic",
+        "阿諛奉承的；諂媚的"
+      ],
+      [
+        "adulating",
+        "阿諛奉承的，諂媚的"
+      ]
+    ],
+    [
+      [
+        "sycophantic",
+        "阿諛奉承的；諂媚的"
+      ],
+      [
+        "fawning",
+        "阿諛奉承的，諂媚的"
+      ]
+    ]
+  ],
+  "obstinate|recalcitrant": [
+    [
+      [
+        "recalcitrant",
+        "難以管教的；反抗的"
+      ],
+      [
+        "headstrong",
+        "頑強的，桀驁不馴的"
+      ]
+    ]
+  ],
+  "oscillate|vacillate": [
+    [
+      [
+        "vacillate",
+        "猶豫；搖擺不定"
+      ],
+      [
+        "fluctuate",
+        "波動；起伏不定"
+      ]
+    ],
+    [
+      [
+        "oscillate",
+        "搖擺；來回擺動"
+      ],
+      [
+        "waver",
+        "搖擺不定"
+      ]
+    ]
+  ],
+  "pervasive|ubiquitous": [
+    [
+      [
+        "pervasive",
+        "普遍存在的；遍布的"
+      ],
+      [
+        "commonplace",
+        "瀰漫的，充斥各處的"
+      ]
+    ],
+    [
+      [
+        "pervasive",
+        "普遍存在的；遍布的"
+      ],
+      [
+        "rife",
+        "瀰漫的，充斥各處的"
+      ]
+    ],
+    [
+      [
+        "rampant",
+        "繁茂的，蔓生的"
+      ],
+      [
+        "ubiquitous",
+        "無所不在的；普遍的"
+      ]
+    ],
+    [
+      [
+        "ubiquitous",
+        "無所不在的；普遍的"
+      ],
+      [
+        "omnipresent",
+        "普遍存在的，似乎無處不在的"
+      ]
+    ],
+    [
+      [
+        "ubiquitous",
+        "無所不在的；普遍的"
+      ],
+      [
+        "universal",
+        "普遍存在的，似乎無處不在的"
+      ]
+    ]
+  ],
+  "plethora|surfeit": [
+    [
+      [
+        "surfeit",
+        "過量；過多"
+      ],
+      [
+        "glut",
+        "過量，過剩"
+      ]
+    ],
+    [
+      [
+        "plethora",
+        "過多；大量"
+      ],
+      [
+        "glut",
+        "大量，過多"
+      ]
+    ]
+  ],
+  "predilection|proclivity": [
+    [
+      [
+        "predilection",
+        "偏愛；嗜好"
+      ],
+      [
+        "preference",
+        "偏愛，偏好"
+      ]
+    ],
+    [
+      [
+        "proclivity",
+        "傾向；癖好"
+      ],
+      [
+        "affinity",
+        "喜愛，吸引，情投意合"
+      ]
+    ],
+    [
+      [
+        "proclivity",
+        "傾向；癖好"
+      ],
+      [
+        "penchant",
+        "偏好，傾向"
+      ]
+    ],
+    [
+      [
+        "proclivity",
+        "傾向；癖好"
+      ],
+      [
+        "preference",
+        "癖性，傾向"
+      ]
+    ],
+    [
+      [
+        "proclivity",
+        "傾向；癖好"
+      ],
+      [
+        "propensity",
+        "（尤指不良的）傾向，嗜好，癖好"
+      ]
+    ],
+    [
+      [
+        "propensity",
+        "（尤指不良的）傾向，嗜好，癖好"
+      ],
+      [
+        "predilection",
+        "偏愛；嗜好"
+      ]
+    ],
+    [
+      [
+        "penchant",
+        "偏好，傾向"
+      ],
+      [
+        "predilection",
+        "偏愛；嗜好"
+      ]
+    ]
+  ],
+  "prodigal|wasteful": [
+    [
+      [
+        "prodigal",
+        "揮霍的；浪費的"
+      ],
+      [
+        "extravagant",
+        "奢侈的"
+      ]
+    ],
+    [
+      [
+        "prodigal",
+        "揮霍的；浪費的"
+      ],
+      [
+        "profligate",
+        "恣意揮霍的，浪費的"
+      ]
+    ]
+  ],
+  "pugnacious|truculent": [
+    [
+      [
+        "truculent",
+        "好鬥的；挑釁的"
+      ],
+      [
+        "aggressive",
+        "好鬥的"
+      ]
+    ],
+    [
+      [
+        "truculent",
+        "好鬥的；挑釁的"
+      ],
+      [
+        "bellicose",
+        "好鬥的"
+      ]
+    ],
+    [
+      [
+        "truculent",
+        "好鬥的；挑釁的"
+      ],
+      [
+        "belligerent",
+        "好鬥的；挑釁的"
+      ]
+    ],
+    [
+      [
+        "truculent",
+        "好鬥的；挑釁的"
+      ],
+      [
+        "combative",
+        "好鬥的"
+      ]
+    ],
+    [
+      [
+        "pugnacious",
+        "好鬥的；愛挑釁的"
+      ],
+      [
+        "aggressive",
+        "愛爭吵、爭鬥的"
+      ]
+    ],
+    [
+      [
+        "pugnacious",
+        "好鬥的；愛挑釁的"
+      ],
+      [
+        "bellicose",
+        "愛爭吵、爭鬥的"
+      ]
+    ],
+    [
+      [
+        "pugnacious",
+        "好鬥的；愛挑釁的"
+      ],
+      [
+        "combative",
+        "愛爭吵、爭鬥的"
+      ]
+    ]
+  ],
+  "quash|quell": [],
+  "recant|retract": [
+    [
+      [
+        "repudiate",
+        "拒絕，駁斥"
+      ],
+      [
+        "recant",
+        "撤回；放棄（先前的主張）"
+      ]
+    ]
+  ],
+  "refrain|suppress": [
+    [
+      [
+        "inhibit",
+        "抑制，約束，禁止"
+      ],
+      [
+        "suppress",
+        "抑制；忍住"
+      ]
+    ]
+  ],
+  "reticent|taciturn": [
+    [
+      [
+        "taciturn",
+        "沉默寡言的"
+      ],
+      [
+        "laconic",
+        "言簡意賅的；寡言的"
+      ]
+    ],
+    [
+      [
+        "taciturn",
+        "沉默寡言的"
+      ],
+      [
+        "reserved",
+        "沉默寡言的"
+      ]
+    ]
+  ],
+  "revere|venerate": [
+    [
+      [
+        "exalt",
+        "高度讚揚"
+      ],
+      [
+        "venerate",
+        "尊敬；崇敬"
+      ]
+    ]
+  ],
+  "sagacious|shrewd": [
+    [
+      [
+        "astute",
+        "敏銳的，精明的"
+      ],
+      [
+        "shrewd",
+        "精明的；有判斷力的"
+      ]
+    ],
+    [
+      [
+        "shrewd",
+        "精明的；有判斷力的"
+      ],
+      [
+        "artful",
+        "敏銳的，精明的"
+      ]
+    ],
+    [
+      [
+        "shrewd",
+        "精明的；有判斷力的"
+      ],
+      [
+        "canny",
+        "敏銳的，精明的"
+      ]
+    ]
+  ],
+  "serene|tranquil": [
+    [
+      [
+        "tranquil",
+        "平靜的；安寧的"
+      ],
+      [
+        "peaceful",
+        "安靜的，平靜的"
+      ]
+    ]
+  ],
+  "steadfast|tenacious": [
+    [
+      [
+        "staunch",
+        "忠實堅定的"
+      ],
+      [
+        "steadfast",
+        "堅定的；不動搖的"
+      ]
+    ],
+    [
+      [
+        "steadfast",
+        "堅定的；不動搖的"
+      ],
+      [
+        "unfaltering",
+        "堅定的，不動搖的"
+      ]
+    ]
+  ],
+  "succumb|yield": [],
+  "supersede|supplant": [
+    [
+      [
+        "preempt",
+        "取代"
+      ],
+      [
+        "supersede",
+        "取代；接替"
+      ]
+    ]
+  ],
+  "unconventional|unorthodox": [
+    [
+      [
+        "quirky",
+        "古怪的，獨特的"
+      ],
+      [
+        "unconventional",
+        "不循常規的；非傳統的"
+      ]
+    ]
+  ],
+  "vigilant|wary": [
+    [
+      [
+        "vigilant",
+        "警覺的；警戒的"
+      ],
+      [
+        "careful",
+        "警覺的，警戒的"
+      ]
+    ]
+  ],
+  // Additional rotations from the newly selected 104 source pairs.
+  "circumvent|skirt": [[["skirt","避開（某話題或問題）"],["bypass","避開"]],[["skirt","避開（某話題或問題）"],["shirk","逃避，規避"]],[["skirt","避開（某話題或問題）"],["sidestep","避開（某話題或問題）"]]],
+  "benefit|boon": [[["boon","提高生活素質的東西，有用之物"],["windfall","提高生活素質的東西，有用之物"]]],
+  "contempt|disdain": [[["disdain","蔑視，鄙視"],["scorn","蔑視，鄙視"]]],
+  "daunting|formidable": [[["daunting","令人望而生畏的"],["forbidding","令人生畏的，令人討厭的"]],[["daunting","令人望而生畏的"],["intimidating","令人望而生畏的"]]],
+  "augment|enhance": [[["augment","增大，加強"],["expand","增大，加強"]],[["augment","增大，加強"],["extend","增大，加強"]]],
+  "accentuate|highlight": [[["accentuate","強調，使明顯"],["emphasize","強調，使明顯"]]],
+  "harbinger|herald": [[["harbinger","先兆，預兆"],["portent","先兆，預兆"]]],
+  "commensurate|equivalent": [[["commensurate","相當的，相稱的"],["proportionate","相當的，相稱的"]]],
+  "engender|induce": [[["engender","導致，產生"],["create","導致，產生"]],[["engender","導致，產生"],["beget","導致，產生"]]],
+  "belie|mask": [[["belie","掩飾；掩蓋"],["veil","掩飾；掩蓋"]]],
+  "obviate|preclude": [[["obviate","排除，使無必要"],["displace","排除，使無必要"]]],
+  "dilatory|sluggish": [[["sluggish","行動緩慢的，遲緩的"],["listless","行動緩慢的，遲緩的"]],[["sluggish","行動緩慢的，遲緩的"],["laggard","行動緩慢的，遲緩的"]]],
+  "doctrinaire|dogmatic": [[["doctrinaire","教條主義的，脫離實際的"],["rigid","不易改變的，沒有彈性的"]]],
+  "malleable|plastic": [[["plastic","可塑的，有適應性的"],["pliable","可塑的，有適應性的"]]],
+  "contemptuous|scornful": [[["contemptuous","輕蔑的"],["disdainful","輕蔑的"]]],
+  "noisome|obnoxious": [[["noisome","令人厭惡的；有臭味的"],["objectionable","令人厭惡的；有臭味的"]],[["noisome","令人厭惡的；有臭味的"],["malodorous","令人厭惡的；有臭味的"]]],
+  "avaricious|rapacious": [[["rapacious","貪婪的；掠奪成性的"],["acquisitive","迫切求取的，貪婪的"]]],
+  "gloomy|lugubrious": [[["lugubrious","憂鬱的，悲傷的"],["cheerless","憂鬱的，悲傷的"]]],
+  "avert|forestall": [[["avert","防止，避免"],["obviate","排除，使無必要"]],[["avert","防止，避免"],["avoid","防止，避免"]],[["avert","防止，避免"],["prevent","防止，避免"]]],
+  "cursory|perfunctory": [[["cursory","倉促草率的；粗略的"],["casual","倉促草率的；粗略的"]]],
+  "acrimony|rancor": [[["acrimony","激烈，尖刻，火藥味"],["bitterness","激烈，尖刻，火藥味"]]],
+  "comprehensive|exhaustive": [[["exhaustive","詳盡的，全面的"],["encyclopedic","詳盡的，全面的"]]],
+  "meager|paltry": [[["meager","很少的，不足的"],["insufficient","很少的，不足的"]]],
+  "predicament|quandary": [[["predicament","窘境，困境"],["dilemma","窘境，困境"]]],
+  "impromptu|spontaneous": [[["spontaneous","非籌劃安排的，即興的 ，為人率直的"],["intuitive","非籌劃安排的，即興的 ，為人率直的"]],[["spontaneous","非籌劃安排的，即興的 ，為人率直的"],["extemporaneous","非籌劃安排的，即興的 ，為人率直的"]]],
+  "rudimentary|sketchy": [[["rudimentary","基本的，粗略的"],["primitive","基本的，粗略的"]],[["rudimentary","基本的，粗略的"],["elemental","基本的，粗略的"]],[["rudimentary","基本的，粗略的"],["embryonic","基本的，粗略的"]]],
+  "brake|check": [[["check","制止，抑制"],["stem","制止，抑制"]]],
+  "absurd|preposterous": [[["absurd","荒 唐 的， 愚蠢可笑 的"],["nonsensical","荒 唐 的， 愚蠢可笑 的"]]],
+
 };
 
 function getPairVariantKey(pair) {
   return [pair.a[0].toLowerCase(), pair.b[0].toLowerCase()].sort().join("|");
+}
+
+function getWordExample(word, pair) {
+  const directExample = window.WORD_EXAMPLES[word] || window.WORD_EXAMPLES[word.toLowerCase()];
+  if (directExample) return directExample;
+
+  const exampleCandidates = [
+    ...(pair ? [pair.a, pair.b] : []),
+    ...(pair?.exampleCandidates || []),
+  ];
+  const seenCandidates = new Set([word.toLowerCase()]);
+  const exampleSource = exampleCandidates.find(([candidateWord]) => {
+    const normalizedWord = candidateWord.toLowerCase();
+    if (seenCandidates.has(normalizedWord)) return false;
+    seenCandidates.add(normalizedWord);
+    return Boolean(window.WORD_EXAMPLES[candidateWord] || window.WORD_EXAMPLES[normalizedWord]);
+  });
+  if (!exampleSource) return ["例句準備中。", ""];
+
+  const [sourceWord] = exampleSource;
+  const sourceExample = window.WORD_EXAMPLES[sourceWord] || window.WORD_EXAMPLES[sourceWord.toLowerCase()];
+  const escapedSource = sourceWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const sentence = sourceExample[0].replace(new RegExp(`\\b${escapedSource}\\b`, "gi"), word);
+  return [sentence, sourceExample[1]];
 }
 
 function applyPairVariants(rounds) {
@@ -601,7 +5859,10 @@ function applyPairVariants(rounds) {
 
   shuffle(basePairs).forEach((pair) => {
     const pairWords = new Set([pair.a[0], pair.b[0]].map((word) => word.toLowerCase()));
-    const variants = PAIR_SYNONYM_VARIANTS[getPairVariantKey(pair)] || [];
+    const variants = [
+      ...(PAIR_SYNONYM_VARIANTS[getPairVariantKey(pair)] || []),
+      ...(SOURCE_SYNONYM_VARIANTS[getPairVariantKey(pair)] || []),
+    ];
     const options = [{ a: pair.a, b: pair.b }, ...variants.map(([a, b]) => ({ a, b }))];
     const availableOptions = options.filter(({ a, b }) => {
       const words = [a[0].toLowerCase(), b[0].toLowerCase()];
@@ -611,7 +5872,12 @@ function applyPairVariants(rounds) {
     const selected = shuffle(availableOptions)[0] || { a: pair.a, b: pair.b };
     selected.a && usedWords.add(selected.a[0].toLowerCase());
     selected.b && usedWords.add(selected.b[0].toLowerCase());
-    resolvedPairs.set(pair, { ...pair, a: selected.a, b: selected.b });
+    resolvedPairs.set(pair, {
+      ...pair,
+      a: selected.a,
+      b: selected.b,
+      exampleCandidates: options.flatMap(({ a, b }) => [a, b]),
+    });
   });
 
   return rounds.map((round) => round.map((pair) => resolvedPairs.get(pair) || pair));
@@ -887,7 +6153,7 @@ function renderReview() {
       const definition = document.createElement("p");
       definition.className = "review-meaning";
       definition.textContent = meaning;
-      const [sentence, translation] = window.WORD_EXAMPLES[word] || ["例句準備中。", ""];
+      const [sentence, translation] = getWordExample(word, pair);
       const example = document.createElement("p");
       example.className = "review-example";
       example.textContent = sentence;
@@ -1167,16 +6433,19 @@ function handleCompletionAction() {
     memoryWordInput.focus();
     return;
   }
-  const memoryPair = roundPairs
-    .flatMap((pair) => [pair.a, pair.b])
-    .find(([word]) => word.toLowerCase() === memoryWord.toLowerCase());
-  const [memorySentence, memoryTranslation] = window.WORD_EXAMPLES[memoryWord] || ["例句準備中。", ""];
+  const memoryPair = roundPairs.find((pair) =>
+    [pair.a, pair.b].some(([word]) => word.toLowerCase() === memoryWord.toLowerCase()),
+  );
+  const memoryMeaning = memoryPair
+    ? [memoryPair.a, memoryPair.b].find(([word]) => word.toLowerCase() === memoryWord.toLowerCase())?.[1] || ""
+    : "";
+  const [memorySentence, memoryTranslation] = getWordExample(memoryWord, memoryPair);
   roundRecords[currentRoundIndex] = {
     round: currentRoundIndex + 1,
     time: formatTime(elapsedSeconds),
     moves,
     memoryWord,
-    memoryMeaning: memoryPair?.[1] || "",
+    memoryMeaning,
     memorySentence,
     memoryTranslation,
   };
