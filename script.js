@@ -4148,18 +4148,6 @@ const SOURCE_SYNONYM_VARIANTS = {
       ]
     ]
   ],
-  "crafty|cunning": [
-    [
-      [
-        "craft",
-        "靈巧技藝"
-      ],
-      [
-        "cunning",
-        "狡猾的；巧妙的"
-      ]
-    ]
-  ],
   "dangerous|perilous": [
     [
       [
@@ -6314,7 +6302,7 @@ const SOURCE_SYNONYM_VARIANTS = {
     ]
   ],
   // Additional rotations from the newly selected 104 source pairs.
-  "circumvent|skirt": [[["skirt","避開（某話題或問題）"],["bypass","避開"]],[["skirt","避開（某話題或問題）"],["shirk","逃避，規避"]],[["skirt","避開（某話題或問題）"],["sidestep","避開（某話題或問題）"]]],
+  "circumvent|skirt": [[["skirt","避開（某話題或問題）"],["bypass","避開"]],[["skirt","避開（某話題或問題）"],["shirk","逃避，規避"]],[["skirt","避開（某話題或問題）"],["sidestep","避開（某話題或問題）"]],[["evade","迴避；逃避（問題、責任等）"],["sidestep","刻意避開問題或責任"]]],
   "benefit|boon": [[["boon","提高生活素質的東西，有用之物"],["windfall","提高生活素質的東西，有用之物"]]],
   "contempt|disdain": [[["disdain","蔑視，鄙視"],["scorn","蔑視，鄙視"]]],
   "daunting|formidable": [[["daunting","令人望而生畏的"],["forbidding","令人生畏的，令人討厭的"]],[["daunting","令人望而生畏的"],["intimidating","令人望而生畏的"]]],
@@ -6493,6 +6481,7 @@ const WORD_GLOSS_OVERRIDES = {
   "elicit": "設法引出回應或資訊",
   "draw": "吸引或取得反應、注意或資源",
   "skirt": "迴避棘手議題；也可指沿邊而行",
+  "evade": "刻意避開或逃避問題、責任等",
   "sidestep": "刻意避開問題或責任",
   "boon": "帶來重大好處的事物",
   "benefit": "利益；有助於改善的效果",
