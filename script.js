@@ -2339,12 +2339,12 @@ const REPLACEMENT_WORD_PAIRS = [
   },
   {
     "a": [
-      "negligible",
-      "小到可以忽略的；微不足道的"
+      "conspicuous",
+      "顯眼的；醒目的"
     ],
     "b": [
-      "insignificant",
-      "不重要的；影響微小的"
+      "salient",
+      "顯著的；突出的"
     ],
     "fallbackBasis": "SUBTLEX-US frequency",
     "difficulty": 3
@@ -2471,7 +2471,7 @@ const REMOVED_PRIMARY_PAIR_KEYS = new Set([
 const PROMOTED_BASE_PAIR_KEYS = new Set([
   "groundless|unwarranted",
   "hinder|stymie",
-  "insignificant|negligible",
+  "conspicuous|salient",
   "annihilate|obliterate",
   "intransigent|obdurate",
 ]);
@@ -3969,6 +3969,16 @@ const SOURCE_SYNONYM_VARIANTS = {
         "言簡意賅的；寡言的"
       ]
     ]
+  ],
+  "conspicuous|salient": [
+    [["conspicuous", "顯眼的；醒目的"], ["marked", "顯眼的；明顯的"]],
+    [["conspicuous", "顯眼的；醒目的"], ["noticeable", "容易注意到的；顯眼的"]],
+    [["conspicuous", "顯眼的；醒目的"], ["prominent", "突出的；顯著的"]],
+    [["conspicuous", "顯眼的；醒目的"], ["remarkable", "顯著的；值得注意的"]],
+    [["conspicuous", "顯眼的；醒目的"], ["visible", "看得見的；明顯的"]],
+    [["salient", "顯著的；突出的"], ["prominent", "突出的；顯著的"]],
+    [["salient", "顯著的；突出的"], ["noticeable", "容易注意到的；顯眼的"]],
+    [["salient", "顯著的；突出的"], ["remarkable", "顯著的；值得注意的"]],
   ],
   "conspicuous|obtrusive": [
     [
@@ -6575,7 +6585,7 @@ const WORD_GLOSS_OVERRIDES = {
   "limit": "設定上限；限制數量或程度",
   "intuitive": "憑直覺判斷的；直觀的"
 };
-const REMOVED_SYNONYM_OPTION_KEYS = new Set(["diffident|reserved","intuitive|spontaneous","displace|obviate","accession|acquiescence","advantageous|expedient","condone|excuse","conspicuous|obtrusive","languish|stagnate","exalt|revere","deprecate|detract","uphold|vindicate","evasive|equivocal","avert|obviate"]);
+const REMOVED_SYNONYM_OPTION_KEYS = new Set(["diffident|reserved","intuitive|spontaneous","displace|obviate","accession|acquiescence","advantageous|expedient","condone|excuse","conspicuous|obtrusive","languish|stagnate","exalt|revere","deprecate|detract","uphold|vindicate","equivocal|evasive","avert|obviate"]);
 
 function getWordExample(word) {
   const directExample = window.WORD_EXAMPLES[word] || window.WORD_EXAMPLES[word.toLowerCase()];
