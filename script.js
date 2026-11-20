@@ -999,7 +999,7 @@ function downloadCampaignSummary() {
     headerCursorY += ascent + descent + headerGap;
   }
 
-  drawHeaderLine("LEE SHUO · ADVANCED VOCABULARY", '500 22px "DM Mono", monospace', 22, "#536c52");
+  drawHeaderLine("LEESHUO · ADVANCED VOCABULARY", '500 22px "DM Mono", monospace', 22, "#536c52");
   drawHeaderLine("李碩高階單字｜想加強單字", '800 52px "Noto Sans TC", "DM Sans", sans-serif', 52, "#22231f");
   drawHeaderLine(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, '400 26px "Noto Sans TC", sans-serif', 26, "#777970");
   const headerHeight = Math.ceil(headerCursorY);
