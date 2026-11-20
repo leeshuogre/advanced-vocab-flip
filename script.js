@@ -817,7 +817,6 @@ function downloadCampaignSummary() {
   const canvas = document.createElement("canvas");
   const cardHeight = 535;
   const cardGap = 10;
-  const headerHeight = 250;
   const sectionHeight = cardHeight + cardGap;
   canvas.width = 1080;
   canvas.height = 1920;
@@ -854,16 +853,22 @@ function downloadCampaignSummary() {
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#fffefa";
   context.fillRect(32, 32, canvas.width - 64, canvas.height - 64);
-  context.fillStyle = "#536c52";
-  context.font = '500 22px "DM Mono", monospace';
-  context.fillText("LEE SHUO · ADVANCED VOCABULARY", 76, 82);
-  context.fillStyle = "#22231f";
-  context.font = '800 52px "Noto Sans TC", "DM Sans", sans-serif';
-  context.fillText("李碩高階單字｜想加強單字", 76, 150);
-  context.fillStyle = "#777970";
-  context.font = '400 26px "Noto Sans TC", sans-serif';
-  context.fillText(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, 78, 198);
-  context.fillText("每局只列出你選的單字、中文釋義與例句", 78, 236);
+  const headerGap = 24;
+  let headerCursorY = 64;
+  function drawHeaderLine(text, font, fontSize, color) {
+    context.font = font;
+    context.fillStyle = color;
+    const metrics = context.measureText(text);
+    const ascent = metrics.actualBoundingBoxAscent ?? fontSize * 0.8;
+    const descent = metrics.actualBoundingBoxDescent ?? fontSize * 0.2;
+    context.fillText(text, 76, headerCursorY + ascent);
+    headerCursorY += ascent + descent + headerGap;
+  }
+
+  drawHeaderLine("LEE SHUO · ADVANCED VOCABULARY", '500 22px "DM Mono", monospace', 22, "#536c52");
+  drawHeaderLine("李碩高階單字｜想加強單字", '800 52px "Noto Sans TC", "DM Sans", sans-serif', 52, "#22231f");
+  drawHeaderLine(`完成日期：${new Date().toLocaleDateString("zh-TW")}`, '400 26px "Noto Sans TC", sans-serif', 26, "#777970");
+  const headerHeight = Math.ceil(headerCursorY);
 
   roundRecords.forEach((record, index) => {
     const y = headerHeight + index * sectionHeight;
