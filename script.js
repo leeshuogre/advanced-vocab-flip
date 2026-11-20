@@ -713,6 +713,7 @@ function createBoard() {
 function flipCard(card) {
   if (lockBoard || card === firstCard || card.classList.contains("is-matched")) return;
   if (card.classList.contains("is-open")) return;
+  if (moves >= MAX_MOVES && !firstCard) return;
   startTimer();
   card.classList.add("is-open");
   card.setAttribute("aria-label", `${card.dataset.word}，${card.dataset.meaning}`);
@@ -725,11 +726,6 @@ function flipCard(card) {
   secondCard = card;
   moves += 1;
   movesCount.textContent = String(moves);
-  if (moves > MAX_MOVES) {
-    lockBoard = true;
-    finishGame("failed");
-    return;
-  }
   checkForMatch();
 }
 
@@ -749,7 +745,12 @@ function checkForMatch() {
     progressFill.style.width = `${(matchedPairs / ROUND_SIZE) * 100}%`;
     updateCampaignStatus();
     resetTurn();
-    if (matchedPairs === ROUND_SIZE) finishGame("success");
+    if (matchedPairs === ROUND_SIZE) {
+      finishGame("success");
+    } else if (moves >= MAX_MOVES) {
+      lockBoard = true;
+      finishGame("failed");
+    }
     return;
   }
 
@@ -761,6 +762,10 @@ function checkForMatch() {
     });
     mismatchTimeout = null;
     resetTurn();
+    if (moves >= MAX_MOVES) {
+      lockBoard = true;
+      finishGame("failed");
+    }
   }, 950);
 }
 
@@ -824,8 +829,8 @@ function finishGame(result) {
     memoryCheckin.hidden = true;
     playAgainButton.disabled = false;
     completionKicker.textContent = `ROUND ${roundNumber} · TRY ${attemptNumber}`;
-    completionTitle.textContent = "超過翻牌上限";
-    completionCopy.textContent = `這局用了 ${moves} 次配對嘗試（每次翻兩張），超過 20 次上限。必須在 20 次內完成，才能查看單字解釋與例句。重新挑戰時卡牌會重新洗牌。`;
+    completionTitle.textContent = "已達翻牌上限";
+    completionCopy.textContent = `這局已用滿 ${MAX_MOVES} 次配對嘗試，仍未完成全部配對。重新挑戰會保留本局單字並重新洗牌。`;
     playAgainButton.textContent = "重新挑戰本局";
     completionOverlay.hidden = false;
     playAgainButton.focus();
