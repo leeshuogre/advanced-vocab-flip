@@ -406,5 +406,11 @@ window.WORD_EXAMPLES = {
   discreet: ["She was discreet when discussing the confidential matter.", "她談論機密事項時很謹慎。"],
   labyrinthine: ["Visitors got lost in the labyrinthine corridors.", "訪客在迷宮般錯綜複雜的走廊裡迷路了。"],
   berate: ["The coach berated the team for ignoring the plan.", "教練因球隊忽視計畫而嚴厲責罵他們。"],
+  intricate: ["The report gives an intricate account of the negotiations.", "這份報告對談判過程作了細緻而錯綜的描述。"],
+  mimic: ["The robot was programmed to mimic human gestures and expressions, making it seem incredibly lifelike.", "機器人被設計成模仿人類的手勢和表情，因此看起來栩栩如生。"],
+  conundrum: ["The committee faced a conundrum about how to divide the limited funds fairly.", "委員會面臨如何公平分配有限經費的難題。"],
+  enigma: ["The ancient inscription remained an enigma for decades.", "這段古代銘文幾十年來一直是個謎。"],
+  riddle: ["The detective solved the riddle by noticing a pattern in the clues.", "偵探注意到線索中的模式後，解開了謎題。"],
+  puzzle: ["The sudden change in his story was a puzzle to everyone.", "他說法突然改變，讓所有人都感到困惑。"],
 };
 
