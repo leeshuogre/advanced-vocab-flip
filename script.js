@@ -778,7 +778,9 @@ const SUBTLEX_LG10CD = {
   "commend": 1.9445,
   "endorse": 1.8513,
   "brook": 1.8513,
-  "tolerate": 2.4955
+  "tolerate": 2.4955,
+  "coax": 1.5682,
+  "cajole": 0.8451
 };
 
 const SOURCE_WORD_PAIRS = [
@@ -1554,12 +1556,12 @@ const SOURCE_WORD_PAIRS = [
   },
   {
     "a": [
-      "outmoded",
-      "過時的；不再實用的"
+      "coax",
+      "哄勸；耐心勸說"
     ],
     "b": [
-      "obsolete",
-      "過時的；淘汰的"
+      "cajole",
+      "好言勸誘；哄勸"
     ],
     "difficulty": 3,
     "fallbackBasis": "SUBTLEX-US frequency"
@@ -1825,7 +1827,7 @@ const SOURCE_WORD_PAIRS = [
       "outdated",
       "陳舊的，過時的"
     ],
-    "difficulty": 2,
+    "difficulty": 3,
     "fallbackBasis": "SUBTLEX-US frequency"
   },
   {
@@ -5821,6 +5823,13 @@ const SOURCE_SYNONYM_VARIANTS = {
   "brake|check": [[["check","制止，抑制"],["stem","制止，抑制"]]],
   "absurd|preposterous": [[["absurd","荒 唐 的， 愚蠢可笑 的"],["nonsensical","荒 唐 的， 愚蠢可笑 的"]]],
 
+  "antiquated|outdated": [
+    [["antiquated","陳舊的；過時的"],["outmoded","過時的；不再實用的"]],
+    [["antiquated","陳舊的；過時的"],["obsolete","過時的；已淘汰的"]],
+    [["outdated","陳舊的；過時的"],["outmoded","過時的；不再實用的"]],
+    [["outdated","陳舊的；過時的"],["obsolete","過時的；已淘汰的"]],
+    [["outmoded","過時的；不再實用的"],["obsolete","過時的；已淘汰的"]]
+  ],
 };
 
 function getPairVariantKey(pair) {
