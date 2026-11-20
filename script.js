@@ -4182,18 +4182,8 @@ const SOURCE_SYNONYM_VARIANTS = {
         "缺乏自信的；羞怯的"
       ],
       [
-        "reserved",
-        "缺乏自信的，羞怯的"
-      ]
-    ],
-    [
-      [
-        "diffident",
-        "缺乏自信的；羞怯的"
-      ],
-      [
         "unassertive",
-        "缺乏自信的，羞怯的"
+        "不夠強勢的；不敢表明立場的"
       ]
     ]
   ],
@@ -6247,7 +6237,7 @@ const SOURCE_SYNONYM_VARIANTS = {
   "commensurate|equivalent": [[["commensurate","相當的，相稱的"],["proportionate","相當的，相稱的"]]],
   "engender|induce": [[["engender","導致，產生"],["create","導致，產生"]],[["engender","導致，產生"],["beget","導致，產生"]]],
   "belie|mask": [[["belie","掩飾；掩蓋"],["veil","掩飾；掩蓋"]]],
-  "obviate|preclude": [[["obviate","排除，使無必要"],["displace","排除，使無必要"]]],
+  "obviate|preclude": [],
   "dilatory|sluggish": [[["sluggish","行動緩慢的，遲緩的"],["listless","行動緩慢的，遲緩的"]],[["sluggish","行動緩慢的，遲緩的"],["laggard","行動緩慢的，遲緩的"]]],
   "doctrinaire|dogmatic": [[["doctrinaire","教條主義的，脫離實際的"],["rigid","不易改變的，沒有彈性的"]]],
   "malleable|plastic": [[["plastic","可塑的，有適應性的"],["pliable","可塑的，有適應性的"]]],
@@ -6261,7 +6251,7 @@ const SOURCE_SYNONYM_VARIANTS = {
   "comprehensive|exhaustive": [[["exhaustive","詳盡的，全面的"],["encyclopedic","詳盡的，全面的"]]],
   "meager|paltry": [[["meager","很少的，不足的"],["insufficient","很少的，不足的"]]],
   "predicament|quandary": [[["predicament","窘境，困境"],["dilemma","窘境，困境"]]],
-  "impromptu|spontaneous": [[["spontaneous","非籌劃安排的，即興的 ，為人率直的"],["intuitive","非籌劃安排的，即興的 ，為人率直的"]],[["spontaneous","非籌劃安排的，即興的 ，為人率直的"],["extemporaneous","非籌劃安排的，即興的 ，為人率直的"]]],
+  "impromptu|spontaneous": [[["spontaneous","自發的；自然發生的"],["extemporaneous","即席而作的；未事先準備的"]]],
   "rudimentary|sketchy": [[["rudimentary","基本的，粗略的"],["primitive","基本的，粗略的"]],[["rudimentary","基本的，粗略的"],["elemental","基本的，粗略的"]],[["rudimentary","基本的，粗略的"],["embryonic","基本的，粗略的"]]],
   "brake|check": [[["check","制止，抑制"],["stem","制止，抑制"]]],
   "absurd|preposterous": [[["absurd","荒 唐 的， 愚蠢可笑 的"],["nonsensical","荒 唐 的， 愚蠢可笑 的"]]],
@@ -6308,28 +6298,211 @@ function getPairVariantKey(pair) {
   return [pair.a[0].toLowerCase(), pair.b[0].toLowerCase()].sort().join("|");
 }
 
-function getWordExample(word, pair) {
+const WORD_GLOSS_OVERRIDES = {
+  "check": "制止趨勢或行為；抑制",
+  "brake": "煞住；減緩速度",
+  "stem": "阻止；遏止問題擴大",
+  "absurd": "荒謬的；不合常理的",
+  "preposterous": "荒唐離譜的；難以置信的",
+  "nonsensical": "不合邏輯的；毫無道理的",
+  "sordid": "卑劣不堪的；涉及醜聞的",
+  "sleazy": "低俗不正派的；品質低劣的",
+  "chic": "時髦有型的",
+  "elegant": "優雅精緻的",
+  "cerebral": "偏重理智思考的；理性的",
+  "intellectual": "知識性的；需要思辨的",
+  "relentless": "不間斷且不留情面的",
+  "persistent": "持續不懈的；鍥而不捨的",
+  "futile": "徒勞無功的；不會奏效的",
+  "pointless": "沒有意義或必要的",
+  "commend": "稱讚；表揚",
+  "endorse": "公開支持；背書",
+  "brook": "通常用於否定句，表示容忍或接受",
+  "tolerate": "忍受；允許某事存在",
+  "calamity": "造成重大損失的災禍",
+  "disaster": "嚴重的突發災難",
+  "spontaneous": "自發的；自然發生的",
+  "extemporaneous": "即席而作的；未事先準備的",
+  "rudimentary": "初步的；僅具基礎功能的",
+  "primitive": "原始的；尚未發展成熟的",
+  "elemental": "基本要素構成的；根本的",
+  "embryonic": "萌芽階段的；尚在初期發展的",
+  "solitude": "獨自一人的狀態；獨處",
+  "seclusion": "與外界隔離的隱居狀態",
+  "steadfast": "堅定忠實的；不改其志的",
+  "unfaltering": "持續穩定的；毫不動搖的",
+  "diffident": "缺乏自信的；羞怯的",
+  "unassertive": "不夠強勢的；不善於表明立場的",
+  "reserved": "內斂少言的；不輕易表露想法的",
+  "estranged": "疏遠的；失和的",
+  "estrange": "使關係疏遠；使不再親近",
+  "disaffect": "使不滿；使疏離原有團體",
+  "discerning": "有辨別力的；眼光敏銳的",
+  "insightful": "見解深刻的；能看出事物本質的",
+  "offset": "抵銷成本或影響",
+  "compensate": "補償；彌補損失",
+  "allure": "吸引人的魅力；誘惑力",
+  "charm": "令人喜愛的特質；魅力",
+  "leeway": "可自行決定或調整的空間",
+  "latitude": "行動或判斷上的自由度",
+  "antiquated": "陳舊過時的；不合時宜的",
+  "outdated": "資訊或方法已過時的",
+  "provisional": "暫定的；待確認的",
+  "temporary": "只持續一段時間的；臨時的",
+  "exhaustive": "徹底查遍每一項的；無遺漏的",
+  "encyclopedic": "涵蓋廣泛知識的；百科全書式的",
+  "meager": "少得可憐的；不足以滿足需求的",
+  "insufficient": "不夠用的；未達所需標準的",
+  "predicament": "難以脫身的困境",
+  "dilemma": "必須在兩難選項間抉擇的局面",
+  "thwart": "挫敗計畫；阻止目標實現",
+  "frustrate": "使受阻或受挫；令努力無法奏效",
+  "opportune": "時機恰好的；適逢其時的",
+  "timely": "及時的；在需要時發生的",
+  "temperate": "溫和克制的；不走極端的",
+  "restrained": "有所節制的；不外露的",
+  "cursory": "匆匆帶過的；未仔細檢查的",
+  "casual": "隨意的；不拘正式的",
+  "acrimony": "爭論中的尖刻敵意",
+  "bitterness": "因怨恨或失望而生的苦澀",
+  "defy": "公然違抗；蔑視權威",
+  "disregard": "不理會；忽略規則或建議",
+  "embark": "著手進行計畫或事業",
+  "commence": "正式開始；啟動",
+  "concede": "不情願地承認或讓步",
+  "acknowledge": "承認某事存在；表示知悉",
+  "plastic": "可塑的；能被塑造成形的",
+  "pliable": "柔韌易彎的；容易調整的",
+  "galvanize": "激起行動；使突然振奮",
+  "animate": "使活躍；為…注入生氣",
+  "inspire": "激勵；啟發靈感",
+  "rouse": "喚起情緒或使人清醒",
+  "zenith": "發展或成就的最高點",
+  "apex": "形體或層級的頂端",
+  "contemptuous": "流露輕蔑態度的",
+  "disdainful": "帶著不屑與鄙夷的",
+  "noisome": "有害健康或令人作嘔的；常指惡臭",
+  "objectionable": "令人反感或無法接受的",
+  "malodorous": "散發難聞氣味的",
+  "fungible": "同類品項可互相替代，尤指金融或法律用語",
+  "interchangeable": "可以互換使用的",
+  "oust": "把人逐出職位或權力位置",
+  "expel": "正式開除或驅逐",
+  "edify": "啟發心智；使增長見識",
+  "enlighten": "提供資訊使人理解；闡明",
+  "disparage": "貶抑其價值或能力",
+  "deprecate": "表示不贊成；淡化其重要性",
+  "heterogeneous": "由不同類型或成分組成的",
+  "dissimilar": "彼此不同的；不相似的",
+  "mixed": "混合多種成分或類別的",
+  "indolence": "習慣性懶散；不願付出努力",
+  "sloth": "怠惰；懶惰的習性",
+  "ingenious": "構想巧妙而有創意的",
+  "clever": "反應快且善於解決問題的",
+  "condone": "明知不當仍放任或默許",
+  "excuse": "替過失辯解；原諒某次行為",
+  "conjure": "使人聯想到；彷彿變出",
+  "imagine": "在心中形成畫面或設想",
+  "elicit": "設法引出回應或資訊",
+  "draw": "吸引或取得反應、注意或資源",
+  "skirt": "迴避棘手議題；也可指沿邊而行",
+  "sidestep": "刻意避開問題或責任",
+  "boon": "帶來重大好處的事物",
+  "benefit": "利益；有助於改善的效果",
+  "windfall": "意外獲得的一筆錢或好處",
+  "disdain": "認為不值得尊重而鄙視",
+  "contempt": "強烈認為某人或事不值得尊重",
+  "scorn": "公開嘲弄並鄙夷",
+  "assuage": "安撫情緒；減輕恐懼或憂慮",
+  "palliate": "暫時減輕症狀或問題的嚴重性",
+  "discord": "不和諧或彼此衝突的狀態",
+  "contention": "公開爭論；有爭議的主張",
+  "daunting": "艱鉅到令人卻步的",
+  "intimidating": "使人感到害怕或不敢接近的",
+  "extraneous": "多餘且與主體無關的",
+  "irrelevant": "與當前問題或目的無關的",
+  "augment": "增加數量、規模或力量",
+  "enhance": "改善品質、價值或效果",
+  "expand": "擴大範圍或體積",
+  "extend": "延長時間或伸展長度",
+  "accentuate": "凸顯某項特徵",
+  "highlight": "特別指出或醒目呈現",
+  "emphasize": "著重強調其重要性",
+  "hubris": "因過度自信而生的傲慢",
+  "arrogance": "自認高人一等的態度",
+  "enigmatic": "令人難以解讀或猜透的",
+  "mysterious": "原因或本質不明的；神祕的",
+  "vigilant": "持續警戒以防危險的",
+  "careful": "謹慎小心、避免出錯的",
+  "harbinger": "預示某事將發生的人事物",
+  "herald": "預告或標誌新事物來臨的人事物",
+  "portent": "被視為重大事件預兆的徵象",
+  "construe": "依某種方式理解或解讀",
+  "interpret": "說明含義；翻譯或詮釋",
+  "instigate": "暗中或主動煽動某行動",
+  "provoke": "激起反應、怒氣或爭端",
+  "novice": "缺乏經驗的初學者",
+  "tyro": "某領域的新手，較少見用法",
+  "evanescent": "迅速消散或消失的",
+  "ephemeral": "存在時間極短的",
+  "transient": "短暫經過、非永久的",
+  "commensurate": "大小或程度相稱的",
+  "equivalent": "價值、功能或意義相等的",
+  "proportionate": "與另一數量保持比例的",
+  "engender": "引發某種情況或情緒",
+  "create": "創造或製造出新的事物",
+  "beget": "造成或帶來結果，較正式",
+  "belie": "與表面印象不符；顯示真相不同",
+  "veil": "遮掩或籠罩，使不易看見",
+  "effusive": "情感表達過度熱烈的",
+  "emotional": "情緒起伏明顯或受情感影響的",
+  "precursor": "在時間或發展上先於另一事物的前身",
+  "antecedent": "在時間上更早的事物或背景",
+  "analogous": "在原理或關係上相似的",
+  "comparable": "可放在一起衡量或比較的",
+  "taciturn": "話少而沉默寡言的",
+  "succinct": "用字精簡而表達完整的",
+  "curt": "簡短但可能顯得唐突無禮的",
+  "truculent": "好鬥且帶有威嚇性的",
+  "belligerent": "具有敵意、準備爭鬥的",
+  "adverse": "造成不利影響的；逆境的",
+  "inimical": "有害於某事物或與之敵對的",
+  "unfavorable": "條件不理想或不利的",
+  "baneful": "造成嚴重長期危害的",
+  "noxious": "有毒或對健康有害的",
+  "ebullient": "情緒高昂、熱情外露的",
+  "exuberant": "活力旺盛且洋溢喜悅的",
+  "sycophantic": "為討好權勢者而阿諛奉承的",
+  "adulating": "極力吹捧或崇拜的",
+  "fawning": "卑屈討好、過度順從的",
+  "discrepancy": "數據或陳述間的矛盾差異",
+  "incongruity": "彼此不協調或不合情境之處",
+  "cupidity": "對財物或利益的貪欲",
+  "avarice": "貪得無厭的求財慾望",
+  "impetuous": "未充分思考便衝動行事的",
+  "precipitate": "倉促而可能造成嚴重後果的",
+  "panacea": "被認為能解決所有問題的萬靈藥",
+  "remedy": "治療方法；補救措施",
+  "lugubrious": "顯得哀戚陰沉的",
+  "cheerless": "缺乏歡樂、令人沮喪的",
+  "avert": "及時採取行動，使危險不發生",
+  "avoid": "避開危險、接觸或不想做的事",
+  "prevent": "採取措施阻止事情發生",
+  "sluggish": "反應或活動遲緩的",
+  "listless": "缺乏精力或興趣的",
+  "laggard": "落後緩慢的人或事物",
+  "hypocrisy": "言行不一、假裝有道德的行為",
+  "insincerity": "缺少真誠；虛情假意",
+  "circumscribe": "劃定界限；限制範圍",
+  "confine": "把人事物限制在特定空間或範圍",
+  "limit": "設定上限；限制數量或程度",
+  "intuitive": "憑直覺判斷的；直觀的"
+};
+const REMOVED_SYNONYM_OPTION_KEYS = new Set(["diffident|reserved","intuitive|spontaneous","displace|obviate"]);
+
+function getWordExample(word) {
   const directExample = window.WORD_EXAMPLES[word] || window.WORD_EXAMPLES[word.toLowerCase()];
-  if (directExample) return directExample;
-
-  const exampleCandidates = [
-    ...(pair ? [pair.a, pair.b] : []),
-    ...(pair?.exampleCandidates || []),
-  ];
-  const seenCandidates = new Set([word.toLowerCase()]);
-  const exampleSource = exampleCandidates.find(([candidateWord]) => {
-    const normalizedWord = candidateWord.toLowerCase();
-    if (seenCandidates.has(normalizedWord)) return false;
-    seenCandidates.add(normalizedWord);
-    return Boolean(window.WORD_EXAMPLES[candidateWord] || window.WORD_EXAMPLES[normalizedWord]);
-  });
-  if (!exampleSource) return ["例句準備中。", ""];
-
-  const [sourceWord] = exampleSource;
-  const sourceExample = window.WORD_EXAMPLES[sourceWord] || window.WORD_EXAMPLES[sourceWord.toLowerCase()];
-  const escapedSource = sourceWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const sentence = sourceExample[0].replace(new RegExp(`\\b${escapedSource}\\b`, "gi"), word);
-  return [sentence, sourceExample[1]];
+  return directExample || ["例句準備中。", ""];
 }
 
 function applyPairVariants(rounds) {
@@ -6346,11 +6519,12 @@ function applyPairVariants(rounds) {
       ...(SOURCE_SYNONYM_VARIANTS[pairKey] || []),
       ...(MERGED_SYNONYM_VARIANTS[pairKey] || []),
     ];
-    const allOptions = [{ a: pair.a, b: pair.b }, ...variants.map(([a, b]) => ({ a, b }))];
+    const normalizeGloss = ([word, gloss]) => [word, WORD_GLOSS_OVERRIDES[word.toLowerCase()] || gloss];
+    const allOptions = [{ a: normalizeGloss(pair.a), b: normalizeGloss(pair.b) }, ...variants.map(([a, b]) => ({ a: normalizeGloss(a), b: normalizeGloss(b) }))];
     const seenOptions = new Set();
     const options = allOptions.filter(({ a, b }) => {
       const key = [a[0].toLowerCase(), b[0].toLowerCase()].sort().join("|");
-      if (seenOptions.has(key)) return false;
+      if (REMOVED_SYNONYM_OPTION_KEYS.has(key) || seenOptions.has(key)) return false;
       seenOptions.add(key);
       return true;
     });
