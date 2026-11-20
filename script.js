@@ -568,6 +568,9 @@ const PAIR_SYNONYM_VARIANTS = {
   "rebuke|reproach": [
     [["rebuke", "指責；斥責"], ["berate", "嚴厲責罵"]],
   ],
+  "dangerous|perilous": [
+    [["perilous", "危險的；險峻的"], ["precarious", "岌岌可危的；不穩定的"]],
+  ],
 };
 
 function getPairVariantKey(pair) {
