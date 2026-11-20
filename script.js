@@ -2315,15 +2315,15 @@ const REPLACEMENT_WORD_PAIRS = [
   },
   {
     "a": [
-      "groundless",
-      "毫無根據的；缺乏事實支撐的"
+      "evade",
+      "迴避；逃避（問題、責任等）"
     ],
     "b": [
-      "unwarranted",
-      "不合理的；沒有正當理由的"
+      "sidestep",
+      "刻意避開問題或責任"
     ],
     "fallbackBasis": "SUBTLEX-US frequency",
-    "difficulty": 2
+    "difficulty": 5
   },
   {
     "a": [
@@ -2469,7 +2469,7 @@ const REMOVED_PRIMARY_PAIR_KEYS = new Set([
   "languish|stagnate",
 ]);
 const PROMOTED_BASE_PAIR_KEYS = new Set([
-  "groundless|unwarranted",
+  "evade|sidestep",
   "hinder|stymie",
   "conspicuous|salient",
   "annihilate|obliterate",
