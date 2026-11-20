@@ -197,6 +197,7 @@ const NEW_WORD_PAIRS = [
   { a: ["unremunerative", "無利可圖的"], b: ["unprofitable", "不賺錢的；無利可圖的"], difficulty: 4 },
   { a: ["reverence", "崇敬；敬意"], b: ["veneration", "尊崇；敬仰"], difficulty: 4 },
   { a: ["fiasco", "慘敗；一團糟"], b: ["debacle", "災難性的失敗；慘敗"], difficulty: 3 },
+  { a: ["conundrum", "難題；棘手問題"], b: ["enigma", "謎團；難以解釋的人或事"] },
 ];
 
 const ROUND_SIZE = 8;
@@ -240,6 +241,7 @@ const CEFR_WORD_LEVELS = {
   "compulsory": "B2",
   "condemn": "C1",
   "conjecture": "C2",
+  "conundrum": "C2",
   "convoluted": "C2",
   "credible": "C1",
   "cunning": "C2",
@@ -267,6 +269,7 @@ const CEFR_WORD_LEVELS = {
   "embark": "C1",
   "emulate": "C2",
   "encompass": "C1",
+  "enigma": "C2",
   "ephemeral": "C2",
   "equivocal": "C2",
   "eradicate": "C2",
@@ -369,6 +372,7 @@ const CEFR_WORD_LEVELS = {
   "provincial": "C1",
   "prudent": "C2",
   "pugnacious": "C2",
+  "puzzle": "B2",
   "quash": "C2",
   "quell": "C2",
   "rebuke": "C2",
@@ -570,6 +574,18 @@ const PAIR_SYNONYM_VARIANTS = {
   ],
   "dangerous|perilous": [
     [["perilous", "危險的；險峻的"], ["precarious", "岌岌可危的；不穩定的"]],
+  ],
+  "convoluted|tortuous": [
+    [["tortuous", "曲折的；錯綜複雜的"], ["labyrinthine", "錯綜複雜的；迷宮般的"]],
+    [["intricate", "錯綜複雜的；精細的"], ["convoluted", "複雜難懂的；盤繞的"]],
+  ],
+  "emulate|imitate": [
+    [["imitate", "模仿；仿效"], ["mimic", "模仿；摹仿"]],
+  ],
+  "conundrum|enigma": [
+    [["riddle", "謎語；謎題"], ["conundrum", "難題；棘手問題"]],
+    [["riddle", "謎語；謎題"], ["enigma", "謎團；難以解釋的人或事"]],
+    [["riddle", "謎語；謎題"], ["puzzle", "謎題；令人困惑的事"]],
   ],
 };
 
