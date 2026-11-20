@@ -291,6 +291,7 @@ window.WORD_EXAMPLES = {
   "forerunner": ["This early experiment was a forerunner of the modern vaccine.", "這項早期實驗是現代疫苗的先驅。"],
   "perilous": ["The climbers crossed a perilous ridge in heavy fog.", "登山者在濃霧中越過一段險峻的山脊。"],
   "dangerous": ["It is dangerous to drive on icy roads.", "在結冰的道路上開車很危險。"],
+  "precarious": ["The company's finances were precarious after it lost its largest client.", "失去最大客戶後，公司的財務狀況岌岌可危。"],
   "knotty": ["The committee faced a knotty issue about data privacy.", "委員會面臨一個棘手的資料隱私問題。"],
   "complicated": ["The issue became more complicated after new evidence emerged.", "新證據出現後，這個問題變得更加複雜。"],
   "cunning": ["The cunning fox slipped past the farm's guard dog.", "狡猾的狐狸悄悄躲過農場的看門狗。"],
