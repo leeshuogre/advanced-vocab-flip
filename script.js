@@ -1093,7 +1093,6 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
     roundRecords = [];
   } else if (retry) {
     attemptNumber += 1;
-    CAMPAIGN_ROUNDS = buildCampaignRounds();
   }
   window.clearInterval(timerInterval);
   window.clearTimeout(mismatchTimeout);
