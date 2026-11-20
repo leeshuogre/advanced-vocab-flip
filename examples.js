@@ -518,4 +518,7 @@ window.WORD_EXAMPLES = {
   "futile": ["Further debate would be futile.","繼續辯論也無濟於事。"],
   "commend": ["The director chose to commend the team's proposal.","主任選擇稱讚團隊的提案。"],
   "brook": ["He would not brook any interference.","他不容許任何干涉。"],
+  "coax": ["Maya coaxed her brother into joining the hike.", "Maya好言勸說弟弟一起參加健行。"],
+  "cajole": ["The organizer cajoled a few reluctant neighbors into helping.", "主辦人好言勸誘幾位不情願的鄰居前來幫忙。"],
+
 };
