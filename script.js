@@ -487,16 +487,128 @@ const CAMPAIGN_PAIRS = [
   || a.legacyDifficultyRank - b.legacyDifficultyRank
   || a.sourceOrder - b.sourceOrder,
 );
+
+// Alternative partners are curated by word sense and part of speech.
+const PAIR_SYNONYM_VARIANTS = {
+  "abundant|plentiful": [
+    [["abundant", "豐富的；充足的"], ["bountiful", "豐富的；充裕的"]],
+  ],
+  "arduous|strenuous": [
+    [["arduous", "艱鉅的；費力的"], ["laborious", "費力的；艱鉅的"]],
+  ],
+  "meticulous|scrupulous": [
+    [["meticulous", "一絲不苟的；極仔細的"], ["fastidious", "一絲不苟的；講究細節的"]],
+    [["meticulous", "一絲不苟的；極仔細的"], ["punctilious", "一絲不苟的；嚴守細節的"]],
+  ],
+  "neophyte|novice": [
+    [["novice", "新手；初學者"], ["tyro", "新手；初學者"]],
+  ],
+  "bolster|buttress": [
+    [["bolster", "支持；加強"], ["cement", "鞏固；加強"]],
+    [["buttress", "支撐；鞏固"], ["underpin", "支撐；作為基礎"]],
+  ],
+  "deprecate|disparage": [
+    [["disparage", "貶低；輕視"], ["belittle", "貶低；小看"]],
+  ],
+  "extol|laud": [
+    [["extol", "頌揚；高度讚美"], ["glorify", "頌揚；美化"]],
+  ],
+  "capricious|fickle": [
+    [["capricious", "反覆無常的；任性的"], ["mercurial", "反覆多變的；善變的"]],
+    [["fickle", "善變的；不穩定的"], ["volatile", "易變的；反覆無常的"]],
+  ],
+  "mercurial|volatile": [
+    [["capricious", "反覆無常的；任性的"], ["mercurial", "反覆多變的；善變的"]],
+    [["fickle", "善變的；不穩定的"], ["volatile", "易變的；反覆無常的"]],
+  ],
+  "abate|diminish": [
+    [["diminish", "減少；削弱"], ["dwindle", "逐漸減少；縮小"]],
+  ],
+  "dwindle|wane": [
+    [["diminish", "減少；削弱"], ["dwindle", "逐漸減少；縮小"]],
+  ],
+  "obscure|opaque": [
+    [["obscure", "晦澀難懂的；不明確的"], ["recondite", "艱深的；晦澀難懂的"]],
+  ],
+  "esoteric|recondite": [
+    [["obscure", "晦澀難懂的；不明確的"], ["recondite", "艱深的；晦澀難懂的"]],
+  ],
+  "vigilant|wary": [
+    [["wary", "小心的；警惕的"], ["circumspect", "審慎的；小心的"]],
+  ],
+  "circumspect|prudent": [
+    [["prudent", "謹慎的；明智的"], ["discreet", "謹慎的；慎重的"]],
+    [["wary", "小心的；警惕的"], ["circumspect", "審慎的；小心的"]],
+  ],
+  "pugnacious|truculent": [
+    [["pugnacious", "好鬥的；愛挑釁的"], ["belligerent", "好鬥的；挑釁的"]],
+  ],
+  "conjecture|surmise": [
+    [["surmise", "推測；猜測"], ["speculate", "推測；臆測"]],
+  ],
+  "erode|undermine": [
+    [["undermine", "暗中削弱；逐漸損害"], ["mar", "損害；破壞"]],
+    [["undermine", "暗中削弱；逐漸損害"], ["vitiate", "損害；削弱"]],
+  ],
+  "hamper|impede": [
+    [["hamper", "妨礙；牽制"], ["hinder", "阻礙；妨礙"]],
+  ],
+  "hinder|stymie": [
+    [["hamper", "妨礙；牽制"], ["hinder", "阻礙；妨礙"]],
+  ],
+  "affable|amiable": [
+    [["affable", "親切友善的"], ["genial", "和藹親切的；友善的"]],
+  ],
+  "genial|jovial": [
+    [["affable", "親切友善的"], ["genial", "和藹親切的；友善的"]],
+  ],
+  "convoluted|tortuous": [
+    [["tortuous", "曲折的；錯綜複雜的"], ["labyrinthine", "錯綜複雜的；迷宮般的"]],
+  ],
+  "rebuke|reproach": [
+    [["rebuke", "指責；斥責"], ["berate", "嚴厲責罵"]],
+  ],
+};
+
+function getPairVariantKey(pair) {
+  return [pair.a[0].toLowerCase(), pair.b[0].toLowerCase()].sort().join("|");
+}
+
+function applyPairVariants(rounds) {
+  const basePairs = rounds.flat();
+  const reservedWords = new Set(basePairs.flatMap((pair) => [pair.a[0], pair.b[0]].map((word) => word.toLowerCase())));
+  const usedWords = new Set();
+  const resolvedPairs = new Map();
+
+  shuffle(basePairs).forEach((pair) => {
+    const pairWords = new Set([pair.a[0], pair.b[0]].map((word) => word.toLowerCase()));
+    const variants = PAIR_SYNONYM_VARIANTS[getPairVariantKey(pair)] || [];
+    const options = [{ a: pair.a, b: pair.b }, ...variants.map(([a, b]) => ({ a, b }))];
+    const availableOptions = options.filter(({ a, b }) => {
+      const words = [a[0].toLowerCase(), b[0].toLowerCase()];
+      return words[0] !== words[1]
+        && words.every((word) => (!reservedWords.has(word) || pairWords.has(word)) && !usedWords.has(word));
+    });
+    const selected = shuffle(availableOptions)[0] || { a: pair.a, b: pair.b };
+    selected.a && usedWords.add(selected.a[0].toLowerCase());
+    selected.b && usedWords.add(selected.b[0].toLowerCase());
+    resolvedPairs.set(pair, { ...pair, a: selected.a, b: selected.b });
+  });
+
+  return rounds.map((round) => round.map((pair) => resolvedPairs.get(pair) || pair));
+}
+
 function buildCampaignRounds() {
   let poolStart = 0;
   const basePoolSize = Math.floor(CAMPAIGN_PAIRS.length / TOTAL_ROUNDS);
   const extraPairs = CAMPAIGN_PAIRS.length % TOTAL_ROUNDS;
-  return Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
+  const rounds = Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
     const poolSize = basePoolSize + (roundIndex < extraPairs ? 1 : 0);
     const pool = CAMPAIGN_PAIRS.slice(poolStart, poolStart + poolSize);
     poolStart += poolSize;
     return shuffle(pool).slice(0, ROUND_SIZE);
   });
+  return applyPairVariants(rounds);
 }
 
 let CAMPAIGN_ROUNDS = buildCampaignRounds();
@@ -981,6 +1093,7 @@ function startNewGame({ advance = false, retry = false, restartCampaign = false 
     roundRecords = [];
   } else if (retry) {
     attemptNumber += 1;
+    CAMPAIGN_ROUNDS = buildCampaignRounds();
   }
   window.clearInterval(timerInterval);
   window.clearTimeout(mismatchTimeout);
