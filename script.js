@@ -780,7 +780,55 @@ const SUBTLEX_LG10CD = {
   "brook": 1.8513,
   "tolerate": 2.4955,
   "coax": 1.5682,
-  "cajole": 0.8451
+  "cajole": 0.8451,
+  "sanction": 1.6335,
+  "authorize": 1.9731,
+  "calamity": 1.7243,
+  "disaster": 2.8357,
+  "illustrious": 1.7782,
+  "distinguished": 2.4099,
+  "impeccable": 1.8692,
+  "flawless": 1.8451,
+  "orthodox": 1.5315,
+  "conventional": 2.1239,
+  "blemish": 1.415,
+  "defect": 1.9494,
+  "forge": 2.017,
+  "fabricate": 1.2553,
+  "contentious": 0.9542,
+  "controversial": 1.9685,
+  "utilitarian": 0.9031,
+  "functional": 2.0792,
+  "commiserate": 1,
+  "sympathize": 1.8921,
+  "upheaval": 1.3222,
+  "convulsion": 1,
+  "provenance": 0.7782,
+  "origin": 2.2304,
+  "maverick": 1.5185,
+  "nonconformist": 0.7782,
+  "ominous": 1.7404,
+  "inauspicious": 0.699,
+  "nascent": 0.7782,
+  "budding": 1.5051,
+  "invective": 0.4771,
+  "vituperation": 0.301,
+  "dissemble": 0.8451,
+  "dissimulate": 0.301,
+  "parsimonious": 0.301,
+  "miserly": 0.6021,
+  "abjure": 0.301,
+  "renounce": 1.7709,
+  "contravene": 0.301,
+  "violate": 2.0569,
+  "provisional": 1.415,
+  "temporary": 2.7275,
+  "erroneous": 1.2788,
+  "inaccurate": 1.3617,
+  "lenient": 1.6021,
+  "clement": 1.2041,
+  "sanguine": 0.7782,
+  "optimistic": 2.1931,
 };
 
 const SOURCE_WORD_PAIRS = [
@@ -2000,6 +2048,361 @@ const SOURCE_WORD_PAIRS = [
   }
 ];
 
+const REPLACEMENT_WORD_PAIRS = [
+  {
+    "a": [
+      "sanction",
+      "批准；認可"
+    ],
+    "b": [
+      "authorize",
+      "授權；批准"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "calamity",
+      "災難；災禍"
+    ],
+    "b": [
+      "disaster",
+      "災難；災禍"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "illustrious",
+      "著名的；卓越的"
+    ],
+    "b": [
+      "distinguished",
+      "著名的；傑出的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "impeccable",
+      "無可挑剔的；完美的"
+    ],
+    "b": [
+      "flawless",
+      "完美無瑕的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "orthodox",
+      "正統的；傳統的"
+    ],
+    "b": [
+      "conventional",
+      "傳統的；依慣例的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "blemish",
+      "瑕疵；缺點"
+    ],
+    "b": [
+      "defect",
+      "缺陷；缺點"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "forge",
+      "偽造；假冒"
+    ],
+    "b": [
+      "fabricate",
+      "捏造；偽造"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "contentious",
+      "好爭論的；易引起爭論的"
+    ],
+    "b": [
+      "controversial",
+      "有爭議的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "utilitarian",
+      "實用的；功利的"
+    ],
+    "b": [
+      "functional",
+      "實用的；功能正常的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "commiserate",
+      "表示同情；慰問"
+    ],
+    "b": [
+      "sympathize",
+      "同情；表示惋惜"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "upheaval",
+      "劇變；動盪"
+    ],
+    "b": [
+      "convulsion",
+      "劇烈動盪；劇變"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "provenance",
+      "來源；出處"
+    ],
+    "b": [
+      "origin",
+      "起源；來源"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "maverick",
+      "特立獨行者"
+    ],
+    "b": [
+      "nonconformist",
+      "不循常規的人"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "ominous",
+      "不祥的；預兆不好的"
+    ],
+    "b": [
+      "inauspicious",
+      "不吉利的；不順利的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "nascent",
+      "新生的；初現的"
+    ],
+    "b": [
+      "budding",
+      "初露頭角的；剛起步的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "invective",
+      "辱罵；痛斥"
+    ],
+    "b": [
+      "vituperation",
+      "謾罵；痛罵"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "dissemble",
+      "掩飾（真實動機）"
+    ],
+    "b": [
+      "dissimulate",
+      "掩飾（真實感情或動機）"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "parsimonious",
+      "吝嗇的；過度節儉的"
+    ],
+    "b": [
+      "miserly",
+      "小氣吝嗇的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "abjure",
+      "公開放棄；發誓戒除"
+    ],
+    "b": [
+      "renounce",
+      "放棄；宣布不再支持"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "contravene",
+      "違反；與……牴觸"
+    ],
+    "b": [
+      "violate",
+      "違反；侵犯"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "provisional",
+      "暫時的；臨時的"
+    ],
+    "b": [
+      "temporary",
+      "暫時的；臨時的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "erroneous",
+      "錯誤的；不正確的"
+    ],
+    "b": [
+      "inaccurate",
+      "不準確的；錯誤的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "lenient",
+      "寬容的；從輕的"
+    ],
+    "b": [
+      "clement",
+      "寬厚的；仁慈的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  },
+  {
+    "a": [
+      "sanguine",
+      "樂觀的；抱有希望的"
+    ],
+    "b": [
+      "optimistic",
+      "樂觀的"
+    ],
+    "fallbackBasis": "SUBTLEX-US frequency"
+  }
+];
+
+const PAIR_MERGE_GROUPS = [
+  [
+    "alleviate|mitigate",
+    "abate|diminish",
+    "dwindle|wane",
+    "appease|placate",
+    "allay|assuage"
+  ],
+  [
+    "esoteric|recondite",
+    "obscure|opaque"
+  ],
+  [
+    "circumspect|prudent",
+    "vigilant|wary"
+  ],
+  [
+    "laconic|terse",
+    "reticent|taciturn",
+    "concise|succinct"
+  ],
+  [
+    "censure|condemn",
+    "denounce|lambaste"
+  ],
+  [
+    "genial|jovial",
+    "affable|amiable"
+  ],
+  [
+    "capricious|fickle",
+    "mercurial|volatile"
+  ],
+  [
+    "incessant|perpetual",
+    "unceasing|unremitting"
+  ],
+  [
+    "adamant|resolute",
+    "intransigent|obdurate"
+  ],
+  [
+    "hamper|impede",
+    "hinder|stymie"
+  ],
+  [
+    "mundane|ordinary",
+    "nondescript|prosaic"
+  ],
+  [
+    "eradicate|extirpate",
+    "annihilate|obliterate"
+  ],
+  [
+    "unfounded|unjustified",
+    "groundless|unwarranted"
+  ],
+  [
+    "apogee|pinnacle",
+    "heyday|zenith"
+  ],
+  [
+    "immaterial|inconsequential",
+    "insignificant|negligible"
+  ],
+  [
+    "obviate|preclude",
+    "avert|forestall"
+  ],
+  [
+    "avaricious|rapacious",
+    "exploitative|mercenary"
+  ],
+  [
+    "adverse|inimical",
+    "baneful|noxious"
+  ],
+  [
+    "insipid|vapid",
+    "banal|hackneyed"
+  ],
+  [
+    "deprecate|disparage",
+    "deride|ridicule"
+  ]
+];
+const REMOVED_PAIR_KEYS = new Set(PAIR_MERGE_GROUPS.flatMap((group) => group.slice(1)));
+
 const CEFR_WORD_LEVELS = {
   "arduous": "C2",
   "benevolent": "C2",
@@ -2342,7 +2745,21 @@ const CEFR_WORD_LEVELS = {
   "yield": "C1",
   "zeal": "C2",
   "zealous": "C2",
-  "zenith": "C2"
+  "zenith": "C2",
+  "disaster": "A2",
+  "impeccable": "C2",
+  "conventional": "B2",
+  "defect": "C1",
+  "forge": "C1",
+  "fabricate": "C2",
+  "controversial": "B2",
+  "functional": "C1",
+  "commiserate": "C2",
+  "origin": "B2",
+  "invective": "C2",
+  "abjure": "C2",
+  "contravene": "C2",
+  "optimistic": "B2",
 };
 const CEFR_LEVEL_ORDER = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
 
@@ -2360,7 +2777,22 @@ function getPairFrequencyScore(pair) {
   return Math.min(firstScore, secondScore);
 }
 
+const UNLISTED_SOURCE_PAIRS = [
+  ...SOURCE_WORD_PAIRS.filter((pair) => !REMOVED_PAIR_KEYS.has(getPairVariantKey(pair))),
+  ...REPLACEMENT_WORD_PAIRS,
+].filter((pair) => !getPairCefrLevel(pair))
+  .sort((a, b) => getPairFrequencyScore(b) - getPairFrequencyScore(a));
+const SOURCE_FREQUENCY_DIFFICULTY = new Map();
+UNLISTED_SOURCE_PAIRS.forEach((pair, index) => {
+  SOURCE_FREQUENCY_DIFFICULTY.set(
+    getPairVariantKey(pair),
+    Math.floor((index * 5) / UNLISTED_SOURCE_PAIRS.length) + 1,
+  );
+});
+
 function getLegacyDifficultyRank(pair, index, isNewPair) {
+  const sourceRank = SOURCE_FREQUENCY_DIFFICULTY.get(getPairVariantKey(pair));
+  if (isNewPair && !getPairCefrLevel(pair) && sourceRank) return sourceRank;
   if (Number.isFinite(pair.difficulty)) return pair.difficulty;
   if (isNewPair) return 5;
   const existingBand = index < 40 ? 1 : index < 72 ? 2 : 3;
@@ -2382,11 +2814,22 @@ function decorateCampaignPair(pair, sourceOrder, isNewPair) {
 }
 
 const CAMPAIGN_PAIRS = [
-  ...WORD_PAIRS.map((pair, index) => decorateCampaignPair(pair, index, false)),
-  ...NEW_WORD_PAIRS.map((pair, index) => decorateCampaignPair(pair, WORD_PAIRS.length + index, true)),
-  ...SOURCE_WORD_PAIRS.map((pair, index) => decorateCampaignPair(
+  ...WORD_PAIRS.map((pair, index) => ({ pair, index }))
+    .filter(({ pair }) => !REMOVED_PAIR_KEYS.has(getPairVariantKey(pair)))
+    .map(({ pair, index }) => decorateCampaignPair(pair, index, false)),
+  ...NEW_WORD_PAIRS.map((pair, index) => ({ pair, index }))
+    .filter(({ pair }) => !REMOVED_PAIR_KEYS.has(getPairVariantKey(pair)))
+    .map(({ pair, index }) => decorateCampaignPair(pair, WORD_PAIRS.length + index, true)),
+  ...SOURCE_WORD_PAIRS.map((pair, index) => ({ pair, index }))
+    .filter(({ pair }) => !REMOVED_PAIR_KEYS.has(getPairVariantKey(pair)))
+    .map(({ pair, index }) => decorateCampaignPair(
+      pair,
+      WORD_PAIRS.length + NEW_WORD_PAIRS.length + index,
+      true,
+    )),
+  ...REPLACEMENT_WORD_PAIRS.map((pair, index) => decorateCampaignPair(
     pair,
-    WORD_PAIRS.length + NEW_WORD_PAIRS.length + index,
+    WORD_PAIRS.length + NEW_WORD_PAIRS.length + SOURCE_WORD_PAIRS.length + index,
     true,
   )),
 ].sort((a, b) =>
@@ -5832,6 +6275,35 @@ const SOURCE_SYNONYM_VARIANTS = {
   ],
 };
 
+const MERGE_EXTRA_VARIANTS = {
+  "avaricious|rapacious": [
+    [["mercenary", "唯利是圖的；貪婪的"], ["rapacious", "貪婪的；掠奪成性的"]],
+    [["avaricious", "貪婪的；貪財的"], ["mercenary", "唯利是圖的；貪婪的"]],
+  ],
+};
+
+const MERGED_SYNONYM_VARIANTS = Object.fromEntries(PAIR_MERGE_GROUPS.map((group) => {
+  const anchorKey = group[0];
+  const clusterPairs = [...WORD_PAIRS, ...NEW_WORD_PAIRS, ...SOURCE_WORD_PAIRS]
+    .filter((pair) => group.includes(getPairVariantKey(pair)));
+  const options = clusterPairs.flatMap((pair) => {
+    const key = getPairVariantKey(pair);
+    return [
+      { a: pair.a, b: pair.b },
+      ...(PAIR_SYNONYM_VARIANTS[key] || []).map(([a, b]) => ({ a, b })),
+      ...(SOURCE_SYNONYM_VARIANTS[key] || []).map(([a, b]) => ({ a, b })),
+    ];
+  });
+  options.push(...(MERGE_EXTRA_VARIANTS[anchorKey] || []).map(([a, b]) => ({ a, b })));
+  const anchorPair = clusterPairs.find((pair) => getPairVariantKey(pair) === anchorKey);
+  const unique = new Map();
+  options.forEach(({ a, b }) => {
+    const key = [a[0].toLowerCase(), b[0].toLowerCase()].sort().join("|");
+    if (key !== anchorKey && !unique.has(key)) unique.set(key, [a, b]);
+  });
+  return [anchorKey, [...unique.values()]];
+}));
+
 function getPairVariantKey(pair) {
   return [pair.a[0].toLowerCase(), pair.b[0].toLowerCase()].sort().join("|");
 }
@@ -5868,11 +6340,20 @@ function applyPairVariants(rounds) {
 
   shuffle(basePairs).forEach((pair) => {
     const pairWords = new Set([pair.a[0], pair.b[0]].map((word) => word.toLowerCase()));
+    const pairKey = getPairVariantKey(pair);
     const variants = [
-      ...(PAIR_SYNONYM_VARIANTS[getPairVariantKey(pair)] || []),
-      ...(SOURCE_SYNONYM_VARIANTS[getPairVariantKey(pair)] || []),
+      ...(PAIR_SYNONYM_VARIANTS[pairKey] || []),
+      ...(SOURCE_SYNONYM_VARIANTS[pairKey] || []),
+      ...(MERGED_SYNONYM_VARIANTS[pairKey] || []),
     ];
-    const options = [{ a: pair.a, b: pair.b }, ...variants.map(([a, b]) => ({ a, b }))];
+    const allOptions = [{ a: pair.a, b: pair.b }, ...variants.map(([a, b]) => ({ a, b }))];
+    const seenOptions = new Set();
+    const options = allOptions.filter(({ a, b }) => {
+      const key = [a[0].toLowerCase(), b[0].toLowerCase()].sort().join("|");
+      if (seenOptions.has(key)) return false;
+      seenOptions.add(key);
+      return true;
+    });
     const availableOptions = options.filter(({ a, b }) => {
       const words = [a[0].toLowerCase(), b[0].toLowerCase()];
       return words[0] !== words[1]
