@@ -1865,7 +1865,8 @@ const SOURCE_WORD_PAIRS = [
       "自由空間，餘地"
     ],
     "difficulty": 2,
-    "fallbackBasis": "SUBTLEX-US frequency"
+    "fallbackBasis": "SUBTLEX-US frequency",
+    "poolOverride": 3
   },
   {
     "a": [
@@ -6617,15 +6618,17 @@ function applyPairVariants(rounds) {
 }
 
 function buildCampaignRounds() {
-  const firstPoolOverrides = CAMPAIGN_PAIRS.filter((pair) => pair.poolOverride === 1);
-  const rankedPairs = CAMPAIGN_PAIRS.filter((pair) => pair.poolOverride !== 1);
+  const poolOverrides = Array.from({ length: TOTAL_ROUNDS }, (_, index) =>
+    CAMPAIGN_PAIRS.filter((pair) => pair.poolOverride === index + 1),
+  );
+  const rankedPairs = CAMPAIGN_PAIRS.filter((pair) => !Number.isInteger(pair.poolOverride));
   let poolStart = 0;
   const basePoolSize = Math.floor(rankedPairs.length / TOTAL_ROUNDS);
   const extraPairs = rankedPairs.length % TOTAL_ROUNDS;
   const rounds = Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
     const poolSize = basePoolSize + (roundIndex < extraPairs ? 1 : 0);
     const pool = rankedPairs.slice(poolStart, poolStart + poolSize);
-    if (roundIndex === 0) pool.push(...firstPoolOverrides);
+    pool.push(...poolOverrides[roundIndex]);
     poolStart += poolSize;
     return shuffle(pool).slice(0, ROUND_SIZE);
   });
