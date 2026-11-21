@@ -5259,16 +5259,6 @@ const SOURCE_SYNONYM_VARIANTS = {
         "acute",
         "切中要害的，一針見血的，頭腦敏銳的"
       ]
-    ],
-    [
-      [
-        "trenchant",
-        "犀利的；一針見血的"
-      ],
-      [
-        "profound",
-        "犀利的，尖刻的"
-      ]
     ]
   ],
   "indifferent|nonchalant": [
