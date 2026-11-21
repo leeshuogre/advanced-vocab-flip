@@ -146,6 +146,7 @@ const NEW_WORD_PAIRS = [
   { a: ["deplorable", "可悲的；應受譴責的"], b: ["reprehensible", "應受譴責的；應受責備的"], difficulty: 5 },
   { a: ["liberal", "慷慨大方的"], b: ["munificent", "慷慨的；大方的"], difficulty: 5 },
   { a: ["elusive", "難以捉摸的；難以理解的"], b: ["unfathomable", "難以理解的；深不可測的"], difficulty: 5 },
+  { a: ["profound", "（影響）深刻而強烈的；深遠的"], b: ["far-reaching", "（影響）波及廣泛且深遠的"], difficulty: 1, poolOverride: 1 },
   { a: ["precursor", "先驅；前兆"], b: ["forerunner", "先驅；先行者"], difficulty: 1 },
   { a: ["perilous", "危險的；險峻的"], b: ["dangerous", "危險的"], difficulty: 1 },
   { a: ["knotty", "棘手的；複雜的"], b: ["complicated", "複雜的；難懂的"], difficulty: 1 },
@@ -6404,6 +6405,8 @@ const WORD_GLOSS_OVERRIDES = {
   "disaffect": "使不滿；使疏離原有團體",
   "discerning": "有辨別力的；眼光敏銳的",
   "insightful": "見解深刻的；能看出事物本質的",
+  "profound": "（影響）深刻而強烈的；深遠的",
+  "far-reaching": "（影響）波及廣泛且深遠的",
   "offset": "抵銷成本或影響",
   "compensate": "補償；彌補損失",
   "allure": "吸引人的魅力；誘惑力",
@@ -6614,12 +6617,15 @@ function applyPairVariants(rounds) {
 }
 
 function buildCampaignRounds() {
+  const firstPoolOverrides = CAMPAIGN_PAIRS.filter((pair) => pair.poolOverride === 1);
+  const rankedPairs = CAMPAIGN_PAIRS.filter((pair) => pair.poolOverride !== 1);
   let poolStart = 0;
-  const basePoolSize = Math.floor(CAMPAIGN_PAIRS.length / TOTAL_ROUNDS);
-  const extraPairs = CAMPAIGN_PAIRS.length % TOTAL_ROUNDS;
+  const basePoolSize = Math.floor(rankedPairs.length / TOTAL_ROUNDS);
+  const extraPairs = rankedPairs.length % TOTAL_ROUNDS;
   const rounds = Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
     const poolSize = basePoolSize + (roundIndex < extraPairs ? 1 : 0);
-    const pool = CAMPAIGN_PAIRS.slice(poolStart, poolStart + poolSize);
+    const pool = rankedPairs.slice(poolStart, poolStart + poolSize);
+    if (roundIndex === 0) pool.push(...firstPoolOverrides);
     poolStart += poolSize;
     return shuffle(pool).slice(0, ROUND_SIZE);
   });
@@ -7208,4 +7214,5 @@ document.querySelector("#restart-campaign-button").addEventListener("click", () 
 
 let lastResult = null;
 startNewGame();
+
 
