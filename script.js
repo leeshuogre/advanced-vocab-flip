@@ -3011,6 +3011,9 @@ const PAIR_SYNONYM_VARIANTS = {
   "dangerous|perilous": [
     [["perilous", "危險的；險峻的"], ["precarious", "岌岌可危的；不穩定的"]],
   ],
+  "far-reaching|profound": [
+    [["profound", "（影響）深刻而強烈的；深遠的"], ["deep", "（感受）深切的；（影響）強烈且持久的"]],
+  ],
 };
 
 // Synonym rotations extracted from the provided GRE lists and reviewed for part of speech.
@@ -6408,6 +6411,7 @@ const WORD_GLOSS_OVERRIDES = {
   "insightful": "見解深刻的；能看出事物本質的",
   "profound": "（影響）深刻而強烈的；深遠的",
   "far-reaching": "（影響）波及廣泛且深遠的",
+  "deep": "（感受）深切的；（影響）強烈且持久的",
   "offset": "抵銷成本或影響",
   "compensate": "補償；彌補損失",
   "allure": "吸引人的魅力；誘惑力",
