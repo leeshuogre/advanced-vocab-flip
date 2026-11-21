@@ -6623,13 +6623,14 @@ function buildCampaignRounds() {
   );
   const rankedPairs = CAMPAIGN_PAIRS.filter((pair) => !Number.isInteger(pair.poolOverride));
   let poolStart = 0;
-  const basePoolSize = Math.floor(rankedPairs.length / TOTAL_ROUNDS);
-  const extraPairs = rankedPairs.length % TOTAL_ROUNDS;
+  const basePoolSize = Math.floor(CAMPAIGN_PAIRS.length / TOTAL_ROUNDS);
+  const extraPairs = CAMPAIGN_PAIRS.length % TOTAL_ROUNDS;
   const rounds = Array.from({ length: TOTAL_ROUNDS }, (_, roundIndex) => {
-    const poolSize = basePoolSize + (roundIndex < extraPairs ? 1 : 0);
-    const pool = rankedPairs.slice(poolStart, poolStart + poolSize);
+    const poolSize = basePoolSize + (roundIndex >= TOTAL_ROUNDS - extraPairs ? 1 : 0);
+    const rankedPoolSize = poolSize - poolOverrides[roundIndex].length;
+    const pool = rankedPairs.slice(poolStart, poolStart + rankedPoolSize);
     pool.push(...poolOverrides[roundIndex]);
-    poolStart += poolSize;
+    poolStart += rankedPoolSize;
     return shuffle(pool).slice(0, ROUND_SIZE);
   });
   return applyPairVariants(rounds);
